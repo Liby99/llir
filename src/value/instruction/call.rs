@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMIsTailCall, LLVMGetNumOperands};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Function, Operand, ValueRef};
+use super::super::{Function, Operand, FromLLVM, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -30,6 +30,12 @@ impl<'ctx> CallInstruction<'ctx> {
 
   pub fn is_tail_call(&self) -> bool {
     unsafe { LLVMIsTailCall(self.0) == 1 }
+  }
+}
+
+impl<'ctx> FromLLVM for CallInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    CallInstruction(ptr, PhantomData)
   }
 }
 

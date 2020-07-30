@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Operand, ValueRef};
+use super::super::{Operand, FromLLVM, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -15,6 +15,12 @@ impl<'ctx> GetElementPtrInstruction<'ctx> {
   pub fn indices(&self) -> Vec<Operand<'ctx>> {
     // TODO
     vec![]
+  }
+}
+
+impl<'ctx> FromLLVM for GetElementPtrInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    GetElementPtrInstruction(ptr, PhantomData)
   }
 }
 

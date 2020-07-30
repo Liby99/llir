@@ -1,8 +1,9 @@
+use llvm_sys::core::{LLVMGetOperand, LLVMGetInstructionOpcode};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{Operand, ValueRef};
+use super::super::{Operand, ValueRef, FromLLVM};
 
 #[derive(Copy, Clone)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
@@ -63,13 +64,18 @@ impl<'ctx> BinaryInstruction<'ctx> {
   }
 
   pub fn op0(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }
 
   pub fn op1(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
+  }
+}
+
+impl<'ctx> FromLLVM for BinaryInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    let bin_op = BinaryOpcode::from_llvm(unsafe { LLVMGetInstructionOpcode(ptr) }).unwrap();
+    BinaryInstruction(bin_op, ptr, PhantomData)
   }
 }
 

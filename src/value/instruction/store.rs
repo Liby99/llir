@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Operand, ValueRef};
+use super::super::{Operand, FromLLVM, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -15,6 +15,12 @@ impl<'ctx> StoreInstruction<'ctx> {
   pub fn value(&self) -> Operand<'ctx> {
     // TODO
     Operand::Metadata
+  }
+}
+
+impl<'ctx> FromLLVM for StoreInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    StoreInstruction(ptr, PhantomData)
   }
 }
 

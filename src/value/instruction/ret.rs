@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Operand, ValueRef};
+use super::super::{Operand, FromLLVM, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -15,6 +15,12 @@ impl<'ctx> ReturnInstruction<'ctx> {
   pub fn op(&self) -> Option<Operand<'ctx>> {
     // TODO
     None
+  }
+}
+
+impl<'ctx> FromLLVM for ReturnInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    Self(ptr, PhantomData)
   }
 }
 

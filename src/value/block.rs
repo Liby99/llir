@@ -2,19 +2,14 @@ use llvm_sys::core::{LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetNe
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::Function;
-use super::Instruction;
+use super::{Function, Instruction, FromLLVM};
 
 #[derive(Copy, Clone)]
 pub struct Block<'ctx>(pub(crate) LLVMBasicBlockRef, pub(crate) PhantomData<&'ctx ()>);
 
 impl<'ctx> Block<'ctx> {
-  pub fn from_llvm(ptr: LLVMBasicBlockRef) -> Option<Self> {
-    if ptr.is_null() {
-      None
-    } else {
-      Some(Block(ptr, PhantomData))
-    }
+  pub fn from_llvm(ptr: LLVMBasicBlockRef) -> Self {
+    Block(ptr, PhantomData)
   }
 
   pub fn parent_function(&self) -> Function<'ctx> {
@@ -49,7 +44,7 @@ impl<'ctx> Iterator for BlockInstructionIterator<'ctx> {
   fn next(&mut self) -> Option<Self::Item> {
     match self.curr_instr {
       Some(curr_instr_ptr) => {
-        let result = Some(Instruction::from_llvm(curr_instr_ptr).unwrap());
+        let result = Some(Instruction::from_llvm(curr_instr_ptr));
         let next_ptr = unsafe { LLVMGetNextInstruction(curr_instr_ptr) };
         if next_ptr.is_null() {
           self.curr_instr = None;

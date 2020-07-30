@@ -1,7 +1,8 @@
-use llvm_sys::core::LLVMGetInstructionParent;
+use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNumOperands};
 use llvm_sys::prelude::LLVMValueRef;
+use llvm_sys::LLVMOpcode;
 
-use super::super::{Block, ValueRef};
+use super::super::{Block, FromLLVM, ValueRef};
 use super::*;
 
 #[derive(Copy, Clone)]
@@ -19,14 +20,31 @@ pub enum Instruction<'ctx> {
 }
 
 impl<'ctx> Instruction<'ctx> {
-  pub fn from_llvm(_ptr: LLVMValueRef) -> Option<Self> {
-    // TODO
-    None
-  }
-
   pub fn parent_block(&self) -> Block<'ctx> {
     let value = unsafe { LLVMGetInstructionParent(self.value_ref()) };
-    Block::from_llvm(value).unwrap()
+    Block::from_llvm(value)
+  }
+}
+
+impl<'ctx> FromLLVM for Instruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    match unsafe { LLVMGetInstructionOpcode(ptr) } {
+      LLVMOpcode::LLVMCall => Instruction::Call(CallInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMBr => match unsafe { LLVMGetNumOperands(ptr) } {
+        1 => Instruction::UnconditionalBranch(UnconditionalBranchInstruction::from_llvm(ptr)),
+        3 => Instruction::ConditionalBranch(ConditionalBranchInstruction::from_llvm(ptr)),
+        _ => panic!("Unknown branch variant")
+      },
+      LLVMOpcode::LLVMSwitch => Instruction::Switch(SwitchInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMRet => Instruction::Return(ReturnInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMAlloca => Instruction::Alloca(AllocaInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMLoad => Instruction::Load(LoadInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMStore => Instruction::Store(StoreInstruction::from_llvm(ptr)),
+      opcode if BinaryOpcode::from_llvm(opcode).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
+      opcode if UnaryOpcode::from_llvm(opcode).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
+      // TODO
+      _ => panic!("Unsupported instruction opcode")
+    }
   }
 }
 
