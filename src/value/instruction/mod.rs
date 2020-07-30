@@ -6,6 +6,8 @@ mod br;
 pub use br::*;
 mod call;
 pub use call::*;
+mod cmp;
+pub use cmp::*;
 mod gep;
 pub use gep::*;
 mod instr;

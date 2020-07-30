@@ -1,6 +1,6 @@
+use llvm_sys::core::{LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock};
+use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
-use llvm_sys::core::{LLVMGetNextBasicBlock, LLVMGetFirstBasicBlock};
-use llvm_sys::prelude::{LLVMValueRef};
 
 use super::block::Block;
 
@@ -8,6 +8,11 @@ use super::block::Block;
 pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Function<'ctx> {
+  pub fn from_llvm(_ptr: LLVMValueRef) -> Option<Self> {
+    // TODO
+    None
+  }
+
   pub fn is_declaration_only(&self) -> bool {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     first_block.is_null()
@@ -15,8 +20,13 @@ impl<'ctx> Function<'ctx> {
 
   pub fn iter_blocks(&self) -> FunctionBlockIterator<'ctx> {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
-    if first_block.is_null() { FunctionBlockIterator { curr_block: None } }
-    else { FunctionBlockIterator { curr_block: Some(Block(first_block, PhantomData)) }}
+    if first_block.is_null() {
+      FunctionBlockIterator { curr_block: None }
+    } else {
+      FunctionBlockIterator {
+        curr_block: Some(Block(first_block, PhantomData)),
+      }
+    }
   }
 }
 
@@ -38,8 +48,8 @@ impl<'ctx> Iterator for FunctionBlockIterator<'ctx> {
           self.curr_block = Some(Block(next_block_ptr, PhantomData));
         }
         result
-      },
-      None => None
+      }
+      None => None,
     }
   }
 }

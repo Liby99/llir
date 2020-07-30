@@ -1,5 +1,5 @@
-use super::instruction::Instruction;
 use super::constant::Constant;
+use super::instruction::Instruction;
 
 #[derive(Copy, Clone)]
 pub enum Operand<'ctx> {

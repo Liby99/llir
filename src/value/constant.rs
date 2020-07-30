@@ -1,5 +1,5 @@
+use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
-use llvm_sys::prelude::{LLVMValueRef};
 
 #[derive(Copy, Clone)]
 pub enum Constant<'ctx> {

@@ -1,9 +1,8 @@
-use std::marker::PhantomData;
-// use llvm_sys::core::{LLVMGetNextBasicBlock, LLVMGetFirstBasicBlock, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
+use std::marker::PhantomData;
 
-use super::super::Operand;
+use super::super::{Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
@@ -31,9 +30,6 @@ pub enum BinaryOpcode {
   And,
   Or,
   Xor,
-  // Comparison
-  ICmp,
-  FCmp,
 }
 
 impl BinaryOpcode {
@@ -56,9 +52,7 @@ impl BinaryOpcode {
       LLVMOpcode::LLVMAnd => Some(Self::And),
       LLVMOpcode::LLVMOr => Some(Self::Or),
       LLVMOpcode::LLVMXor => Some(Self::Xor),
-      LLVMOpcode::LLVMICmp => Some(Self::ICmp),
-      LLVMOpcode::LLVMFCmp => Some(Self::FCmp),
-      _ => None
+      _ => None,
     }
   }
 }
@@ -76,5 +70,11 @@ impl<'ctx> BinaryInstruction<'ctx> {
   pub fn op1(&self) -> Operand<'ctx> {
     // TODO
     Operand::Metadata
+  }
+}
+
+impl<'ctx> ValueRef for BinaryInstruction<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    self.1
   }
 }

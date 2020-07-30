@@ -1,8 +1,8 @@
-use std::marker::PhantomData;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
+use std::marker::PhantomData;
 
-use super::super::Operand;
+use super::super::{Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
@@ -38,7 +38,7 @@ impl UnaryOpcode {
       LLVMOpcode::LLVMPtrToInt => Some(Self::PtrToInt),
       LLVMOpcode::LLVMIntToPtr => Some(Self::IntToPtr),
       LLVMOpcode::LLVMBitCast => Some(Self::BitCast),
-      _ => None
+      _ => None,
     }
   }
 }
@@ -51,5 +51,11 @@ impl<'ctx> UnaryInstruction<'ctx> {
   pub fn op0(&self) -> Operand<'ctx> {
     // TODO
     Operand::Metadata
+  }
+}
+
+impl<'ctx> ValueRef for UnaryInstruction<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    self.1
   }
 }
