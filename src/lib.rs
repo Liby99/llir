@@ -1,2 +1,2 @@
-mod module;
-mod instruction;
+pub mod module;
+pub mod value;
