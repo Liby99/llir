@@ -12,6 +12,9 @@ pub enum Type<'ctx> {
   Float(FloatType<'ctx>),
   Pointer(PointerType<'ctx>),
   Array(ArrayType<'ctx>),
+  Vector(VectorType<'ctx>),
+  Struct(StructType<'ctx>),
+  Function(FunctionType<'ctx>),
   Other(GenericType<'ctx>),
 }
 
@@ -22,6 +25,10 @@ impl<'ctx> FromLLVMType for Type<'ctx> {
       LLVMVoidTypeKind => Self::Void(VoidType::from_llvm(ptr)),
       LLVMIntegerTypeKind => Self::Int(IntType::from_llvm(ptr)),
       LLVMPointerTypeKind => Self::Pointer(PointerType::from_llvm(ptr)),
+      LLVMArrayTypeKind => Self::Array(ArrayType::from_llvm(ptr)),
+      LLVMVectorTypeKind => Self::Vector(VectorType::from_llvm(ptr)),
+      LLVMStructTypeKind => Self::Struct(StructType::from_llvm(ptr)),
+      LLVMFunctionTypeKind => Self::Function(FunctionType::from_llvm(ptr)),
       f if FloatTypeKind::from_llvm(f).is_some() => Self::Float(FloatType::from_llvm(ptr)),
       _ => Self::Other(GenericType::from_llvm(ptr)),
     }

@@ -1,10 +1,20 @@
 use llvm_sys::core::*;
-use llvm_sys::prelude::LLVMValueRef;
+use llvm_sys::prelude::*;
 use std::ffi::CStr;
+use std::os::raw::c_char;
+
+pub unsafe fn raw_to_string(raw: *const c_char) -> String {
+  let cstr = CStr::from_ptr(raw);
+  cstr.to_str().expect("Failed to convert CStr").to_owned()
+}
 
 pub fn string_of_value(ptr: LLVMValueRef) -> String {
   let mut len = 0;
   let ptr = unsafe { LLVMGetValueName2(ptr, &mut len) };
-  let cstr = unsafe { CStr::from_ptr(ptr) };
-  cstr.to_str().expect("Failed to convert CStr").to_owned()
+  unsafe { raw_to_string(ptr) }
+}
+
+pub fn string_of_type(ptr: LLVMTypeRef) -> String {
+  let ptr = unsafe { LLVMGetStructName(ptr) };
+  unsafe { raw_to_string(ptr) }
 }
