@@ -2,6 +2,10 @@
 name = "llir"
 version = "0.1.0"
 authors = ["Ziyang Li <liby99@seas.upenn.edu>"]
+license = "MIT"
+description = "LLVM IR Binding"
+repository = "https://github.com/liby99/llir"
+keywords = ["llvm", "ir"]
 edition = "2018"
 
 [dependencies]
