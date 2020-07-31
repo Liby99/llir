@@ -1,13 +1,22 @@
-use llvm_sys::core::{LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock};
+use llvm_sys::core::{LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMGetElementType, LLVMTypeOf};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::{Block, FromLLVM, ValueRef};
+use super::Block;
+use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
+
+#[derive(Copy, Clone)]
+pub struct Param();
 
 #[derive(Copy, Clone)]
 pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Function<'ctx> {
+  pub fn name(&self) -> String {
+    // TODO
+    String::from("Not implemented")
+  }
+
   pub fn is_declaration_only(&self) -> bool {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     first_block.is_null()
@@ -19,9 +28,25 @@ impl<'ctx> Function<'ctx> {
       FunctionBlockIterator { curr_block: None }
     } else {
       FunctionBlockIterator {
-        curr_block: Some(Block(first_block, PhantomData)),
+        curr_block: Some(Block::from_llvm(first_block)),
       }
     }
+  }
+
+  pub fn is_var_arg(&self) -> bool {
+    let functy = unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) };
+    let is_var = unsafe { LLVMIsFunctionVarArg(functy) };
+    is_var != 0
+  }
+
+  pub fn params(&self) -> Vec<Param> {
+    // TODO
+    vec![]
+  }
+
+  pub fn num_params(&self) -> usize {
+    // TODO
+    0
   }
 }
 
@@ -31,7 +56,7 @@ impl<'ctx> ValueRef for Function<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for Function<'ctx> {
+impl<'ctx> FromLLVMValue for Function<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
   }
@@ -48,11 +73,11 @@ impl<'ctx> Iterator for FunctionBlockIterator<'ctx> {
     match self.curr_block {
       Some(block) => {
         let result = Some(block);
-        let next_block_ptr = unsafe { LLVMGetNextBasicBlock(block.0) };
+        let next_block_ptr = unsafe { LLVMGetNextBasicBlock(block.block_ref()) };
         if next_block_ptr.is_null() {
           self.curr_block = None;
         } else {
-          self.curr_block = Some(Block(next_block_ptr, PhantomData));
+          self.curr_block = Some(Block::from_llvm(next_block_ptr));
         }
         result
       }

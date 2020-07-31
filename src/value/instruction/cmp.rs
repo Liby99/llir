@@ -3,7 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::{LLVMIntPredicate, LLVMRealPredicate};
 use std::marker::PhantomData;
 
-use super::super::{FromLLVM, Operand, ValueRef};
+use super::super::{Operand};
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum ICmpPredicate {
@@ -53,7 +54,7 @@ impl<'ctx> ICmpInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for ICmpInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for ICmpInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let ll_pred = unsafe { LLVMGetICmpPredicate(ptr) };
     let pred = ICmpPredicate::from_llvm(ll_pred);
@@ -127,7 +128,7 @@ impl<'ctx> FCmpInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for FCmpInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for FCmpInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let ll_pred = unsafe { LLVMGetFCmpPredicate(ptr) };
     let pred = FCmpPredicate::from_llvm(ll_pred);

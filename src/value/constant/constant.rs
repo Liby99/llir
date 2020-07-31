@@ -2,7 +2,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::core::{LLVMGetValueKind};
 use llvm_sys::LLVMValueKind;
 
-use super::super::{FromLLVM, ValueRef};
+use crate::{FromLLVMValue, ValueRef};
 use super::*;
 
 #[derive(Copy, Clone)]
@@ -22,7 +22,7 @@ impl<'ctx> ValueRef for Constant<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for Constant<'ctx> {
+impl<'ctx> FromLLVMValue for Constant<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     use LLVMValueKind::*;
     match unsafe { LLVMGetValueKind(ptr) } {

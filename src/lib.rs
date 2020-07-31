@@ -1,3 +1,5 @@
 pub mod module;
 pub mod value;
-pub mod ty;
+pub mod types;
+mod traits;
+pub(crate) use traits::*;

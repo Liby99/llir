@@ -2,7 +2,8 @@ use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Block, FromLLVM, Operand, ValueRef};
+use super::super::{Block, Operand};
+use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -15,17 +16,17 @@ impl<'ctx> ConditionalBranchInstruction<'ctx> {
   pub fn then_block(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 2) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
-    Block(block, PhantomData)
+    Block::from_llvm(block)
   }
 
   pub fn else_block(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 1) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
-    Block(block, PhantomData)
+    Block::from_llvm(block)
   }
 }
 
-impl<'ctx> FromLLVM for ConditionalBranchInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for ConditionalBranchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     ConditionalBranchInstruction(ptr, PhantomData)
   }
@@ -44,7 +45,7 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   pub fn to_block(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 0) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
-    Block(block, PhantomData)
+    Block::from_llvm(block)
   }
 }
 
@@ -54,7 +55,7 @@ impl<'ctx> ValueRef for UnconditionalBranchInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for UnconditionalBranchInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for UnconditionalBranchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     UnconditionalBranchInstruction(ptr, PhantomData)
   }

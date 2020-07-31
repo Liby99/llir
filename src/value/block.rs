@@ -2,14 +2,15 @@ use llvm_sys::core::{LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetNe
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::{FromLLVM, Function, Instruction};
+use super::{Function, Instruction};
+use crate::{FromLLVMValue, FromLLVMBlock};
 
 #[derive(Copy, Clone)]
-pub struct Block<'ctx>(pub(crate) LLVMBasicBlockRef, pub(crate) PhantomData<&'ctx ()>);
+pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Block<'ctx> {
-  pub fn from_llvm(ptr: LLVMBasicBlockRef) -> Self {
-    Block(ptr, PhantomData)
+  pub fn block_ref(&self) -> LLVMBasicBlockRef {
+    self.0
   }
 
   pub fn parent_function(&self) -> Function<'ctx> {
@@ -30,6 +31,12 @@ impl<'ctx> Block<'ctx> {
         marker: PhantomData,
       }
     }
+  }
+}
+
+impl<'ctx> FromLLVMBlock for Block<'ctx> {
+  fn from_llvm(ptr: LLVMBasicBlockRef) -> Self {
+    Block(ptr, PhantomData)
   }
 }
 

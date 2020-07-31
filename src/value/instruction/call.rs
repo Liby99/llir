@@ -2,7 +2,8 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMIsAFunction, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{FromLLVM, Function, Operand, ValueRef};
+use super::super::{Function, Operand};
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -37,7 +38,7 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for CallInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for CallInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     CallInstruction(ptr, PhantomData)
   }

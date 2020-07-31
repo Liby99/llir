@@ -1,7 +1,8 @@
 use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction};
 use llvm_sys::prelude::LLVMValueRef;
 
-use super::{Constant, FromLLVM, Instruction, ValueRef};
+use super::{Constant, Instruction};
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum Operand<'ctx> {
@@ -10,7 +11,7 @@ pub enum Operand<'ctx> {
   Metadata, // TODO
 }
 
-impl<'ctx> FromLLVM for Operand<'ctx> {
+impl<'ctx> FromLLVMValue for Operand<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let is_instr = unsafe { !LLVMIsAInstruction(ptr).is_null() };
     if is_instr {

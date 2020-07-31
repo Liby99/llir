@@ -3,7 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{FromLLVM, Operand, ValueRef};
+use super::super::Operand;
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
@@ -72,7 +73,7 @@ impl<'ctx> BinaryInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for BinaryInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for BinaryInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let bin_op = BinaryOpcode::from_llvm(unsafe { LLVMGetInstructionOpcode(ptr) }).unwrap();
     BinaryInstruction(bin_op, ptr, PhantomData)

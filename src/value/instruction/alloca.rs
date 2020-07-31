@@ -1,14 +1,14 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{FromLLVM, ValueRef};
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> AllocaInstruction<'ctx> {}
 
-impl<'ctx> FromLLVM for AllocaInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for AllocaInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     AllocaInstruction(ptr, PhantomData)
   }

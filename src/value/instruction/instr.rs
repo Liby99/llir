@@ -3,7 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{Block, FromLLVM, ValueRef};
+use super::super::{Block};
+use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
 use super::*;
 
 #[derive(Copy, Clone)]
@@ -28,7 +29,7 @@ impl<'ctx> Instruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for Instruction<'ctx> {
+impl<'ctx> FromLLVMValue for Instruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     match unsafe { LLVMGetInstructionOpcode(ptr) } {
       LLVMOpcode::LLVMCall => Instruction::Call(CallInstruction::from_llvm(ptr)),
@@ -76,7 +77,7 @@ impl<'ctx> ValueRef for GenericInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for GenericInstruction<'ctx> {
+impl<'ctx> FromLLVMValue for GenericInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
   }

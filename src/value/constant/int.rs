@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{ValueRef, FromLLVM};
+use crate::{ValueRef, FromLLVMValue};
 
 #[derive(Copy, Clone)]
 pub struct IntConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -12,7 +12,7 @@ impl<'ctx> ValueRef for IntConstant<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVM for IntConstant<'ctx> {
+impl<'ctx> FromLLVMValue for IntConstant<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
   }
