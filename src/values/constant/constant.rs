@@ -21,6 +21,12 @@ pub enum Constant<'ctx> {
   Other(GenericConstant<'ctx>),
 }
 
+impl<'ctx> Constant<'ctx> {
+  pub fn as_operand(&self) -> Operand<'ctx> {
+    Operand::Constant(*self)
+  }
+}
+
 impl<'ctx> HasType for Constant<'ctx> {}
 
 impl<'ctx> ValueRef for Constant<'ctx> {
