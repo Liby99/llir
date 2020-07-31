@@ -7,7 +7,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugLoc for UnreachableInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 
 impl<'ctx> FromLLVMValue for UnreachableInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

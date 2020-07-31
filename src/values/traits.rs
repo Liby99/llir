@@ -19,39 +19,36 @@ where
   }
 }
 
-pub trait HasDebugLoc {}
+pub trait InstructionDebugLoc {}
 
 pub trait DebugLoc {
   fn filename(&self) -> Option<String>;
-
-  fn directory(&self) -> Option<String>;
 
   fn line(&self) -> Option<u32>;
 
   fn col(&self) -> Option<u32>;
 
   fn debug_loc_string(&self) -> String {
-    match (self.directory(), self.filename()) {
-      (Some(dir), Some(file)) => match (self.line(), self.col()) {
-        (Some(line), Some(col)) => return format!("{}/{}:{}:{}", dir, file, line, col),
-        _ => {}
+    match self.filename() {
+      Some(file) => match (self.line(), self.col()) {
+        (Some(line), Some(col)) => return format!("{}:{}:{}", file, line, col),
+        _ => return file,
       },
       _ => {}
     };
-    String::from("0:0")
+    String::new()
   }
 }
 
 impl<'ctx, V> DebugLoc for V
 where
-  V: HasDebugLoc + ValueRef,
+  V: InstructionDebugLoc + ValueRef,
 {
   fn filename(&self) -> Option<String> {
-    string_of_debugloc_filename(self.value_ref())
-  }
-
-  fn directory(&self) -> Option<String> {
-    string_of_debugloc_directory(self.value_ref())
+    match (string_of_debugloc_directory(self.value_ref()), string_of_debugloc_filename(self.value_ref())) {
+      (Some(dir), Some(file)) => Some(format!("{}/{}", dir, file)),
+      _ => None
+    }
   }
 
   fn line(&self) -> Option<u32> {

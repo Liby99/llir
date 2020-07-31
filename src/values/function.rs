@@ -20,22 +20,25 @@ impl<'ctx> FromLLVMValue for Param<'ctx> {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+pub struct Function<'ctx> {
+  func: LLVMValueRef,
+  marker: PhantomData<&'ctx ()>,
+}
 
 impl<'ctx> HasType for Function<'ctx> {}
 
 impl<'ctx> Function<'ctx> {
   pub fn name(&self) -> String {
-    string_of_value(self.0)
+    string_of_value(self.func)
   }
 
   pub fn is_declaration_only(&self) -> bool {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     first_block.is_null()
   }
 
   pub fn iter_blocks(&self) -> FunctionBlockIterator<'ctx> {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     if first_block.is_null() {
       FunctionBlockIterator { curr_block: None }
     } else {
@@ -46,7 +49,7 @@ impl<'ctx> Function<'ctx> {
   }
 
   pub fn first_block(&self) -> Option<Block<'ctx>> {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     if first_block.is_null() {
       None
     } else {
@@ -55,7 +58,7 @@ impl<'ctx> Function<'ctx> {
   }
 
   pub fn last_block(&self) -> Option<Block<'ctx>> {
-    let last_block = unsafe { LLVMGetLastBasicBlock(self.0) };
+    let last_block = unsafe { LLVMGetLastBasicBlock(self.func) };
     if last_block.is_null() {
       None
     } else {
@@ -69,30 +72,54 @@ impl<'ctx> Function<'ctx> {
 
   pub fn params(&self) -> Vec<Param<'ctx>> {
     (0..self.num_params())
-      .map(|i| Param::from_llvm(unsafe { LLVMGetParam(self.0, i as u32) }))
+      .map(|i| Param::from_llvm(unsafe { LLVMGetParam(self.func, i as u32) }))
       .collect()
   }
 
   pub fn num_params(&self) -> usize {
-    unsafe { LLVMCountParams(self.0) as usize }
+    unsafe { LLVMCountParams(self.func) as usize }
   }
 
   pub fn get_function_type(&self) -> FunctionType<'ctx> {
-    let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) };
+    let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.func)) };
     FunctionType::from_llvm(type_ref)
   }
 }
 
 impl<'ctx> ValueRef for Function<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
-    self.0
+    self.func
   }
 }
 
 impl<'ctx> FromLLVMValue for Function<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
+    Self {
+      func: ptr,
+      marker: PhantomData,
+    }
   }
+}
+
+impl<'ctx> DebugLoc for Function<'ctx> {
+  fn filename(&self) -> Option<String> {
+    match self.first_block() {
+      Some(block) => {
+        for instr in block.iter_instructions() {
+          match instr.filename() {
+            Some(filename) => return Some(filename),
+            _ => {}
+          }
+        }
+        None
+      },
+      _ => None
+    }
+  }
+
+  fn line(&self) -> Option<u32> { None }
+
+  fn col(&self) -> Option<u32> { None }
 }
 
 pub struct FunctionBlockIterator<'ctx> {

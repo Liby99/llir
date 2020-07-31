@@ -42,7 +42,7 @@ pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx 
 
 impl<'ctx> HasType for ICmpInstruction<'ctx> {}
 
-impl<'ctx> HasDebugLoc for ICmpInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for ICmpInstruction<'ctx> {}
 
 impl<'ctx> ICmpInstruction<'ctx> {
   pub fn predicate(&self) -> ICmpPredicate {

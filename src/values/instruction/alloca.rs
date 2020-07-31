@@ -10,7 +10,7 @@ pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for AllocaInstruction<'ctx> {}
 
-impl<'ctx> HasDebugLoc for AllocaInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for AllocaInstruction<'ctx> {}
 
 impl<'ctx> AllocaInstruction<'ctx> {
   pub fn get_pointer_type(&self) -> PointerType<'ctx> {

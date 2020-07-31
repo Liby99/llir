@@ -26,7 +26,7 @@ pub enum Instruction<'ctx> {
   Other(GenericInstruction<'ctx>),
 }
 
-impl<'ctx> HasDebugLoc for Instruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for Instruction<'ctx> {}
 
 impl<'ctx> Instruction<'ctx> {
   pub fn parent_block(&self) -> Block<'ctx> {
@@ -112,7 +112,7 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct GenericInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugLoc for GenericInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for GenericInstruction<'ctx> {}
 
 impl<'ctx> ValueRef for GenericInstruction<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {

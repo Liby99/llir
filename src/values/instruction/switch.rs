@@ -8,7 +8,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugLoc for SwitchInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for SwitchInstruction<'ctx> {}
 
 impl<'ctx> SwitchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {

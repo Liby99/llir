@@ -49,7 +49,7 @@ pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx (
 
 impl<'ctx> HasType for UnaryInstruction<'ctx> {}
 
-impl<'ctx> HasDebugLoc for UnaryInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for UnaryInstruction<'ctx> {}
 
 impl<'ctx> UnaryInstruction<'ctx> {
   pub fn opcode(&self) -> UnaryOpcode {

@@ -22,7 +22,7 @@ pub fn string_of_type(ptr: LLVMTypeRef) -> String {
 pub fn string_of_debugloc_filename(ptr: LLVMValueRef) -> Option<String> {
   let mut len = 0;
   let ptr = unsafe { LLVMGetDebugLocFilename(ptr, &mut len) };
-  if ptr.is_null() {
+  if len == 0 || ptr.is_null() {
     None
   } else {
     Some(unsafe { raw_to_string(ptr) })
@@ -32,7 +32,7 @@ pub fn string_of_debugloc_filename(ptr: LLVMValueRef) -> Option<String> {
 pub fn string_of_debugloc_directory(ptr: LLVMValueRef) -> Option<String> {
   let mut len = 0;
   let ptr = unsafe { LLVMGetDebugLocDirectory(ptr, &mut len) };
-  if ptr.is_null() {
+  if len == 0 || ptr.is_null() {
     None
   } else {
     Some(unsafe { raw_to_string(ptr) })

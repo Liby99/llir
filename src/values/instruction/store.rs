@@ -8,7 +8,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugLoc for StoreInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for StoreInstruction<'ctx> {}
 
 impl<'ctx> StoreInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {

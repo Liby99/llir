@@ -10,7 +10,7 @@ pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for LoadInstruction<'ctx> {}
 
-impl<'ctx> HasDebugLoc for LoadInstruction<'ctx> {}
+impl<'ctx> InstructionDebugLoc for LoadInstruction<'ctx> {}
 
 impl<'ctx> LoadInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
