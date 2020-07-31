@@ -1,5 +1,6 @@
-use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction, LLVMIsAMDNode};
+use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction, LLVMIsAMDNode, LLVMGetValueKind};
 use llvm_sys::prelude::LLVMValueRef;
+use llvm_sys::LLVMValueKind;
 
 use crate::values::*;
 use crate::*;
@@ -27,7 +28,7 @@ impl<'ctx> FromLLVMValue for Operand<'ctx> {
         if is_mdnode {
           Self::Metadata(Metadata::from_llvm(ptr))
         } else {
-          panic!("Unsupported value {:?}", ptr);
+          panic!("Unsupported value {:?}. ValueKind: {:?}", ptr, unsafe { LLVMGetValueKind(ptr) });
         }
       }
     }
