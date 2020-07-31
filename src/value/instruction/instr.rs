@@ -1,6 +1,7 @@
 use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNumOperands};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
+use std::marker::PhantomData;
 
 use super::super::{Block, FromLLVM, ValueRef};
 use super::*;
@@ -17,6 +18,7 @@ pub enum Instruction<'ctx> {
   Alloca(AllocaInstruction<'ctx>),
   Load(LoadInstruction<'ctx>),
   Store(StoreInstruction<'ctx>),
+  Other(GenericInstruction<'ctx>),
 }
 
 impl<'ctx> Instruction<'ctx> {
@@ -33,7 +35,7 @@ impl<'ctx> FromLLVM for Instruction<'ctx> {
       LLVMOpcode::LLVMBr => match unsafe { LLVMGetNumOperands(ptr) } {
         1 => Instruction::UnconditionalBranch(UnconditionalBranchInstruction::from_llvm(ptr)),
         3 => Instruction::ConditionalBranch(ConditionalBranchInstruction::from_llvm(ptr)),
-        _ => panic!("Unknown branch variant")
+        _ => panic!("Unknown branch variant"),
       },
       LLVMOpcode::LLVMSwitch => Instruction::Switch(SwitchInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMRet => Instruction::Return(ReturnInstruction::from_llvm(ptr)),
@@ -42,8 +44,7 @@ impl<'ctx> FromLLVM for Instruction<'ctx> {
       LLVMOpcode::LLVMStore => Instruction::Store(StoreInstruction::from_llvm(ptr)),
       opcode if BinaryOpcode::from_llvm(opcode).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
       opcode if UnaryOpcode::from_llvm(opcode).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
-      // TODO
-      _ => panic!("Unsupported instruction opcode")
+      _ => Instruction::Other(GenericInstruction::from_llvm(ptr)),
     }
   }
 }
@@ -61,6 +62,22 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
       Instruction::Alloca(alc_instr) => alc_instr.value_ref(),
       Instruction::Load(ld_instr) => ld_instr.value_ref(),
       Instruction::Store(st_instr) => st_instr.value_ref(),
+      Instruction::Other(otr_instr) => otr_instr.value_ref(),
     }
+  }
+}
+
+#[derive(Copy, Clone)]
+pub struct GenericInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> ValueRef for GenericInstruction<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    self.0
+  }
+}
+
+impl<'ctx> FromLLVM for GenericInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    Self(ptr, PhantomData)
   }
 }

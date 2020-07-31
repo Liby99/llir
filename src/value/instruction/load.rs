@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Operand, FromLLVM, ValueRef};
+use super::super::{FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

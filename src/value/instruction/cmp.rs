@@ -1,9 +1,9 @@
-use llvm_sys::core::{LLVMGetICmpPredicate, LLVMGetFCmpPredicate, LLVMGetOperand};
+use llvm_sys::core::{LLVMGetFCmpPredicate, LLVMGetICmpPredicate, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
-use llvm_sys::{LLVMRealPredicate, LLVMIntPredicate};
+use llvm_sys::{LLVMIntPredicate, LLVMRealPredicate};
 use std::marker::PhantomData;
 
-use super::super::{ValueRef, FromLLVM, Operand};
+use super::super::{FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum ICmpPredicate {

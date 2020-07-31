@@ -1,7 +1,7 @@
-use llvm_sys::prelude::{LLVMValueRef};
-use llvm_sys::core::{LLVMIsAInstruction, LLVMIsAConstant};
+use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction};
+use llvm_sys::prelude::LLVMValueRef;
 
-use super::{Instruction, Constant, /* ValueRef,*/ FromLLVM};
+use super::{Constant, FromLLVM, Instruction, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum Operand<'ctx> {
@@ -22,6 +22,16 @@ impl<'ctx> FromLLVM for Operand<'ctx> {
       } else {
         Self::Metadata
       }
+    }
+  }
+}
+
+impl<'ctx> ValueRef for Operand<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    match self {
+      Operand::Instruction(instr) => instr.value_ref(),
+      // TODO
+      _ => panic!("Not implemented value ref"),
     }
   }
 }

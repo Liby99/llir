@@ -2,17 +2,12 @@ use llvm_sys::core::{LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::block::Block;
+use super::{Block, FromLLVM, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Function<'ctx> {
-  pub fn from_llvm(_ptr: LLVMValueRef) -> Option<Self> {
-    // TODO
-    None
-  }
-
   pub fn is_declaration_only(&self) -> bool {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     first_block.is_null()
@@ -27,6 +22,18 @@ impl<'ctx> Function<'ctx> {
         curr_block: Some(Block(first_block, PhantomData)),
       }
     }
+  }
+}
+
+impl<'ctx> ValueRef for Function<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    self.0
+  }
+}
+
+impl<'ctx> FromLLVM for Function<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    Self(ptr, PhantomData)
   }
 }
 

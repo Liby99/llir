@@ -1,9 +1,9 @@
-use llvm_sys::core::{LLVMGetInstructionOpcode};
+use llvm_sys::core::LLVMGetInstructionOpcode;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{Operand, FromLLVM, ValueRef};
+use super::super::{FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);

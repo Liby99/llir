@@ -1,9 +1,9 @@
-use llvm_sys::core::{LLVMGetOperand, LLVMGetInstructionOpcode};
+use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{Operand, ValueRef, FromLLVM};
+use super::super::{FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);

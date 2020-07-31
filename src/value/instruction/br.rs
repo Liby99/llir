@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Block, Operand, ValueRef, FromLLVM};
+use super::super::{Block, FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

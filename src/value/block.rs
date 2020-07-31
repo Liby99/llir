@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetNe
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::{Function, Instruction, FromLLVM};
+use super::{FromLLVM, Function, Instruction};
 
 #[derive(Copy, Clone)]
 pub struct Block<'ctx>(pub(crate) LLVMBasicBlockRef, pub(crate) PhantomData<&'ctx ()>);
@@ -14,7 +14,7 @@ impl<'ctx> Block<'ctx> {
 
   pub fn parent_function(&self) -> Function<'ctx> {
     let func_ptr = unsafe { LLVMGetBasicBlockParent(self.0) };
-    Function::from_llvm(func_ptr).unwrap()
+    Function::from_llvm(func_ptr)
   }
 
   pub fn iter_instr(&self) -> BlockInstructionIterator<'ctx> {

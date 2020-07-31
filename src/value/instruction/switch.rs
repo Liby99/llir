@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Block, Constant, Operand, FromLLVM, ValueRef};
+use super::super::{Block, Constant, FromLLVM, Operand, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

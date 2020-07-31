@@ -4,6 +4,6 @@ pub(crate) trait ValueRef {
   fn value_ref(&self) -> LLVMValueRef;
 }
 
-pub(crate) trait FromLLVM : Sized {
+pub(crate) trait FromLLVM: Sized {
   fn from_llvm(ptr: LLVMValueRef) -> Self;
 }
