@@ -21,6 +21,8 @@ pub enum Constant<'ctx> {
   Other(GenericConstant<'ctx>),
 }
 
+impl<'ctx> HasType for Constant<'ctx> {}
+
 impl<'ctx> ValueRef for Constant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     match self {
