@@ -14,7 +14,5 @@ mod vector;
 pub use vector::*;
 mod undef;
 pub use undef::*;
-mod global;
-pub use global::*;
 mod const_expr;
 pub use const_expr::*;
