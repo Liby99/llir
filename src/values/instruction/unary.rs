@@ -8,6 +8,7 @@ use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum UnaryOpcode {
+  FNeg,
   Trunc,
   ZExt,
   SExt,
@@ -25,6 +26,7 @@ pub enum UnaryOpcode {
 impl UnaryOpcode {
   pub fn from_llvm(llvm_opcode: LLVMOpcode) -> Option<Self> {
     match llvm_opcode {
+      LLVMOpcode::LLVMFNeg => Some(Self::FNeg),
       LLVMOpcode::LLVMTrunc => Some(Self::Trunc),
       LLVMOpcode::LLVMZExt => Some(Self::ZExt),
       LLVMOpcode::LLVMSExt => Some(Self::SExt),

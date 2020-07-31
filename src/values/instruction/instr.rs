@@ -22,6 +22,7 @@ pub enum Instruction<'ctx> {
   Store(StoreInstruction<'ctx>),
   GetElementPtr(GetElementPtrInstruction<'ctx>),
   Phi(PhiInstruction<'ctx>),
+  Unreachable(UnreachableInstruction<'ctx>),
   Other(GenericInstruction<'ctx>),
 }
 
@@ -78,8 +79,9 @@ impl<'ctx> FromLLVMValue for Instruction<'ctx> {
       LLVMOpcode::LLVMStore => Instruction::Store(StoreInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMGetElementPtr => Instruction::GetElementPtr(GetElementPtrInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMPHI => Instruction::Phi(PhiInstruction::from_llvm(ptr)),
-      opcode if BinaryOpcode::from_llvm(opcode).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
-      opcode if UnaryOpcode::from_llvm(opcode).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMUnreachable => Instruction::Unreachable(UnreachableInstruction::from_llvm(ptr)),
+      op if BinaryOpcode::from_llvm(op).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
+      op if UnaryOpcode::from_llvm(op).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
       _ => Instruction::Other(GenericInstruction::from_llvm(ptr)),
     }
   }
@@ -99,6 +101,7 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
       Instruction::Store(st_instr) => st_instr.value_ref(),
       Instruction::GetElementPtr(gep_instr) => gep_instr.value_ref(),
       Instruction::Phi(phi_instr) => phi_instr.value_ref(),
+      Instruction::Unreachable(unr_instr) => unr_instr.value_ref(),
       Instruction::Other(otr_instr) => otr_instr.value_ref(),
     }
   }

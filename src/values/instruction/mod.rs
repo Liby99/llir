@@ -26,3 +26,5 @@ mod switch;
 pub use switch::*;
 mod unary;
 pub use unary::*;
+mod unreachable;
+pub use unreachable::*;
