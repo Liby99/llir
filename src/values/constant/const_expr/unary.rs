@@ -2,8 +2,8 @@ use llvm_sys::core::{LLVMGetConstOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::{Constant, UnaryOpcode};
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct UnaryConstExpr<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);

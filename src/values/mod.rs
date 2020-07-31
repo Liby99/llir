@@ -12,3 +12,5 @@ mod metadata;
 pub use metadata::*;
 mod global;
 pub use global::*;
+mod traits;
+pub use traits::*;

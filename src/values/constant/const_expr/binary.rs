@@ -2,9 +2,8 @@ use llvm_sys::core::{LLVMGetConstOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::BinaryOpcode;
-use crate::values::Constant;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::{BinaryOpcode,Constant};
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct BinaryConstExpr<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);

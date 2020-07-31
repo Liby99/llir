@@ -3,10 +3,14 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::Constant;
-use crate::{FromLLVMValue, ValueRef};
+use crate::*;
+use crate::values::*;
+use crate::types::*;
 
 #[derive(Copy, Clone)]
 pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for ArrayConstant<'ctx> {}
 
 impl<'ctx> ArrayConstant<'ctx> {
   pub fn num_elements(&self) -> usize {
@@ -17,6 +21,10 @@ impl<'ctx> ArrayConstant<'ctx> {
     (0..self.num_elements() as u32)
       .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
       .collect()
+  }
+
+  pub fn get_array_type(&self) -> ArrayType<'ctx> {
+    ArrayType::from_llvm(self.get_type().type_ref())
   }
 }
 

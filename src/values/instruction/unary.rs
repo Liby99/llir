@@ -3,8 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum UnaryOpcode {
@@ -44,6 +44,8 @@ impl UnaryOpcode {
 
 #[derive(Debug, Copy, Clone)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for UnaryInstruction<'ctx> {}
 
 impl<'ctx> UnaryInstruction<'ctx> {
   pub fn opcode(&self) -> UnaryOpcode {

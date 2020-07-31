@@ -2,11 +2,14 @@ use llvm_sys::core::{LLVMGetOperand, LLVMCountStructElementTypes, LLVMTypeOf};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::Constant;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::types::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct StructConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for StructConstant<'ctx> {}
 
 impl<'ctx> StructConstant<'ctx> {
   pub fn num_elements(&self) -> usize {
@@ -17,6 +20,10 @@ impl<'ctx> StructConstant<'ctx> {
     (0..self.num_elements() as u32)
       .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
       .collect()
+  }
+
+  pub fn get_struct_type(&self) -> StructType<'ctx> {
+    StructType::from_llvm(self.get_type().type_ref())
   }
 }
 

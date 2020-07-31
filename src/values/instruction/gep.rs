@@ -2,11 +2,13 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for GetElementPtrInstruction<'ctx> {}
 
 impl<'ctx> GetElementPtrInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {

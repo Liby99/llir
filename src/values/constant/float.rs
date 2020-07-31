@@ -1,11 +1,15 @@
-use llvm_sys::core::LLVMConstRealGetDouble;
+use llvm_sys::core::{LLVMConstRealGetDouble};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::{FromLLVMValue, ValueRef};
+use crate::types::*;
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct FloatConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for FloatConstant<'ctx> {}
 
 impl<'ctx> FloatConstant<'ctx> {
   pub fn double_value(&self) -> f64 {
@@ -14,6 +18,10 @@ impl<'ctx> FloatConstant<'ctx> {
       let b_ptr: *mut std::os::raw::c_int = &mut b;
       LLVMConstRealGetDouble(self.0, b_ptr)
     }
+  }
+
+  pub fn get_float_type(&self) -> FloatType<'ctx> {
+    FloatType::from_llvm(self.get_type().type_ref())
   }
 }
 

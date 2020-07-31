@@ -2,11 +2,13 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Constant, Function, Operand};
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for CallInstruction<'ctx> {}
 
 impl<'ctx> CallInstruction<'ctx> {
   pub fn callee_function(&self) -> Option<Function<'ctx>> {

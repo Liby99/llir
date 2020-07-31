@@ -3,8 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::{LLVMIntPredicate, LLVMRealPredicate};
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum ICmpPredicate {
@@ -39,6 +39,8 @@ impl ICmpPredicate {
 
 #[derive(Debug, Copy, Clone)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for ICmpInstruction<'ctx> {}
 
 impl<'ctx> ICmpInstruction<'ctx> {
   pub fn predicate(&self) -> ICmpPredicate {
@@ -113,6 +115,8 @@ impl FCmpPredicate {
 
 #[derive(Debug, Copy, Clone)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for FCmpInstruction<'ctx> {}
 
 impl<'ctx> FCmpInstruction<'ctx> {
   pub fn predicate(&self) -> FCmpPredicate {

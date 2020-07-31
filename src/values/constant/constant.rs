@@ -1,11 +1,11 @@
-use llvm_sys::core::LLVMGetValueKind;
+use llvm_sys::core::{LLVMGetValueKind};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;
 
 use super::*;
-use crate::values::{Function, Global};
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub enum Constant<'ctx> {

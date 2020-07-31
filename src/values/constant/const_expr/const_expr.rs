@@ -1,11 +1,11 @@
-use llvm_sys::core::LLVMGetConstOpcode;
+use llvm_sys::core::{LLVMGetConstOpcode};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
 use super::*;
 use crate::values::*;
-use crate::{FromLLVMValue, ValueRef};
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub enum ConstExpr<'ctx> {

@@ -5,6 +5,7 @@ use std::marker::PhantomData;
 use super::Type;
 use crate::{TypeRef, FromLLVMType};
 
+#[derive(Copy, Clone)]
 pub struct ArrayType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ArrayType<'ctx> {

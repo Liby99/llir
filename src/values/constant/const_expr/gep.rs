@@ -3,8 +3,8 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;
 
-use crate::values::{Constant, IntConstant};
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct GetElementPtrConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

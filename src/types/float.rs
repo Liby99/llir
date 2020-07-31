@@ -32,6 +32,7 @@ impl FloatTypeKind {
   }
 }
 
+#[derive(Copy, Clone)]
 pub struct FloatType<'ctx>(FloatTypeKind, LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FloatType<'ctx> {

@@ -3,7 +3,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use crate::values::{Constant, FCmpPredicate, ICmpPredicate};
-use crate::{FromLLVMValue, ValueRef};
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct ICmpConstExpr<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);

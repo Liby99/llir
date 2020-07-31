@@ -2,8 +2,8 @@ use llvm_sys::core::{LLVMCountIncoming, LLVMGetIncomingBlock, LLVMGetIncomingVal
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::{Block, Operand};
-use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 pub struct Incoming<'ctx> {
   pub block: Block<'ctx>,
@@ -12,6 +12,8 @@ pub struct Incoming<'ctx> {
 
 #[derive(Debug, Copy, Clone)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for PhiInstruction<'ctx> {}
 
 impl<'ctx> PhiInstruction<'ctx> {
   pub fn num_incomings(&self) -> usize {

@@ -3,11 +3,13 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for BinaryInstruction<'ctx> {}
 
 #[derive(Debug, Copy, Clone)]
 pub enum BinaryOpcode {
