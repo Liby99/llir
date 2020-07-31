@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetConstOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::{BinaryOpcode,Constant};
+use crate::values::{BinaryOpcode, Constant};
 use crate::*;
 
 #[derive(Copy, Clone)]

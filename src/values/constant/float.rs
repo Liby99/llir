@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMConstRealGetDouble};
+use llvm_sys::core::LLVMConstRealGetDouble;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 

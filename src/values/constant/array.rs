@@ -3,9 +3,9 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::Constant;
-use crate::*;
-use crate::values::*;
 use crate::types::*;
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

@@ -1,9 +1,9 @@
-use llvm_sys::core::{LLVMGetTypeKind};
+use llvm_sys::core::LLVMGetTypeKind;
 use llvm_sys::prelude::LLVMTypeRef;
 use llvm_sys::LLVMTypeKind;
 use std::marker::PhantomData;
 
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 #[allow(non_camel_case_types)]
@@ -18,8 +18,8 @@ pub enum FloatTypeKind {
 
 impl FloatTypeKind {
   pub(crate) fn from_llvm(tk: LLVMTypeKind) -> Option<Self> {
-    use LLVMTypeKind::*;
     use FloatTypeKind::*;
+    use LLVMTypeKind::*;
     match tk {
       LLVMHalfTypeKind => Some(Half),
       LLVMFloatTypeKind => Some(Single),
@@ -27,7 +27,7 @@ impl FloatTypeKind {
       LLVMFP128TypeKind => Some(FP128),
       LLVMX86_FP80TypeKind => Some(X86_FP80),
       LLVMPPC_FP128TypeKind => Some(PPC_FP128),
-      _ => None
+      _ => None,
     }
   }
 }

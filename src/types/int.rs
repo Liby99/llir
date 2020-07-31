@@ -1,8 +1,8 @@
-use llvm_sys::core::{LLVMGetIntTypeWidth};
+use llvm_sys::core::LLVMGetIntTypeWidth;
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 pub struct IntType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);

@@ -1,8 +1,8 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::*;
 use crate::types::*;
+use crate::values::*;
 use crate::*;
 
 #[derive(Copy, Clone)]

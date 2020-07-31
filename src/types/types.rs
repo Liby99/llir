@@ -1,5 +1,5 @@
-use llvm_sys::core::{LLVMGetTypeKind};
-use llvm_sys::prelude::{LLVMTypeRef};
+use llvm_sys::core::LLVMGetTypeKind;
+use llvm_sys::prelude::LLVMTypeRef;
 use llvm_sys::LLVMTypeKind;
 use std::marker::PhantomData;
 

@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetValueKind};
+use llvm_sys::core::LLVMGetValueKind;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;

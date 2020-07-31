@@ -1,9 +1,9 @@
-use llvm_sys::core::{LLVMGetElementType, LLVMGetArrayLength};
+use llvm_sys::core::{LLVMGetArrayLength, LLVMGetElementType};
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
 use super::Type;
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 pub struct ArrayType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);

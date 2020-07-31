@@ -1,10 +1,10 @@
-use llvm_sys::core::{LLVMIsLiteralStruct, LLVMCountStructElementTypes, LLVMGetStructElementTypes};
+use llvm_sys::core::{LLVMCountStructElementTypes, LLVMGetStructElementTypes, LLVMIsLiteralStruct};
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
 use super::Type;
 use crate::utils::string_of_type;
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 pub enum StructType<'ctx> {

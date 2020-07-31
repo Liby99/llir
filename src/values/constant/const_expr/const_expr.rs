@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetConstOpcode};
+use llvm_sys::core::LLVMGetConstOpcode;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;

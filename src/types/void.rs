@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 pub struct VoidType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);

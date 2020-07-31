@@ -3,7 +3,7 @@ use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
 use super::Type;
-use crate::{TypeRef, FromLLVMType};
+use crate::{FromLLVMType, TypeRef};
 
 #[derive(Copy, Clone)]
 pub struct FunctionType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
