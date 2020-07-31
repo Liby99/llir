@@ -1,9 +1,10 @@
 use llvm_sys::core::{
-  LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMTypeOf,
+  LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMTypeOf
 };
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::utils::string::string_of_value;
 use super::Block;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
@@ -15,8 +16,7 @@ pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Function<'ctx> {
   pub fn name(&self) -> String {
-    // TODO
-    String::from("Not implemented")
+    string_of_value(self.0)
   }
 
   pub fn is_declaration_only(&self) -> bool {
