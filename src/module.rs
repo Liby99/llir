@@ -1,8 +1,8 @@
 use llvm_sys::core::{LLVMGetFirstFunction, LLVMGetNextFunction};
-use llvm_sys::prelude::{LLVMValueRef, LLVMModuleRef};
+use llvm_sys::prelude::{LLVMModuleRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::{FromLLVMValue, value::Function};
+use super::{value::Function, FromLLVMValue};
 
 pub struct Module<'ctx>(LLVMModuleRef, PhantomData<&'ctx ()>);
 
@@ -15,7 +15,7 @@ impl<'ctx> Module<'ctx> {
     let first_fn_ptr = unsafe { LLVMGetFirstFunction(self.0) };
     ModuleFunctionIterator {
       curr_function: first_fn_ptr,
-      marker: PhantomData
+      marker: PhantomData,
     }
   }
 }

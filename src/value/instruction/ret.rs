@@ -1,3 +1,4 @@
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -9,13 +10,16 @@ pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ReturnInstruction<'ctx> {
   pub fn has_op(&self) -> bool {
-    // TODO
-    false
+    let num_operands = unsafe { LLVMGetNumOperands(self.0) };
+    num_operands != 0
   }
 
   pub fn op(&self) -> Option<Operand<'ctx>> {
-    // TODO
-    None
+    if self.has_op() {
+      Some(Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) }))
+    } else {
+      None
+    }
   }
 }
 

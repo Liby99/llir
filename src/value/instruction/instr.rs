@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNumOperands};
+use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNextInstruction, LLVMGetNumOperands};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
@@ -28,6 +28,16 @@ impl<'ctx> Instruction<'ctx> {
   pub fn parent_block(&self) -> Block<'ctx> {
     let value = unsafe { LLVMGetInstructionParent(self.value_ref()) };
     Block::from_llvm(value)
+  }
+
+  pub fn next_instruction(&self) -> Option<Self> {
+    let this_ptr = self.value_ref();
+    let next_ptr = unsafe { LLVMGetNextInstruction(this_ptr) };
+    if next_ptr.is_null() {
+      None
+    } else {
+      Some(Instruction::from_llvm(next_ptr))
+    }
   }
 }
 

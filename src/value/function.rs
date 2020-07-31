@@ -1,15 +1,22 @@
 use llvm_sys::core::{
-  LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMTypeOf
+  LLVMCountParams, LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMGetParam,
+  LLVMIsFunctionVarArg, LLVMTypeOf,
 };
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::utils::string::string_of_value;
 use super::Block;
+use crate::utils::string::string_of_value;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
-pub struct Param();
+pub struct Param<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> FromLLVMValue for Param<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    Self(ptr, PhantomData)
+  }
+}
 
 #[derive(Copy, Clone)]
 pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -41,14 +48,15 @@ impl<'ctx> Function<'ctx> {
     is_var != 0
   }
 
-  pub fn params(&self) -> Vec<Param> {
-    // TODO
-    vec![]
+  pub fn params(&self) -> Vec<Param<'ctx>> {
+    (0..self.num_params())
+      .map(|i| Param::from_llvm(unsafe { LLVMGetParam(self.0, i as u32) }))
+      .collect()
   }
 
   pub fn num_params(&self) -> usize {
-    // TODO
-    0
+    let num = unsafe { LLVMCountParams(self.0) };
+    num as usize
   }
 }
 

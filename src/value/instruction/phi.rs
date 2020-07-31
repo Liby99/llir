@@ -3,7 +3,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use crate::value::{Block, Operand};
-use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
+use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 pub struct Incoming<'ctx> {
   pub block: Block<'ctx>,
@@ -20,10 +20,12 @@ impl<'ctx> PhiInstruction<'ctx> {
   }
 
   pub fn incomings(&self) -> Vec<Incoming<'ctx>> {
-    (0..self.num_incomings()).map(|i| Incoming {
-      block: Block::from_llvm(unsafe { LLVMGetIncomingBlock(self.0, i as u32) }),
-      value: Operand::from_llvm(unsafe { LLVMGetIncomingValue(self.0, i as u32) }),
-    }).collect()
+    (0..self.num_incomings())
+      .map(|i| Incoming {
+        block: Block::from_llvm(unsafe { LLVMGetIncomingBlock(self.0, i as u32) }),
+        value: Operand::from_llvm(unsafe { LLVMGetIncomingValue(self.0, i as u32) }),
+      })
+      .collect()
   }
 }
 

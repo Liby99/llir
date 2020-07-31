@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock};
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -10,8 +10,7 @@ pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> SwitchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 
   pub fn default_block(&self) -> Block<'ctx> {
@@ -21,13 +20,19 @@ impl<'ctx> SwitchInstruction<'ctx> {
   }
 
   pub fn num_branches(&self) -> usize {
-    // TODO
-    0
+    let num_operands = unsafe { LLVMGetNumOperands(self.0) };
+    ((num_operands - 2) / 2) as usize
   }
 
   pub fn branches(&self) -> Vec<(Constant<'ctx>, Block<'ctx>)> {
-    // TODO
-    vec![]
+    (0..self.num_branches() as u32)
+      .map(|i| {
+        (
+          Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i * 2 + 2) }),
+          Block::from_llvm(unsafe { LLVMValueAsBasicBlock(LLVMGetOperand(self.0, i * 2 + 3)) }),
+        )
+      })
+      .collect()
   }
 }
 

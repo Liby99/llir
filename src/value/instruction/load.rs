@@ -1,3 +1,4 @@
+use llvm_sys::core::LLVMGetOperand;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -9,8 +10,7 @@ pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> LoadInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 }
 

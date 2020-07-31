@@ -1,4 +1,4 @@
-use llvm_sys::core::LLVMGetInstructionOpcode;
+use llvm_sys::core::{LLVMGetOperand, LLVMGetInstructionOpcode};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
@@ -51,8 +51,7 @@ impl<'ctx> UnaryInstruction<'ctx> {
   }
 
   pub fn op0(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }
 }
 

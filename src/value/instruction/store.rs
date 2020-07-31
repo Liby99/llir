@@ -1,3 +1,4 @@
+use llvm_sys::core::LLVMGetOperand;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -9,13 +10,11 @@ pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> StoreInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 1) })
   }
 
   pub fn value(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 }
 

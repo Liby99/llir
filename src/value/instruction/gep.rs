@@ -1,3 +1,4 @@
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -9,13 +10,18 @@ pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> GetElementPtrInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
+  }
+
+  pub fn num_indices(&self) -> usize {
+    let num = unsafe { LLVMGetNumOperands(self.0) };
+    num as usize - 1
   }
 
   pub fn indices(&self) -> Vec<Operand<'ctx>> {
-    // TODO
-    vec![]
+    (0..self.num_indices())
+      .map(|i| Operand::from_llvm(unsafe { LLVMGetOperand(self.0, i as u32) }))
+      .collect()
   }
 }
 

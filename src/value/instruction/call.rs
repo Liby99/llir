@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetNumOperands, LLVMIsAFunction, LLVMIsTailCall};
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsAFunction, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -19,8 +19,8 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 
   pub fn callee(&self) -> Operand<'ctx> {
-    // TODO
-    Operand::Metadata
+    let operand_id = self.num_arguments();
+    Operand::from_llvm(unsafe { LLVMGetOperand(self.0, operand_id as u32) })
   }
 
   pub fn num_arguments(&self) -> usize {
@@ -29,8 +29,9 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 
   pub fn args(&self) -> Vec<Operand<'ctx>> {
-    // TODO
-    vec![]
+    (0..self.num_arguments())
+      .map(|i| Operand::from_llvm(unsafe { LLVMGetOperand(self.0, i as u32) }))
+      .collect()
   }
 
   pub fn is_tail_call(&self) -> bool {
