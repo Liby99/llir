@@ -1,9 +1,34 @@
-use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock};
+use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock, LLVMGetNumOperands};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::super::{Block, Operand};
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
+
+#[derive(Debug, Copy, Clone)]
+pub enum BranchInstruction<'ctx> {
+  Conditional(ConditionalBranchInstruction<'ctx>),
+  Unconditional(UnconditionalBranchInstruction<'ctx>),
+}
+
+impl<'ctx> FromLLVMValue for BranchInstruction<'ctx> {
+  fn from_llvm(ptr: LLVMValueRef) -> Self {
+    match unsafe { LLVMGetNumOperands(ptr) } {
+      1 => Self::Unconditional(UnconditionalBranchInstruction::from_llvm(ptr)),
+      3 => Self::Conditional(ConditionalBranchInstruction::from_llvm(ptr)),
+      _ => panic!("Unknown branch variant"),
+    }
+  }
+}
+
+impl<'ctx> ValueRef for BranchInstruction<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    match self {
+      Self::Conditional(c) => c.value_ref(),
+      Self::Unconditional(u) => u.value_ref(),
+    }
+  }
+}
 
 #[derive(Debug, Copy, Clone)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

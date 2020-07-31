@@ -5,9 +5,10 @@ use llvm_sys::core::{
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::Block;
 use crate::utils::string_of_value;
-use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::types::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct Param<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
@@ -20,6 +21,8 @@ impl<'ctx> FromLLVMValue for Param<'ctx> {
 
 #[derive(Copy, Clone)]
 pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for Function<'ctx> {}
 
 impl<'ctx> Function<'ctx> {
   pub fn name(&self) -> String {
@@ -56,6 +59,11 @@ impl<'ctx> Function<'ctx> {
 
   pub fn num_params(&self) -> usize {
     unsafe { LLVMCountParams(self.0) as usize }
+  }
+
+  pub fn get_function_type(&self) -> FunctionType<'ctx> {
+    let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) };
+    FunctionType::from_llvm(type_ref)
   }
 }
 

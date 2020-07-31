@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNextInstruction, LLVMGetNumOperands};
+use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNextInstruction};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
@@ -12,8 +12,7 @@ pub enum Instruction<'ctx> {
   Binary(BinaryInstruction<'ctx>),
   Unary(UnaryInstruction<'ctx>),
   Call(CallInstruction<'ctx>),
-  ConditionalBranch(ConditionalBranchInstruction<'ctx>),
-  UnconditionalBranch(UnconditionalBranchInstruction<'ctx>),
+  Branch(BranchInstruction<'ctx>),
   Switch(SwitchInstruction<'ctx>),
   Return(ReturnInstruction<'ctx>),
   Alloca(AllocaInstruction<'ctx>),
@@ -45,11 +44,7 @@ impl<'ctx> FromLLVMValue for Instruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     match unsafe { LLVMGetInstructionOpcode(ptr) } {
       LLVMOpcode::LLVMCall => Instruction::Call(CallInstruction::from_llvm(ptr)),
-      LLVMOpcode::LLVMBr => match unsafe { LLVMGetNumOperands(ptr) } {
-        1 => Instruction::UnconditionalBranch(UnconditionalBranchInstruction::from_llvm(ptr)),
-        3 => Instruction::ConditionalBranch(ConditionalBranchInstruction::from_llvm(ptr)),
-        _ => panic!("Unknown branch variant"),
-      },
+      LLVMOpcode::LLVMBr => Instruction::Branch(BranchInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMSwitch => Instruction::Switch(SwitchInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMRet => Instruction::Return(ReturnInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMAlloca => Instruction::Alloca(AllocaInstruction::from_llvm(ptr)),
@@ -70,8 +65,7 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
       Instruction::Binary(bin_instr) => bin_instr.value_ref(),
       Instruction::Unary(una_instr) => una_instr.value_ref(),
       Instruction::Call(call_instr) => call_instr.value_ref(),
-      Instruction::ConditionalBranch(cbr_instr) => cbr_instr.value_ref(),
-      Instruction::UnconditionalBranch(ubr_instr) => ubr_instr.value_ref(),
+      Instruction::Branch(br_instr) => br_instr.value_ref(),
       Instruction::Switch(switch_instr) => switch_instr.value_ref(),
       Instruction::Return(ret_instr) => ret_instr.value_ref(),
       Instruction::Alloca(alc_instr) => alc_instr.value_ref(),

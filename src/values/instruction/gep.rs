@@ -2,6 +2,7 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::types::*;
 use crate::values::*;
 use crate::*;
 
@@ -23,6 +24,10 @@ impl<'ctx> GetElementPtrInstruction<'ctx> {
     (0..self.num_indices())
       .map(|i| Operand::from_llvm(unsafe { LLVMGetOperand(self.0, i as u32) }))
       .collect()
+  }
+
+  pub fn get_pointer_type(&self) -> PointerType<'ctx> {
+    PointerType::from_llvm(self.get_type().type_ref())
   }
 }
 

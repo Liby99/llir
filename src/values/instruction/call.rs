@@ -1,7 +1,8 @@
-use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall, LLVMGetElementType};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::types::*;
 use crate::values::*;
 use crate::*;
 
@@ -16,6 +17,10 @@ impl<'ctx> CallInstruction<'ctx> {
       Operand::Constant(Constant::Function(f)) => Some(f),
       _ => None,
     }
+  }
+
+  pub fn callee_function_type(&self) -> FunctionType<'ctx> {
+    FunctionType::from_llvm(unsafe { LLVMGetElementType(self.callee().get_type().type_ref()) })
   }
 
   pub fn callee(&self) -> Operand<'ctx> {

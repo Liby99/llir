@@ -2,10 +2,13 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use crate::utils::string_of_value;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub struct Global<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for Global<'ctx> {}
 
 impl<'ctx> Global<'ctx> {
   pub fn name(&self) -> String {

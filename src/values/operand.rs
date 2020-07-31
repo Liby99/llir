@@ -1,8 +1,8 @@
 use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction, LLVMIsAMDNode};
 use llvm_sys::prelude::LLVMValueRef;
 
-use super::*;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Copy, Clone)]
 pub enum Operand<'ctx> {
@@ -10,6 +10,8 @@ pub enum Operand<'ctx> {
   Constant(Constant<'ctx>),
   Metadata(Metadata<'ctx>), // TODO
 }
+
+impl<'ctx> HasType for Operand<'ctx> {}
 
 impl<'ctx> FromLLVMValue for Operand<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
