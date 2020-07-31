@@ -42,7 +42,7 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> UnconditionalBranchInstruction<'ctx> {
-  pub fn to_block(&self) -> Block<'ctx> {
+  pub fn target_block(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 0) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
     Block::from_llvm(block)
