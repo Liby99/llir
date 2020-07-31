@@ -10,7 +10,7 @@ pub struct Incoming<'ctx> {
   pub value: Operand<'ctx>,
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for PhiInstruction<'ctx> {}

@@ -4,11 +4,11 @@ use llvm_sys::prelude::LLVMValueRef;
 use crate::values::*;
 use crate::*;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Operand<'ctx> {
   Instruction(Instruction<'ctx>),
   Constant(Constant<'ctx>),
-  Metadata(Metadata<'ctx>), // TODO
+  Metadata(Metadata<'ctx>),
 }
 
 impl<'ctx> HasType for Operand<'ctx> {}

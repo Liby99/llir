@@ -4,22 +4,22 @@ pub trait ValueRef {
   fn value_ref(&self) -> LLVMValueRef;
 }
 
-pub trait BlockRef {
+pub(crate) trait BlockRef {
   fn block_ref(&self) -> LLVMBasicBlockRef;
 }
 
-pub trait TypeRef {
+pub(crate) trait TypeRef {
   fn type_ref(&self) -> LLVMTypeRef;
 }
 
-pub trait FromLLVMValue: Sized {
+pub(crate) trait FromLLVMValue: Sized {
   fn from_llvm(ptr: LLVMValueRef) -> Self;
 }
 
-pub trait FromLLVMBlock: Sized {
+pub(crate) trait FromLLVMBlock: Sized {
   fn from_llvm(ptr: LLVMBasicBlockRef) -> Self;
 }
 
-pub trait FromLLVMType: Sized {
+pub(crate) trait FromLLVMType: Sized {
   fn from_llvm(ptr: LLVMTypeRef) -> Self;
 }

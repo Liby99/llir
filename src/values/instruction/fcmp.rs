@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum FCmpPredicate {
   OEQ,
   OGE,
@@ -49,7 +49,7 @@ impl FCmpPredicate {
   }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for FCmpInstruction<'ctx> {}

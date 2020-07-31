@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum UnaryOpcode {
   FNeg,
   Trunc,
@@ -44,7 +44,7 @@ impl UnaryOpcode {
   }
 }
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for UnaryInstruction<'ctx> {}

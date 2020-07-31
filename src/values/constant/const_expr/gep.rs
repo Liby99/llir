@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct GetElementPtrConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> GetElementPtrConstExpr<'ctx> {

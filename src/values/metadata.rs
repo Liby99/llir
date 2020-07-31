@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 
 use crate::{FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Metadata<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMValue for Metadata<'ctx> {

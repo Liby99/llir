@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 
 use crate::*;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMValue for UnreachableInstruction<'ctx> {

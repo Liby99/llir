@@ -7,7 +7,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for ArrayConstant<'ctx> {}

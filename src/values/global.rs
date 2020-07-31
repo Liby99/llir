@@ -5,7 +5,7 @@ use crate::utils::string_of_value;
 use crate::values::*;
 use crate::*;
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct Global<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for Global<'ctx> {}

@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 use super::*;
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Type<'ctx> {
   Void(VoidType<'ctx>),
   Int(IntType<'ctx>),
@@ -52,7 +52,7 @@ impl<'ctx> TypeRef for Type<'ctx> {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct GenericType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMType for GenericType<'ctx> {

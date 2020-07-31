@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct VoidType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> TypeRef for VoidType<'ctx> {
