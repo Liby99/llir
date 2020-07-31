@@ -10,8 +10,7 @@ pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ArrayConstant<'ctx> {
   pub fn num_elements(&self) -> usize {
-    let n = unsafe { LLVMGetArrayLength(LLVMTypeOf(self.0)) };
-    n as usize
+    unsafe { LLVMGetArrayLength(LLVMTypeOf(self.0)) as usize }
   }
 
   pub fn elements(&self) -> Vec<Constant<'ctx>> {

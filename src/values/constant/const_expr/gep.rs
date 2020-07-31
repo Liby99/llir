@@ -15,8 +15,7 @@ impl<'ctx> GetElementPtrConstExpr<'ctx> {
   }
 
   pub fn num_indices(&self) -> usize {
-    let num = unsafe { LLVMGetNumOperands(self.0) };
-    num as usize - 1
+    (unsafe { LLVMGetNumOperands(self.0) as usize }) - 1
   }
 
   pub fn indices(&self) -> Vec<IntConstant<'ctx>> {

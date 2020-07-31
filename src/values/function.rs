@@ -55,8 +55,7 @@ impl<'ctx> Function<'ctx> {
   }
 
   pub fn num_params(&self) -> usize {
-    let num = unsafe { LLVMCountParams(self.0) };
-    num as usize
+    unsafe { LLVMCountParams(self.0) as usize }
   }
 }
 

@@ -10,8 +10,7 @@ pub struct VectorConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> VectorConstant<'ctx> {
   pub fn num_elements(&self) -> usize {
-    let n = unsafe { LLVMGetNumOperands(self.0) };
-    n as usize
+    unsafe { LLVMGetNumOperands(self.0) as usize }
   }
 
   pub fn elements(&self) -> Vec<Constant<'ctx>> {
