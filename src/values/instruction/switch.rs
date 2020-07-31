@@ -38,6 +38,12 @@ impl<'ctx> SwitchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for SwitchInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Switch(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for SwitchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)

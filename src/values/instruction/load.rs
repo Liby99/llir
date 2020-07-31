@@ -18,6 +18,12 @@ impl<'ctx> LoadInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for LoadInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Load(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for LoadInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     LoadInstruction(ptr, PhantomData)

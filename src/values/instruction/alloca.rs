@@ -12,6 +12,12 @@ impl<'ctx> HasType for AllocaInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for AllocaInstruction<'ctx> {}
 
+impl<'ctx> AsInstruction<'ctx> for AllocaInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Alloca(*self)
+  }
+}
+
 impl<'ctx> AllocaInstruction<'ctx> {
   pub fn get_pointer_type(&self) -> PointerType<'ctx> {
     PointerType::from_llvm(self.get_type().type_ref())

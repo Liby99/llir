@@ -58,6 +58,12 @@ impl<'ctx> ICmpInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for ICmpInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::ICmp(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for ICmpInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let ll_pred = unsafe { LLVMGetICmpPredicate(ptr) };

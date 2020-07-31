@@ -70,6 +70,12 @@ impl<'ctx> FCmpInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for FCmpInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::FCmp(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for FCmpInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let ll_pred = unsafe { LLVMGetFCmpPredicate(ptr) };

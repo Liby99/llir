@@ -32,6 +32,12 @@ impl<'ctx> PhiInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for PhiInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Phi(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for PhiInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)

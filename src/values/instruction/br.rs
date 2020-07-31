@@ -13,6 +13,12 @@ pub enum BranchInstruction<'ctx> {
 
 impl<'ctx> InstructionDebugLoc for BranchInstruction<'ctx> {}
 
+impl<'ctx> AsInstruction<'ctx> for BranchInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Branch(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for BranchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     match unsafe { LLVMGetNumOperands(ptr) } {
@@ -55,6 +61,12 @@ impl<'ctx> ConditionalBranchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for ConditionalBranchInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Branch(BranchInstruction::Conditional(*self))
+  }
+}
+
 impl<'ctx> FromLLVMValue for ConditionalBranchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     ConditionalBranchInstruction(ptr, PhantomData)
@@ -77,6 +89,12 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 0) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
     Block::from_llvm(block)
+  }
+}
+
+impl<'ctx> AsInstruction<'ctx> for UnconditionalBranchInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Branch(BranchInstruction::Unconditional(*self))
   }
 }
 

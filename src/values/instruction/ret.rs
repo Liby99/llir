@@ -24,6 +24,12 @@ impl<'ctx> ReturnInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for ReturnInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Return(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for ReturnInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)

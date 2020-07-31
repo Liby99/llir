@@ -46,6 +46,12 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for CallInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Call(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for CallInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     CallInstruction(ptr, PhantomData)

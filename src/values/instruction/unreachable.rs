@@ -9,6 +9,12 @@ pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 
+impl<'ctx> AsInstruction<'ctx> for UnreachableInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Unreachable(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for UnreachableInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     UnreachableInstruction(ptr, PhantomData)

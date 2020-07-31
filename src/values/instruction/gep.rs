@@ -33,6 +33,12 @@ impl<'ctx> GetElementPtrInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for GetElementPtrInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::GetElementPtr(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for GetElementPtrInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     GetElementPtrInstruction(ptr, PhantomData)

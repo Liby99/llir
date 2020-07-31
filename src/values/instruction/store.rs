@@ -20,6 +20,12 @@ impl<'ctx> StoreInstruction<'ctx> {
   }
 }
 
+impl<'ctx> AsInstruction<'ctx> for StoreInstruction<'ctx> {
+  fn as_instruction(&self) -> Instruction<'ctx> {
+    Instruction::Store(*self)
+  }
+}
+
 impl<'ctx> FromLLVMValue for StoreInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     StoreInstruction(ptr, PhantomData)

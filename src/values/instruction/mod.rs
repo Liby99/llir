@@ -28,3 +28,5 @@ mod unary;
 pub use unary::*;
 mod unreachable;
 pub use unreachable::*;
+mod traits;
+pub use traits::*;
