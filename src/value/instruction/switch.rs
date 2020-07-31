@@ -3,7 +3,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::super::{Block, Constant, Operand};
-use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
+use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

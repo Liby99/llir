@@ -1,4 +1,4 @@
-use llvm_sys::prelude::{LLVMValueRef, LLVMBasicBlockRef, LLVMTypeRef};
+use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMTypeRef, LLVMValueRef};
 
 pub(crate) trait ValueRef {
   fn value_ref(&self) -> LLVMValueRef;

@@ -3,9 +3,9 @@ use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::{Block};
-use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
+use super::super::Block;
 use super::*;
+use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum Instruction<'ctx> {

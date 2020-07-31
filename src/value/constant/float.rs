@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::{ValueRef, FromLLVMValue};
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct FloatConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

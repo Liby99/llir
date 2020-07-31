@@ -1,9 +1,11 @@
-use llvm_sys::core::{LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMGetElementType, LLVMTypeOf};
+use llvm_sys::core::{
+  LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMIsFunctionVarArg, LLVMTypeOf,
+};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::Block;
-use crate::{FromLLVMValue, FromLLVMBlock, ValueRef};
+use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct Param();

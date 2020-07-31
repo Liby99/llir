@@ -1,7 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Operand};
+use super::super::Operand;
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]

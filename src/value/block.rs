@@ -3,7 +3,7 @@ use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
 use super::{Function, Instruction};
-use crate::{FromLLVMValue, FromLLVMBlock};
+use crate::{FromLLVMBlock, FromLLVMValue};
 
 #[derive(Copy, Clone)]
 pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);

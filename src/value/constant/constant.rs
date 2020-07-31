@@ -1,9 +1,9 @@
+use llvm_sys::core::LLVMGetValueKind;
 use llvm_sys::prelude::LLVMValueRef;
-use llvm_sys::core::{LLVMGetValueKind};
 use llvm_sys::LLVMValueKind;
 
-use crate::{FromLLVMValue, ValueRef};
 use super::*;
+use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub enum Constant<'ctx> {
@@ -29,7 +29,7 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
       LLVMConstantIntValueKind => Self::Int(IntConstant::from_llvm(ptr)),
       LLVMConstantFPValueKind => Self::Float(FloatConstant::from_llvm(ptr)),
       LLVMConstantPointerNullValueKind => Self::Null(NullConstant::from_llvm(ptr)),
-      _ => panic!("Unsupported value kind")
+      _ => panic!("Unsupported value kind"),
     }
   }
 }
