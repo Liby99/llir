@@ -7,7 +7,7 @@ use std::marker::PhantomData;
 use super::{Function, Instruction};
 use crate::{FromLLVMBlock, FromLLVMValue};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Block<'ctx> {

@@ -6,7 +6,7 @@ use super::Type;
 use crate::utils::string_of_type;
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum StructType<'ctx> {
   NamedStruct(NamedStructType<'ctx>),
   LiteralStruct(LiteralStructType<'ctx>),
@@ -54,7 +54,7 @@ impl<'ctx> FromLLVMType for StructType<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LiteralStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> LiteralStructType<'ctx> {
@@ -79,7 +79,7 @@ impl<'ctx> FromLLVMType for LiteralStructType<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct NamedStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> NamedStructType<'ctx> {

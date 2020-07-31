@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use super::Type;
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct VectorType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> VectorType<'ctx> {

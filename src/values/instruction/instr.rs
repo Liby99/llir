@@ -9,7 +9,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Instruction<'ctx> {
   Binary(BinaryInstruction<'ctx>),
   Unary(UnaryInstruction<'ctx>),
@@ -109,7 +109,7 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for GenericInstruction<'ctx> {}

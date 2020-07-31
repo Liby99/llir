@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 #[allow(non_camel_case_types)]
 pub enum FloatTypeKind {
   Half,
@@ -32,7 +32,7 @@ impl FloatTypeKind {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FloatType<'ctx>(FloatTypeKind, LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FloatType<'ctx> {

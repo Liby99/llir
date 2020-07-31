@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 
 use crate::{FromLLVMType, TypeRef};
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> IntType<'ctx> {

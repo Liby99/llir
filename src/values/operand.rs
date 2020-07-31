@@ -4,7 +4,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Operand<'ctx> {
   Instruction(Instruction<'ctx>),
   Constant(Constant<'ctx>),

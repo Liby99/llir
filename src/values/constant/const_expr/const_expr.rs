@@ -7,7 +7,7 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum ConstExpr<'ctx> {
   Binary(BinaryConstExpr<'ctx>),
   Unary(UnaryConstExpr<'ctx>),
@@ -44,7 +44,7 @@ impl<'ctx> ValueRef for ConstExpr<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMValue for GenericConstExpr<'ctx> {

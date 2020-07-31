@@ -7,7 +7,7 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Constant<'ctx> {
   Int(IntConstant<'ctx>),
   Float(FloatConstant<'ctx>),
@@ -58,7 +58,7 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMValue for GenericConstant<'ctx> {

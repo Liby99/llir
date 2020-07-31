@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::{Constant, ICmpPredicate};
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpConstExpr<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ICmpConstExpr<'ctx> {

@@ -10,7 +10,7 @@ use crate::utils::string_of_value;
 use crate::values::*;
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Param<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FromLLVMValue for Param<'ctx> {
@@ -19,7 +19,7 @@ impl<'ctx> FromLLVMValue for Param<'ctx> {
   }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Function<'ctx> {
   func: LLVMValueRef,
   marker: PhantomData<&'ctx ()>,

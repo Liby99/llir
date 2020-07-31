@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::{BinaryOpcode, Constant};
 use crate::*;
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryConstExpr<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> BinaryConstExpr<'ctx> {
