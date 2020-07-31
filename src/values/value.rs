@@ -13,6 +13,10 @@ impl<'ctx> GenericValue<'ctx> {
 
   pub fn name(&self) -> Option<String> {
     let s = string_of_value(self.0);
-    if s.len() == 0 { None } else { Some(s) }
+    if s.len() == 0 {
+      None
+    } else {
+      Some(s)
+    }
   }
 }

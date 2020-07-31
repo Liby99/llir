@@ -18,10 +18,16 @@ impl<'ctx> GetElementPtrConstExpr<'ctx> {
     (unsafe { LLVMGetNumOperands(self.0) as usize }) - 1
   }
 
-  pub fn indices(&self) -> Vec<IntConstant<'ctx>> {
-    (0..self.num_indices())
+  pub fn indices(&self) -> Vec<Constant<'ctx>> {
+    (0..self.num_indices() as u32)
+      .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
+      .collect()
+  }
+
+  pub fn int_indices(&self) -> Vec<IntConstant<'ctx>> {
+    (0..self.num_indices() as u32)
       .map(|i| {
-        let operand = unsafe { LLVMGetOperand(self.0, i as u32) };
+        let operand = unsafe { LLVMGetOperand(self.0, i) };
         assert_eq!(
           unsafe { LLVMGetValueKind(operand) },
           LLVMValueKind::LLVMConstantIntValueKind
