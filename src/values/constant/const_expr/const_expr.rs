@@ -3,7 +3,7 @@ use llvm_sys::core::{LLVMGetConstOpcode};
 use llvm_sys::LLVMOpcode;
 
 use super::*;
-use crate::value::*;
+use crate::values::*;
 use crate::{ValueRef, FromLLVMValue};
 
 #[derive(Copy, Clone)]

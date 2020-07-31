@@ -1,8 +1,8 @@
-use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsAFunction, LLVMIsTailCall};
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Function, Operand};
+use super::super::{Function, Operand, Constant};
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Debug, Copy, Clone)]
@@ -10,11 +10,9 @@ pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> CallInstruction<'ctx> {
   pub fn callee_function(&self) -> Option<Function<'ctx>> {
-    let callee = self.callee();
-    if unsafe { !LLVMIsAFunction(callee.value_ref()).is_null() } {
-      Some(Function::from_llvm(callee.value_ref()))
-    } else {
-      None
+    match self.callee() {
+      Operand::Constant(Constant::Function(f)) => Some(f),
+      _ => None
     }
   }
 

@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMCountIncoming, LLVMGetIncomingBlock, LLVMGetIncomingVal
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::value::{Block, Operand};
+use crate::values::{Block, Operand};
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 pub struct Incoming<'ctx> {

@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetFirstFunction, LLVMGetNextFunction};
 use llvm_sys::prelude::{LLVMModuleRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::{value::Function, FromLLVMValue};
+use super::{values::Function, FromLLVMValue};
 
 pub struct Module<'ctx>(LLVMModuleRef, PhantomData<&'ctx ()>);
 

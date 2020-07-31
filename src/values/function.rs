@@ -6,7 +6,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use super::Block;
-use crate::utils::string::string_of_value;
+use crate::utils::string_of_value;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]

@@ -1,9 +1,10 @@
-use llvm_sys::core::{LLVMGetValueKind, LLVMIsAGlobalValue};
+use llvm_sys::core::{LLVMGetValueKind};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;
 
 use super::*;
+use crate::values::{Global, Function};
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
@@ -16,6 +17,7 @@ pub enum Constant<'ctx> {
   Vector(VectorConstant<'ctx>),
   Undef(UndefConstant<'ctx>),
   Global(Global<'ctx>),
+  Function(Function<'ctx>),
   ConstExpr(ConstExpr<'ctx>),
   Other(GenericConstant<'ctx>),
 }
@@ -30,6 +32,7 @@ impl<'ctx> ValueRef for Constant<'ctx> {
       Self::Array(ac) => ac.value_ref(),
       Self::Vector(vc) => vc.value_ref(),
       Self::Undef(uc) => uc.value_ref(),
+      Self::Function(fc) => fc.value_ref(),
       Self::Global(gc) => gc.value_ref(),
       Self::ConstExpr(cec) => cec.value_ref(),
       Self::Other(oc) => oc.value_ref(),
@@ -51,7 +54,8 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
       LLVMConstantDataVectorValueKind => Self::Vector(VectorConstant::from_llvm(ptr)),
       LLVMUndefValueValueKind => Self::Undef(UndefConstant::from_llvm(ptr)),
       LLVMConstantExprValueKind => Self::ConstExpr(ConstExpr::from_llvm(ptr)),
-      _ if unsafe { !LLVMIsAGlobalValue(ptr).is_null() } => Self::Global(Global::from_llvm(ptr)),
+      LLVMFunctionValueKind => Self::Function(Function::from_llvm(ptr)),
+      LLVMGlobalAliasValueKind => Self::Global(Global::from_llvm(ptr)),
       _ => Self::Other(GenericConstant::from_llvm(ptr)),
     }
   }
