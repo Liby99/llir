@@ -1,11 +1,13 @@
-use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNextInstruction};
+use llvm_sys::core::{
+  LLVMGetInstructionOpcode, LLVMGetInstructionParent, LLVMGetNextInstruction, LLVMGetNumOperands, LLVMGetOperand,
+  LLVMGetPreviousInstruction,
+};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
 
-use super::super::Block;
-use super::*;
-use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone)]
 pub enum Instruction<'ctx> {
@@ -29,6 +31,16 @@ impl<'ctx> Instruction<'ctx> {
     Block::from_llvm(value)
   }
 
+  pub fn prev_instruction(&self) -> Option<Self> {
+    let this_ptr = self.value_ref();
+    let prev_ptr = unsafe { LLVMGetPreviousInstruction(this_ptr) };
+    if prev_ptr.is_null() {
+      None
+    } else {
+      Some(Instruction::from_llvm(prev_ptr))
+    }
+  }
+
   pub fn next_instruction(&self) -> Option<Self> {
     let this_ptr = self.value_ref();
     let next_ptr = unsafe { LLVMGetNextInstruction(this_ptr) };
@@ -36,6 +48,20 @@ impl<'ctx> Instruction<'ctx> {
       None
     } else {
       Some(Instruction::from_llvm(next_ptr))
+    }
+  }
+
+  pub fn num_operands(&self) -> usize {
+    unsafe { LLVMGetNumOperands(self.value_ref()) as usize }
+  }
+
+  pub fn operand(&self, index: usize) -> Option<Operand<'ctx>> {
+    if index < self.num_operands() {
+      Some(Operand::from_llvm(unsafe {
+        LLVMGetOperand(self.value_ref(), index as u32)
+      }))
+    } else {
+      None
     }
   }
 }

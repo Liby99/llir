@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetOperand, LLVMValueAsBasicBlock, LLVMGetNumOperands};
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 

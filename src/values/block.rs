@@ -1,4 +1,6 @@
-use llvm_sys::core::{LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetNextInstruction};
+use llvm_sys::core::{
+  LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetLastInstruction, LLVMGetNextInstruction,
+};
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
@@ -30,6 +32,24 @@ impl<'ctx> Block<'ctx> {
         curr_instr: Some(first_instr),
         marker: PhantomData,
       }
+    }
+  }
+
+  pub fn first_instruction(&self) -> Option<Instruction<'ctx>> {
+    let first_instr = unsafe { LLVMGetFirstInstruction(self.0) };
+    if first_instr.is_null() {
+      None
+    } else {
+      Some(Instruction::from_llvm(first_instr))
+    }
+  }
+
+  pub fn last_instruction(&self) -> Option<Instruction<'ctx>> {
+    let last_instr = unsafe { LLVMGetLastInstruction(self.0) };
+    if last_instr.is_null() {
+      None
+    } else {
+      Some(Instruction::from_llvm(last_instr))
     }
   }
 }

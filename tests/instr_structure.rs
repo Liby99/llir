@@ -6,6 +6,7 @@ fn test_no_crash<'ctx>(module: &llir::Module<'ctx>) {
     for block in func.iter_blocks() {
       for instr in block.iter_instructions() {
         use llir::values::Instruction::*;
+        use llir::values::*;
         match instr {
           Binary(bin) => {
             let _ = bin.opcode();
@@ -23,14 +24,16 @@ fn test_no_crash<'ctx>(module: &llir::Module<'ctx>) {
             let _ = call.args();
             let _ = call.is_tail_call();
           }
-          ConditionalBranch(cond_br) => {
-            let _ = cond_br.condition();
-            let _ = cond_br.then_block();
-            let _ = cond_br.else_block();
-          }
-          UnconditionalBranch(uncond_br) => {
-            let _ = uncond_br.target_block();
-          }
+          Branch(br) => match br {
+            BranchInstruction::Conditional(cond_br) => {
+              let _ = cond_br.condition();
+              let _ = cond_br.then_block();
+              let _ = cond_br.else_block();
+            }
+            BranchInstruction::Unconditional(uncond_br) => {
+              let _ = uncond_br.target_block();
+            }
+          },
           Switch(switch) => {
             let _ = switch.condition();
             let _ = switch.default_block();

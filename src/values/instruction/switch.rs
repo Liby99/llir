@@ -20,8 +20,8 @@ impl<'ctx> SwitchInstruction<'ctx> {
   }
 
   pub fn num_branches(&self) -> usize {
-    let num_operands = unsafe { LLVMGetNumOperands(self.0) };
-    ((num_operands - 2) / 2) as usize
+    let num_operands = unsafe { LLVMGetNumOperands(self.0) as usize };
+    (num_operands - 2) / 2
   }
 
   pub fn branches(&self) -> Vec<(Constant<'ctx>, Block<'ctx>)> {

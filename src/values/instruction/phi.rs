@@ -17,8 +17,7 @@ impl<'ctx> HasType for PhiInstruction<'ctx> {}
 
 impl<'ctx> PhiInstruction<'ctx> {
   pub fn num_incomings(&self) -> usize {
-    let num_incomings = unsafe { LLVMCountIncoming(self.0) };
-    num_incomings as usize
+    unsafe { LLVMCountIncoming(self.0) as usize }
   }
 
   pub fn incomings(&self) -> Vec<Incoming<'ctx>> {

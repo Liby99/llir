@@ -1,6 +1,6 @@
 use llvm_sys::core::{LLVMGetFCmpPredicate, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
-use llvm_sys::{LLVMRealPredicate};
+use llvm_sys::LLVMRealPredicate;
 use std::marker::PhantomData;
 
 use crate::values::*;

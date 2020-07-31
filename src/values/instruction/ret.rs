@@ -10,8 +10,7 @@ pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ReturnInstruction<'ctx> {
   pub fn has_op(&self) -> bool {
-    let num_operands = unsafe { LLVMGetNumOperands(self.0) };
-    num_operands != 0
+    unsafe { LLVMGetNumOperands(self.0) != 0 }
   }
 
   pub fn op(&self) -> Option<Operand<'ctx>> {

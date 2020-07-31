@@ -1,13 +1,13 @@
 use llvm_sys::core::{
-  LLVMCountParams, LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetNextBasicBlock, LLVMGetParam,
-  LLVMIsFunctionVarArg, LLVMTypeOf,
+  LLVMCountParams, LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetLastBasicBlock, LLVMGetNextBasicBlock,
+  LLVMGetParam, LLVMTypeOf,
 };
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::types::*;
 use crate::utils::string_of_value;
 use crate::values::*;
-use crate::types::*;
 use crate::*;
 
 #[derive(Copy, Clone)]
@@ -45,10 +45,26 @@ impl<'ctx> Function<'ctx> {
     }
   }
 
+  pub fn first_block(&self) -> Option<Block<'ctx>> {
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
+    if first_block.is_null() {
+      None
+    } else {
+      Some(Block::from_llvm(first_block))
+    }
+  }
+
+  pub fn last_block(&self) -> Option<Block<'ctx>> {
+    let last_block = unsafe { LLVMGetLastBasicBlock(self.0) };
+    if last_block.is_null() {
+      None
+    } else {
+      Some(Block::from_llvm(last_block))
+    }
+  }
+
   pub fn is_var_arg(&self) -> bool {
-    let functy = unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) };
-    let is_var = unsafe { LLVMIsFunctionVarArg(functy) };
-    is_var != 0
+    self.get_function_type().is_var_arg()
   }
 
   pub fn params(&self) -> Vec<Param<'ctx>> {

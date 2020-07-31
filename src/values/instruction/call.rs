@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall, LLVMGetElementType};
+use llvm_sys::core::{LLVMGetElementType, LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
