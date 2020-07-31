@@ -1,6 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Value<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Value<'ctx> {
