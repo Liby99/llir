@@ -1,12 +1,22 @@
-use llvm_sys::core::LLVMGetConstOpcode;
+use llvm_sys::core::{LLVMGetConstOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::UnaryOpcode;
+use crate::values::{Constant, UnaryOpcode};
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct UnaryConstExpr<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> UnaryConstExpr<'ctx> {
+  pub fn opcode(&self) -> UnaryOpcode {
+    self.0
+  }
+
+  pub fn op0(&self) -> Constant<'ctx> {
+    Constant::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
+  }
+}
 
 impl<'ctx> FromLLVMValue for UnaryConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

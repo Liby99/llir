@@ -12,7 +12,7 @@ impl<'ctx> FromLLVMValue for StructConstant<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef  for StructConstant<'ctx> {
+impl<'ctx> ValueRef for StructConstant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }

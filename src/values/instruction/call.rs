@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Function, Operand, Constant};
+use super::super::{Constant, Function, Operand};
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Debug, Copy, Clone)]
@@ -12,7 +12,7 @@ impl<'ctx> CallInstruction<'ctx> {
   pub fn callee_function(&self) -> Option<Function<'ctx>> {
     match self.callee() {
       Operand::Constant(Constant::Function(f)) => Some(f),
-      _ => None
+      _ => None,
     }
   }
 

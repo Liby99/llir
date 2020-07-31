@@ -22,7 +22,7 @@ fn test_no_crash<'ctx>(module: &llvm::Module<'ctx>) {
             let _ = call.num_arguments();
             let _ = call.args();
             let _ = call.is_tail_call();
-          },
+          }
           ConditionalBranch(cond_br) => {
             let _ = cond_br.condition();
             let _ = cond_br.then_block();
@@ -37,7 +37,7 @@ fn test_no_crash<'ctx>(module: &llvm::Module<'ctx>) {
             let _ = switch.num_branches();
             let _ = switch.branches();
           }
-          _ => ()
+          _ => (),
         }
       }
     }

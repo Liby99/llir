@@ -12,7 +12,7 @@ impl<'ctx> FromLLVMValue for VectorConstant<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef  for VectorConstant<'ctx> {
+impl<'ctx> ValueRef for VectorConstant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }

@@ -12,7 +12,7 @@ impl<'ctx> FromLLVMValue for UndefConstant<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef  for UndefConstant<'ctx> {
+impl<'ctx> ValueRef for UndefConstant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }

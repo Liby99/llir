@@ -1,10 +1,37 @@
+use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMGetValueKind};
 use llvm_sys::prelude::LLVMValueRef;
+use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;
 
+use crate::values::{Constant, IntConstant};
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct GetElementPtrConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> GetElementPtrConstExpr<'ctx> {
+  pub fn location(&self) -> Constant<'ctx> {
+    Constant::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
+  }
+
+  pub fn num_indices(&self) -> usize {
+    let num = unsafe { LLVMGetNumOperands(self.0) };
+    num as usize - 1
+  }
+
+  pub fn indices(&self) -> Vec<IntConstant<'ctx>> {
+    (0..self.num_indices())
+      .map(|i| {
+        let operand = unsafe { LLVMGetOperand(self.0, i as u32) };
+        assert_eq!(
+          unsafe { LLVMGetValueKind(operand) },
+          LLVMValueKind::LLVMConstantIntValueKind
+        );
+        IntConstant::from_llvm(operand)
+      })
+      .collect()
+  }
+}
 
 impl<'ctx> FromLLVMValue for GetElementPtrConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

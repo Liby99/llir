@@ -19,7 +19,7 @@ impl<'ctx> FromLLVMValue for Global<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef  for Global<'ctx> {
+impl<'ctx> ValueRef for Global<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }

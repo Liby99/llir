@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetOperand, LLVMGetInstructionOpcode};
+use llvm_sys::core::{LLVMGetInstructionOpcode, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
 use std::marker::PhantomData;
