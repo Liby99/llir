@@ -63,6 +63,8 @@ impl<'ctx> HasType for BinaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for BinaryInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for BinaryInstruction<'ctx> {}
+
 impl<'ctx> AsInstruction<'ctx> for BinaryInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Binary(*self)

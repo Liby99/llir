@@ -13,6 +13,8 @@ pub enum BranchInstruction<'ctx> {
 
 impl<'ctx> InstructionDebugLoc for BranchInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for BranchInstruction<'ctx> {}
+
 impl<'ctx> AsInstruction<'ctx> for BranchInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Branch(*self)
@@ -42,6 +44,8 @@ impl<'ctx> ValueRef for BranchInstruction<'ctx> {
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for ConditionalBranchInstruction<'ctx> {}
+
+impl<'ctx> InstructionTrait<'ctx> for ConditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> ConditionalBranchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {
@@ -83,6 +87,8 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for UnconditionalBranchInstruction<'ctx> {}
+
+impl<'ctx> InstructionTrait<'ctx> for UnconditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   pub fn target_block(&self) -> Block<'ctx> {

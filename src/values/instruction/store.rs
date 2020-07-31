@@ -10,6 +10,8 @@ pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for StoreInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for StoreInstruction<'ctx> {}
+
 impl<'ctx> StoreInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 1) })

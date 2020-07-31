@@ -13,6 +13,8 @@ impl<'ctx> HasType for CallInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for CallInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for CallInstruction<'ctx> {}
+
 impl<'ctx> CallInstruction<'ctx> {
   pub fn callee_function(&self) -> Option<Function<'ctx>> {
     match self.callee() {

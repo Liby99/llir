@@ -56,6 +56,8 @@ impl<'ctx> HasType for FCmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for FCmpInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for FCmpInstruction<'ctx> {}
+
 impl<'ctx> FCmpInstruction<'ctx> {
   pub fn predicate(&self) -> FCmpPredicate {
     self.0

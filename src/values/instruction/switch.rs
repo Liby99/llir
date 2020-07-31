@@ -10,6 +10,8 @@ pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for SwitchInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for SwitchInstruction<'ctx> {}
+
 impl<'ctx> SwitchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })

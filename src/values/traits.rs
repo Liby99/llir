@@ -1,9 +1,9 @@
 use llvm_sys::core::{LLVMGetDebugLocColumn, LLVMGetDebugLocLine, LLVMTypeOf};
 
+use super::*;
 use crate::types::*;
 use crate::utils::*;
 use crate::*;
-use super::*;
 
 pub trait HasType {}
 
@@ -46,9 +46,12 @@ where
   V: InstructionDebugLoc + ValueRef,
 {
   fn filename(&self) -> Option<String> {
-    match (string_of_debugloc_directory(self.value_ref()), string_of_debugloc_filename(self.value_ref())) {
+    match (
+      string_of_debugloc_directory(self.value_ref()),
+      string_of_debugloc_filename(self.value_ref()),
+    ) {
       (Some(dir), Some(file)) => Some(format!("{}/{}", dir, file)),
-      _ => None
+      _ => None,
     }
   }
 
@@ -65,7 +68,10 @@ pub trait ValueTrait<'ctx> {
   fn value(&self) -> GenericValue<'ctx>;
 }
 
-impl<'ctx, V> ValueTrait<'ctx> for V where V: ValueRef {
+impl<'ctx, V> ValueTrait<'ctx> for V
+where
+  V: ValueRef,
+{
   fn value(&self) -> GenericValue<'ctx> {
     GenericValue::new(self.value_ref())
   }

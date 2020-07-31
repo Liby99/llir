@@ -13,6 +13,8 @@ impl<'ctx> HasType for GetElementPtrInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for GetElementPtrInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for GetElementPtrInstruction<'ctx> {}
+
 impl<'ctx> GetElementPtrInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })

@@ -112,14 +112,18 @@ impl<'ctx> DebugLoc for Function<'ctx> {
           }
         }
         None
-      },
-      _ => None
+      }
+      _ => None,
     }
   }
 
-  fn line(&self) -> Option<u32> { None }
+  fn line(&self) -> Option<u32> {
+    None
+  }
 
-  fn col(&self) -> Option<u32> { None }
+  fn col(&self) -> Option<u32> {
+    None
+  }
 }
 
 pub struct FunctionBlockIterator<'ctx> {

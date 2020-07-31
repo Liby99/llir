@@ -9,6 +9,8 @@ pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for UnreachableInstruction<'ctx> {}
+
 impl<'ctx> AsInstruction<'ctx> for UnreachableInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Unreachable(*self)

@@ -10,6 +10,8 @@ pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> InstructionDebugLoc for ReturnInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for ReturnInstruction<'ctx> {}
+
 impl<'ctx> ReturnInstruction<'ctx> {
   pub fn has_op(&self) -> bool {
     unsafe { LLVMGetNumOperands(self.0) != 0 }

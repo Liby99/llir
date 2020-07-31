@@ -51,6 +51,8 @@ impl<'ctx> HasType for UnaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for UnaryInstruction<'ctx> {}
 
+impl<'ctx> InstructionTrait<'ctx> for UnaryInstruction<'ctx> {}
+
 impl<'ctx> UnaryInstruction<'ctx> {
   pub fn opcode(&self) -> UnaryOpcode {
     self.0
