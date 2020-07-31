@@ -2,11 +2,13 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugLoc for ReturnInstruction<'ctx> {}
 
 impl<'ctx> ReturnInstruction<'ctx> {
   pub fn has_op(&self) -> bool {

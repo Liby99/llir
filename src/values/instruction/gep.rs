@@ -11,6 +11,8 @@ pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for GetElementPtrInstruction<'ctx> {}
 
+impl<'ctx> HasDebugLoc for GetElementPtrInstruction<'ctx> {}
+
 impl<'ctx> GetElementPtrInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })

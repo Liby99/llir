@@ -2,11 +2,13 @@ use llvm_sys::core::LLVMGetOperand;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::Operand;
-use crate::{FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugLoc for StoreInstruction<'ctx> {}
 
 impl<'ctx> StoreInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {

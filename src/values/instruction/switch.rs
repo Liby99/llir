@@ -2,11 +2,13 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Block, Constant, Operand};
-use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugLoc for SwitchInstruction<'ctx> {}
 
 impl<'ctx> SwitchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {

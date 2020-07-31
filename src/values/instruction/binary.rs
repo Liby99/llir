@@ -7,11 +7,6 @@ use crate::values::*;
 use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
-
-impl<'ctx> HasType for BinaryInstruction<'ctx> {}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum BinaryOpcode {
   // Arithmatics
   Add,
@@ -60,6 +55,13 @@ impl BinaryOpcode {
     }
   }
 }
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasType for BinaryInstruction<'ctx> {}
+
+impl<'ctx> HasDebugLoc for BinaryInstruction<'ctx> {}
 
 impl<'ctx> BinaryInstruction<'ctx> {
   pub fn opcode(&self) -> BinaryOpcode {

@@ -18,3 +18,23 @@ pub fn string_of_type(ptr: LLVMTypeRef) -> String {
   let ptr = unsafe { LLVMGetStructName(ptr) };
   unsafe { raw_to_string(ptr) }
 }
+
+pub fn string_of_debugloc_filename(ptr: LLVMValueRef) -> Option<String> {
+  let mut len = 0;
+  let ptr = unsafe { LLVMGetDebugLocFilename(ptr, &mut len) };
+  if ptr.is_null() {
+    None
+  } else {
+    Some(unsafe { raw_to_string(ptr) })
+  }
+}
+
+pub fn string_of_debugloc_directory(ptr: LLVMValueRef) -> Option<String> {
+  let mut len = 0;
+  let ptr = unsafe { LLVMGetDebugLocDirectory(ptr, &mut len) };
+  if ptr.is_null() {
+    None
+  } else {
+    Some(unsafe { raw_to_string(ptr) })
+  }
+}

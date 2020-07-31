@@ -54,6 +54,8 @@ pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx 
 
 impl<'ctx> HasType for FCmpInstruction<'ctx> {}
 
+impl<'ctx> HasDebugLoc for FCmpInstruction<'ctx> {}
+
 impl<'ctx> FCmpInstruction<'ctx> {
   pub fn predicate(&self) -> FCmpPredicate {
     self.0

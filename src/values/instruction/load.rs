@@ -10,6 +10,8 @@ pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for LoadInstruction<'ctx> {}
 
+impl<'ctx> HasDebugLoc for LoadInstruction<'ctx> {}
+
 impl<'ctx> LoadInstruction<'ctx> {
   pub fn location(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })

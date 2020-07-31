@@ -15,6 +15,8 @@ pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for PhiInstruction<'ctx> {}
 
+impl<'ctx> HasDebugLoc for PhiInstruction<'ctx> {}
+
 impl<'ctx> PhiInstruction<'ctx> {
   pub fn num_incomings(&self) -> usize {
     unsafe { LLVMCountIncoming(self.0) as usize }

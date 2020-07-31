@@ -2,7 +2,7 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use super::super::{Block, Operand};
+use crate::values::*;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -10,6 +10,8 @@ pub enum BranchInstruction<'ctx> {
   Conditional(ConditionalBranchInstruction<'ctx>),
   Unconditional(UnconditionalBranchInstruction<'ctx>),
 }
+
+impl<'ctx> HasDebugLoc for BranchInstruction<'ctx> {}
 
 impl<'ctx> FromLLVMValue for BranchInstruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
@@ -32,6 +34,8 @@ impl<'ctx> ValueRef for BranchInstruction<'ctx> {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugLoc for ConditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> ConditionalBranchInstruction<'ctx> {
   pub fn condition(&self) -> Operand<'ctx> {
@@ -65,6 +69,8 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugLoc for UnconditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   pub fn target_block(&self) -> Block<'ctx> {
