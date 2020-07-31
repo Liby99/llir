@@ -3,6 +3,7 @@ use llvm_sys::core::{LLVMGetDebugLocColumn, LLVMGetDebugLocLine, LLVMTypeOf};
 use crate::types::*;
 use crate::utils::*;
 use crate::*;
+use super::*;
 
 pub trait HasType {}
 
@@ -57,5 +58,15 @@ where
 
   fn col(&self) -> Option<u32> {
     Some(unsafe { LLVMGetDebugLocColumn(self.value_ref()) })
+  }
+}
+
+pub trait ValueTrait<'ctx> {
+  fn value(&self) -> Value<'ctx>;
+}
+
+impl<'ctx, V> ValueTrait<'ctx> for V where V: ValueRef {
+  fn value(&self) -> Value<'ctx> {
+    Value::new(self.value_ref())
   }
 }
