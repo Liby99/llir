@@ -62,11 +62,11 @@ where
 }
 
 pub trait ValueTrait<'ctx> {
-  fn value(&self) -> Value<'ctx>;
+  fn value(&self) -> GenericValue<'ctx>;
 }
 
 impl<'ctx, V> ValueTrait<'ctx> for V where V: ValueRef {
-  fn value(&self) -> Value<'ctx> {
-    Value::new(self.value_ref())
+  fn value(&self) -> GenericValue<'ctx> {
+    GenericValue::new(self.value_ref())
   }
 }
