@@ -14,6 +14,8 @@ mod instr;
 pub use instr::*;
 mod load;
 pub use load::*;
+mod phi;
+pub use phi::*;
 mod ret;
 pub use ret::*;
 mod store;

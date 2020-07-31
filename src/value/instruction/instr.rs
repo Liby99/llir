@@ -19,6 +19,8 @@ pub enum Instruction<'ctx> {
   Alloca(AllocaInstruction<'ctx>),
   Load(LoadInstruction<'ctx>),
   Store(StoreInstruction<'ctx>),
+  GetElementPtr(GetElementPtrInstruction<'ctx>),
+  Phi(PhiInstruction<'ctx>),
   Other(GenericInstruction<'ctx>),
 }
 
@@ -43,6 +45,8 @@ impl<'ctx> FromLLVMValue for Instruction<'ctx> {
       LLVMOpcode::LLVMAlloca => Instruction::Alloca(AllocaInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMLoad => Instruction::Load(LoadInstruction::from_llvm(ptr)),
       LLVMOpcode::LLVMStore => Instruction::Store(StoreInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMGetElementPtr => Instruction::GetElementPtr(GetElementPtrInstruction::from_llvm(ptr)),
+      LLVMOpcode::LLVMPHI => Instruction::Phi(PhiInstruction::from_llvm(ptr)),
       opcode if BinaryOpcode::from_llvm(opcode).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
       opcode if UnaryOpcode::from_llvm(opcode).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
       _ => Instruction::Other(GenericInstruction::from_llvm(ptr)),
@@ -63,6 +67,8 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
       Instruction::Alloca(alc_instr) => alc_instr.value_ref(),
       Instruction::Load(ld_instr) => ld_instr.value_ref(),
       Instruction::Store(st_instr) => st_instr.value_ref(),
+      Instruction::GetElementPtr(gep_instr) => gep_instr.value_ref(),
+      Instruction::Phi(phi_instr) => phi_instr.value_ref(),
       Instruction::Other(otr_instr) => otr_instr.value_ref(),
     }
   }
