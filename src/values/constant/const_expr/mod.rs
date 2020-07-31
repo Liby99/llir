@@ -6,3 +6,5 @@ mod unary;
 pub use unary::*;
 mod gep;
 pub use gep::*;
+mod cmp;
+pub use cmp::*;

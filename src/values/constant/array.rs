@@ -1,10 +1,25 @@
+use llvm_sys::core::{LLVMGetArrayLength, LLVMGetOperand, LLVMTypeOf};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use super::Constant;
 use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> ArrayConstant<'ctx> {
+  pub fn num_elements(&self) -> usize {
+    let n = unsafe { LLVMGetArrayLength(LLVMTypeOf(self.0)) };
+    n as usize
+  }
+
+  pub fn elements(&self) -> Vec<Constant<'ctx>> {
+    (0..self.num_elements() as u32)
+      .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
+      .collect()
+  }
+}
 
 impl<'ctx> FromLLVMValue for ArrayConstant<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

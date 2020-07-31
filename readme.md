@@ -1,6 +1,8 @@
-# LLVM IR Analysis in Rust
+# LLVM IR Binding in Rust
 
-How to use:
+This LLVM IR Binding is mainly for inspecting existing module in LLVM Bytecode form, and not for producing one.
+
+## How to use
 
 ``` rust
 use llir;
@@ -9,7 +11,7 @@ use llir;
 let context = llir::Context::create();
 
 // Specify path to the byte code
-let path = Path::new("tests/c_files/fn_ptr/fn_ptr_1.bc");
+let path = Path::new("path/to/your/llvm/bytecode.bc");
 
 // Load the module with that path
 let module = context.load_module(path)?;

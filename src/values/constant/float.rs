@@ -1,3 +1,4 @@
+use llvm_sys::core::LLVMConstRealGetDouble;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -5,6 +6,16 @@ use crate::{FromLLVMValue, ValueRef};
 
 #[derive(Copy, Clone)]
 pub struct FloatConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> FloatConstant<'ctx> {
+  pub fn double_value(&self) -> f64 {
+    unsafe {
+      let mut b = 0;
+      let b_ptr: *mut std::os::raw::c_int = &mut b;
+      LLVMConstRealGetDouble(self.0, b_ptr)
+    }
+  }
+}
 
 impl<'ctx> ValueRef for FloatConstant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
