@@ -12,7 +12,5 @@ mod array;
 pub use array::*;
 mod vector;
 pub use vector::*;
-mod undef;
-pub use undef::*;
 mod const_expr;
 pub use const_expr::*;
