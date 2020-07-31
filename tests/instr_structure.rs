@@ -21,7 +21,7 @@ fn test_no_crash<'ctx>(module: &llir::Module<'ctx>) {
             let _ = call.callee_function();
             let _ = call.callee();
             let _ = call.num_arguments();
-            let _ = call.args();
+            let _ = call.arguments();
             let _ = call.is_tail_call();
           }
           Branch(br) => match br {

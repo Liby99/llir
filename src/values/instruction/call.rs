@@ -37,7 +37,7 @@ impl<'ctx> CallInstruction<'ctx> {
     num_operands as usize - 1
   }
 
-  pub fn args(&self) -> Vec<Operand<'ctx>> {
+  pub fn arguments(&self) -> Vec<Operand<'ctx>> {
     (0..self.num_arguments())
       .map(|i| Operand::from_llvm(unsafe { LLVMGetOperand(self.0, i as u32) }))
       .collect()
