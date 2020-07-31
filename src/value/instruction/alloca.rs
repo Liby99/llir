@@ -3,7 +3,7 @@ use std::marker::PhantomData;
 
 use crate::{FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> AllocaInstruction<'ctx> {}

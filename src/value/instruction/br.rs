@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use super::super::{Block, Operand};
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ConditionalBranchInstruction<'ctx> {
@@ -38,7 +38,7 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> UnconditionalBranchInstruction<'ctx> {

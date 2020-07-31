@@ -18,7 +18,7 @@ impl<'ctx> Block<'ctx> {
     Function::from_llvm(func_ptr)
   }
 
-  pub fn iter_instr(&self) -> BlockInstructionIterator<'ctx> {
+  pub fn iter_instructions(&self) -> BlockInstructionIterator<'ctx> {
     let first_instr = unsafe { LLVMGetFirstInstruction(self.0) };
     if first_instr.is_null() {
       BlockInstructionIterator {

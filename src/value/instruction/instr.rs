@@ -7,7 +7,7 @@ use super::super::Block;
 use super::*;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum Instruction<'ctx> {
   Binary(BinaryInstruction<'ctx>),
   Unary(UnaryInstruction<'ctx>),
@@ -68,7 +68,7 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct GenericInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ValueRef for GenericInstruction<'ctx> {

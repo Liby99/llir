@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use super::super::{Block, Constant, Operand};
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> SwitchInstruction<'ctx> {

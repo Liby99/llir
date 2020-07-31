@@ -6,7 +6,7 @@ use std::marker::PhantomData;
 use super::super::Operand;
 use crate::{FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum ICmpPredicate {
   EQ,
   NE,
@@ -37,7 +37,7 @@ impl ICmpPredicate {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> ICmpInstruction<'ctx> {
@@ -68,7 +68,7 @@ impl<'ctx> ValueRef for ICmpInstruction<'ctx> {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum FCmpPredicate {
   OEQ,
   OGE,
@@ -111,7 +111,7 @@ impl FCmpPredicate {
   }
 }
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FCmpInstruction<'ctx> {

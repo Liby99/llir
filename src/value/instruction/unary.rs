@@ -6,10 +6,7 @@ use std::marker::PhantomData;
 use super::super::Operand;
 use crate::{FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
-pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
-
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub enum UnaryOpcode {
   Trunc,
   ZExt,
@@ -44,6 +41,9 @@ impl UnaryOpcode {
     }
   }
 }
+
+#[derive(Debug, Copy, Clone)]
+pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> UnaryInstruction<'ctx> {
   pub fn opcode(&self) -> UnaryOpcode {

@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use super::super::{Function, Operand};
 use crate::{FromLLVMValue, ValueRef};
 
-#[derive(Copy, Clone)]
+#[derive(Debug, Copy, Clone)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> CallInstruction<'ctx> {
