@@ -1,7 +1,6 @@
 use llvm_sys::core::LLVMGetInstructionOpcode;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
-use std::marker::PhantomData;
 
 use crate::values::*;
 use crate::*;
@@ -22,7 +21,7 @@ pub enum Instruction<'ctx> {
   Switch(SwitchInstruction<'ctx>),
   Unary(UnaryInstruction<'ctx>),
   Unreachable(UnreachableInstruction<'ctx>),
-  Other(GenericInstruction<'ctx>),
+  Other(GenericValue<'ctx>),
 }
 
 impl<'ctx> InstructionDebugLoc for Instruction<'ctx> {}
@@ -46,7 +45,7 @@ impl<'ctx> FromLLVMValue for Instruction<'ctx> {
       LLVMOpcode::LLVMUnreachable => Instruction::Unreachable(UnreachableInstruction::from_llvm(ptr)),
       op if BinaryOpcode::from_llvm(op).is_some() => Instruction::Binary(BinaryInstruction::from_llvm(ptr)),
       op if UnaryOpcode::from_llvm(op).is_some() => Instruction::Unary(UnaryInstruction::from_llvm(ptr)),
-      _ => Instruction::Other(GenericInstruction::from_llvm(ptr)),
+      _ => Instruction::Other(GenericValue::from_llvm(ptr)),
     }
   }
 }
@@ -70,22 +69,5 @@ impl<'ctx> ValueRef for Instruction<'ctx> {
       Instruction::Unreachable(unr_instr) => unr_instr.value_ref(),
       Instruction::Other(otr_instr) => otr_instr.value_ref(),
     }
-  }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct GenericInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
-
-impl<'ctx> InstructionDebugLoc for GenericInstruction<'ctx> {}
-
-impl<'ctx> ValueRef for GenericInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
-
-impl<'ctx> FromLLVMValue for GenericInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
   }
 }

@@ -1,7 +1,6 @@
 use llvm_sys::core::LLVMGetConstOpcode;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMOpcode;
-use std::marker::PhantomData;
 
 use super::*;
 use crate::values::*;
@@ -14,7 +13,7 @@ pub enum ConstExpr<'ctx> {
   ICmp(ICmpConstExpr<'ctx>),
   FCmp(FCmpConstExpr<'ctx>),
   GetElementPtr(GetElementPtrConstExpr<'ctx>),
-  Other(GenericConstExpr<'ctx>),
+  Other(GenericValue<'ctx>),
 }
 
 impl<'ctx> FromLLVMValue for ConstExpr<'ctx> {
@@ -26,7 +25,7 @@ impl<'ctx> FromLLVMValue for ConstExpr<'ctx> {
       LLVMFCmp => Self::FCmp(FCmpConstExpr::from_llvm(ptr)),
       o if BinaryOpcode::from_llvm(o).is_some() => Self::Binary(BinaryConstExpr::from_llvm(ptr)),
       o if UnaryOpcode::from_llvm(o).is_some() => Self::Unary(UnaryConstExpr::from_llvm(ptr)),
-      _ => Self::Other(GenericConstExpr::from_llvm(ptr)),
+      _ => Self::Other(GenericValue::from_llvm(ptr)),
     }
   }
 }
@@ -41,20 +40,5 @@ impl<'ctx> ValueRef for ConstExpr<'ctx> {
       Self::FCmp(f) => f.value_ref(),
       Self::Other(g) => g.value_ref(),
     }
-  }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct GenericConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
-
-impl<'ctx> FromLLVMValue for GenericConstExpr<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for GenericConstExpr<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
   }
 }

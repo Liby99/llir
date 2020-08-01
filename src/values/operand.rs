@@ -1,6 +1,5 @@
-use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction, LLVMIsAMDNode, LLVMGetValueKind};
+use llvm_sys::core::{LLVMIsAConstant, LLVMIsAInstruction, LLVMIsAMDNode};
 use llvm_sys::prelude::LLVMValueRef;
-use llvm_sys::LLVMValueKind;
 
 use crate::values::*;
 use crate::*;
@@ -10,6 +9,7 @@ pub enum Operand<'ctx> {
   Instruction(Instruction<'ctx>),
   Constant(Constant<'ctx>),
   Metadata(Metadata<'ctx>),
+  Other(GenericValue<'ctx>),
 }
 
 impl<'ctx> HasType for Operand<'ctx> {}
@@ -28,7 +28,7 @@ impl<'ctx> FromLLVMValue for Operand<'ctx> {
         if is_mdnode {
           Self::Metadata(Metadata::from_llvm(ptr))
         } else {
-          panic!("Unsupported value {:?}. ValueKind: {:?}", ptr, unsafe { LLVMGetValueKind(ptr) });
+          Self::Other(GenericValue::from_llvm(ptr))
         }
       }
     }
@@ -41,6 +41,7 @@ impl<'ctx> ValueRef for Operand<'ctx> {
       Operand::Instruction(instr) => instr.value_ref(),
       Operand::Constant(constant) => constant.value_ref(),
       Operand::Metadata(metadata) => metadata.value_ref(),
+      Operand::Other(generic) => generic.value_ref(),
     }
   }
 }

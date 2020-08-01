@@ -1,7 +1,6 @@
 use llvm_sys::core::LLVMGetValueKind;
 use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::LLVMValueKind;
-use std::marker::PhantomData;
 
 use super::*;
 use crate::values::*;
@@ -18,7 +17,7 @@ pub enum Constant<'ctx> {
   Global(Global<'ctx>),
   Function(Function<'ctx>),
   ConstExpr(ConstExpr<'ctx>),
-  Other(GenericConstant<'ctx>),
+  Other(GenericValue<'ctx>),
 }
 
 impl<'ctx> Constant<'ctx> {
@@ -61,22 +60,7 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
       LLVMConstantExprValueKind => Self::ConstExpr(ConstExpr::from_llvm(ptr)),
       LLVMFunctionValueKind => Self::Function(Function::from_llvm(ptr)),
       LLVMGlobalAliasValueKind => Self::Global(Global::from_llvm(ptr)),
-      _ => Self::Other(GenericConstant::from_llvm(ptr)),
+      _ => Self::Other(GenericValue::from_llvm(ptr)),
     }
-  }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct GenericConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
-
-impl<'ctx> FromLLVMValue for GenericConstant<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for GenericConstant<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
   }
 }
