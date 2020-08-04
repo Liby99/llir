@@ -23,6 +23,13 @@ impl<'ctx> CallInstruction<'ctx> {
     }
   }
 
+  pub fn callee_inline_asm(&self) -> Option<InlineAsm<'ctx>> {
+    match self.callee() {
+      Operand::InlineAsm(ia) => Some(ia),
+      _ => None
+    }
+  }
+
   pub fn callee_function_type(&self) -> FunctionType<'ctx> {
     FunctionType::from_llvm(unsafe { LLVMGetElementType(self.callee().get_type().type_ref()) })
   }

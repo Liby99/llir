@@ -37,8 +37,8 @@ impl<'ctx> ValueRef for Constant<'ctx> {
       Self::Struct(sc) => sc.value_ref(),
       Self::Array(ac) => ac.value_ref(),
       Self::Vector(vc) => vc.value_ref(),
-      Self::Function(fc) => fc.value_ref(),
       Self::Global(gc) => gc.value_ref(),
+      Self::Function(fc) => fc.value_ref(),
       Self::ConstExpr(cec) => cec.value_ref(),
       Self::Other(oc) => oc.value_ref(),
     }
@@ -57,9 +57,9 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
       LLVMConstantDataArrayValueKind => Self::Array(ArrayConstant::from_llvm(ptr)),
       LLVMConstantVectorValueKind => Self::Vector(VectorConstant::from_llvm(ptr)),
       LLVMConstantDataVectorValueKind => Self::Vector(VectorConstant::from_llvm(ptr)),
+      LLVMGlobalIFuncValueKind | LLVMFunctionValueKind => Self::Function(Function::from_llvm(ptr)),
+      LLVMGlobalAliasValueKind | LLVMGlobalVariableValueKind => Self::Global(Global::from_llvm(ptr)),
       LLVMConstantExprValueKind => Self::ConstExpr(ConstExpr::from_llvm(ptr)),
-      LLVMFunctionValueKind => Self::Function(Function::from_llvm(ptr)),
-      LLVMGlobalAliasValueKind => Self::Global(Global::from_llvm(ptr)),
       _ => Self::Other(GenericValue::from_llvm(ptr)),
     }
   }

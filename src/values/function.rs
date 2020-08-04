@@ -11,15 +11,6 @@ use crate::values::*;
 use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct Param<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
-
-impl<'ctx> FromLLVMValue for Param<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Function<'ctx> {
   func: LLVMValueRef,
   marker: PhantomData<&'ctx ()>,
@@ -70,13 +61,13 @@ impl<'ctx> Function<'ctx> {
     self.get_function_type().is_var_arg()
   }
 
-  pub fn params(&self) -> Vec<Param<'ctx>> {
-    (0..self.num_params())
-      .map(|i| Param::from_llvm(unsafe { LLVMGetParam(self.func, i as u32) }))
+  pub fn arguments(&self) -> Vec<Argument<'ctx>> {
+    (0..self.num_arguments())
+      .map(|i| Argument::from_llvm(unsafe { LLVMGetParam(self.func, i as u32) }))
       .collect()
   }
 
-  pub fn num_params(&self) -> usize {
+  pub fn num_arguments(&self) -> usize {
     unsafe { LLVMCountParams(self.func) as usize }
   }
 

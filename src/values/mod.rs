@@ -16,3 +16,7 @@ mod traits;
 pub use traits::*;
 mod value;
 pub use value::*;
+mod argument;
+pub use argument::*;
+mod inline_asm;
+pub use inline_asm::*;
