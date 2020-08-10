@@ -5,14 +5,17 @@ use std::marker::PhantomData;
 use crate::*;
 use crate::values::*;
 
+/// Function argument value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Argument<'ctx>(usize, LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> Argument<'ctx> {
+  /// Get the parent function that this argument belongs to
   pub fn parent(&self) -> Function<'ctx> {
     Function::from_llvm(unsafe { LLVMGetParamParent(self.1) })
   }
 
+  /// Get the index of this argument wrt the parent function
   pub fn index(&self) -> usize {
     self.0
   }

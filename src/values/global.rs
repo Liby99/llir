@@ -42,3 +42,9 @@ impl<'ctx> ValueRef for Global<'ctx> {
     self.0
   }
 }
+
+impl<'ctx> AsConstant<'ctx> for Global<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx> {
+    Constant::Global(self.clone())
+  }
+}

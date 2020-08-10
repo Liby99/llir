@@ -46,3 +46,9 @@ impl<'ctx> ValueRef for Operand<'ctx> {
     }
   }
 }
+
+impl<'ctx> AsOperand<'ctx> for Operand<'ctx> {
+  fn as_operand(&self) -> Operand<'ctx> {
+    self.clone()
+  }
+}

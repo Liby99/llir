@@ -18,10 +18,6 @@ pub trait GetDebugMetadata<'ctx>: ValueRef {
   }
 }
 
-pub trait AsConstant<'ctx> {
-  fn as_constant(&self) -> Constant<'ctx>;
-}
-
 pub trait AsOperand<'ctx> {
   fn as_operand(&self) -> Operand<'ctx>;
 }
@@ -73,11 +69,11 @@ where
   }
 }
 
-pub trait ValueTrait<'ctx> : ValueRef {
+pub trait AsGenericValue<'ctx> : ValueRef {
   /// Turn the value into a GenericValue
   fn as_generic_value(&self) -> GenericValue<'ctx> {
     GenericValue::new(self.value_ref())
   }
 }
 
-impl<'ctx, V> ValueTrait<'ctx> for V where V : ValueRef {}
+impl<'ctx, V> AsGenericValue<'ctx> for V where V : ValueRef {}

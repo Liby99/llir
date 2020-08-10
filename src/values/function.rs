@@ -110,6 +110,12 @@ impl<'ctx> FromLLVMValue for Function<'ctx> {
   }
 }
 
+impl<'ctx> AsConstant<'ctx> for Function<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx> {
+    Constant::Function(self.clone())
+  }
+}
+
 impl<'ctx> GetDebugLoc for Function<'ctx> {
   fn filename(&self) -> Option<String> {
     match self.first_block() {
