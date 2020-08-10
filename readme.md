@@ -1,4 +1,4 @@
-# LLVM IR Binding in Rust
+# LLVM IR Binding for Rust
 
 This LLVM IR Binding is mainly for inspecting existing module in LLVM Bytecode form, and not for producing one.
 
