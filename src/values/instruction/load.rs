@@ -10,6 +10,8 @@ pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for LoadInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for LoadInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for LoadInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for LoadInstruction<'ctx> {}

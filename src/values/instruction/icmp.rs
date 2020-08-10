@@ -42,6 +42,8 @@ pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx 
 
 impl<'ctx> HasType for ICmpInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for ICmpInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for ICmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for ICmpInstruction<'ctx> {}

@@ -49,6 +49,8 @@ pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx (
 
 impl<'ctx> HasType for UnaryInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for UnaryInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for UnaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for UnaryInstruction<'ctx> {}

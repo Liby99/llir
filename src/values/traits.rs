@@ -20,6 +20,21 @@ where
   }
 }
 
+pub trait HasDebugMetadata {}
+
+pub trait GetDebugMetadata<'ctx> {
+  fn dbg_metadata(&self) -> Option<Metadata<'ctx>>;
+}
+
+impl<'ctx, V> GetDebugMetadata<'ctx> for V
+where
+  V: ValueRef + HasDebugMetadata
+{
+  fn dbg_metadata(&self) -> Option<Metadata<'ctx>> {
+    mdkind_ids::dbg_metadata(self.value_ref()).map(Metadata::from_llvm)
+  }
+}
+
 pub trait InstructionDebugLoc {}
 
 pub trait DebugLoc {

@@ -10,6 +10,8 @@ pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for AllocaInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for AllocaInstruction<'ctx> {}
+
 impl<'ctx> InstructionTrait<'ctx> for AllocaInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for AllocaInstruction<'ctx> {}

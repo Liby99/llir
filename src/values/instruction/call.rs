@@ -11,6 +11,8 @@ pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for CallInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for CallInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for CallInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for CallInstruction<'ctx> {}

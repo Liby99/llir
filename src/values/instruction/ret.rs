@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl<'ctx> HasDebugMetadata for ReturnInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for ReturnInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for ReturnInstruction<'ctx> {}

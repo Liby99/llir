@@ -15,6 +15,8 @@ pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for PhiInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for PhiInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for PhiInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for PhiInstruction<'ctx> {}

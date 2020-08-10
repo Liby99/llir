@@ -54,6 +54,8 @@ pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx 
 
 impl<'ctx> HasType for FCmpInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for FCmpInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for FCmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for FCmpInstruction<'ctx> {}

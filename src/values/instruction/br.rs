@@ -11,6 +11,8 @@ pub enum BranchInstruction<'ctx> {
   Unconditional(UnconditionalBranchInstruction<'ctx>),
 }
 
+impl<'ctx> HasDebugMetadata for BranchInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for BranchInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for BranchInstruction<'ctx> {}
@@ -42,6 +44,8 @@ impl<'ctx> ValueRef for BranchInstruction<'ctx> {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugMetadata for ConditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for ConditionalBranchInstruction<'ctx> {}
 
@@ -85,6 +89,8 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugMetadata for UnconditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for UnconditionalBranchInstruction<'ctx> {}
 

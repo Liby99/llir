@@ -11,6 +11,8 @@ pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> HasType for GetElementPtrInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for GetElementPtrInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for GetElementPtrInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for GetElementPtrInstruction<'ctx> {}

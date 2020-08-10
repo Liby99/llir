@@ -24,6 +24,8 @@ pub enum Instruction<'ctx> {
   Other(GenericValue<'ctx>),
 }
 
+impl<'ctx> HasDebugMetadata for Instruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for Instruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for Instruction<'ctx> {}

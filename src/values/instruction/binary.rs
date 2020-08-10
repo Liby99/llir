@@ -61,6 +61,8 @@ pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx
 
 impl<'ctx> HasType for BinaryInstruction<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for BinaryInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for BinaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for BinaryInstruction<'ctx> {}

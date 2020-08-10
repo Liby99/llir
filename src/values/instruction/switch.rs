@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl<'ctx> HasDebugMetadata for SwitchInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for SwitchInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for SwitchInstruction<'ctx> {}
