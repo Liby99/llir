@@ -16,3 +16,5 @@ mod struc;
 pub use struc::*;
 mod function;
 pub use function::*;
+mod traits;
+pub use traits::*;

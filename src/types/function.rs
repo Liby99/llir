@@ -1,34 +1,59 @@
-use llvm_sys::core::{LLVMCountParamTypes, LLVMGetParamTypes, LLVMGetReturnType, LLVMIsFunctionVarArg};
+use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
-use super::Type;
+use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
+/// Function Type
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FunctionType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> FunctionType<'ctx> {
-  pub fn num_param_types(&self) -> usize {
+  /// Get the number of argument types
+  pub fn num_argument_types(&self) -> usize {
     unsafe { LLVMCountParamTypes(self.0) as usize }
   }
 
-  pub fn param_types(&self) -> Vec<Type<'ctx>> {
-    let num_param_types = self.num_param_types();
-    let mut type_refs = Vec::with_capacity(num_param_types);
+  /// Get argument types in an array
+  pub fn argument_types(&self) -> Vec<Type<'ctx>> {
+    let num_arg_types = self.num_argument_types();
+    let mut type_refs = Vec::with_capacity(num_arg_types);
     unsafe {
       LLVMGetParamTypes(self.0, type_refs.as_mut_ptr());
-      type_refs.set_len(num_param_types);
+      type_refs.set_len(num_arg_types);
     };
     type_refs.into_iter().map(|t| Type::from_llvm(t)).collect()
   }
 
+  /// Get the argument type at a given index
+  pub fn argument_type(&self, index: usize) -> Option<Type<'ctx>> {
+    let types = self.argument_types();
+    if index < types.len() { Some(types[index]) } else { None }
+  }
+
+  /// Get the return type
   pub fn return_type(&self) -> Type<'ctx> {
     Type::from_llvm(unsafe { LLVMGetReturnType(self.0) })
   }
 
+  /// Check if the return type is not a void type
+  pub fn has_return_type(&self) -> bool {
+    match self.return_type() {
+      Type::Void(_) => false,
+      _ => true
+    }
+  }
+
+  /// Check if the function type is variable argument
   pub fn is_var_arg(&self) -> bool {
     unsafe { LLVMIsFunctionVarArg(self.0) != 0 }
+  }
+}
+
+impl<'ctx> AsType<'ctx> for FunctionType<'ctx> {
+  fn as_type(&self) -> Type<'ctx> {
+    Type::Function(self.clone())
   }
 }
 

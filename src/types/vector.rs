@@ -2,19 +2,28 @@ use llvm_sys::core::{LLVMGetElementType, LLVMGetVectorSize};
 use llvm_sys::prelude::LLVMTypeRef;
 use std::marker::PhantomData;
 
-use super::Type;
+use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
+/// Vector type
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct VectorType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> VectorType<'ctx> {
+  /// Get the element type inside the vector type
   pub fn element_type(&self) -> Type<'ctx> {
     Type::from_llvm(unsafe { LLVMGetElementType(self.0) })
   }
 
+  /// Get the number of elements in the vector type
   pub fn num_elements(&self) -> usize {
     unsafe { LLVMGetVectorSize(self.0) as usize }
+  }
+}
+
+impl<'ctx> AsType<'ctx> for VectorType<'ctx> {
+  fn as_type(&self) -> Type<'ctx> {
+    Type::Vector(self.clone())
   }
 }
 

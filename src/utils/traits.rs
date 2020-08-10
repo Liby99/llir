@@ -4,11 +4,11 @@ pub trait ValueRef {
   fn value_ref(&self) -> LLVMValueRef;
 }
 
-pub(crate) trait BlockRef {
+pub trait BlockRef {
   fn block_ref(&self) -> LLVMBasicBlockRef;
 }
 
-pub(crate) trait TypeRef {
+pub trait TypeRef {
   fn type_ref(&self) -> LLVMTypeRef;
 }
 

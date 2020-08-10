@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use super::*;
 use crate::{FromLLVMType, TypeRef};
 
+/// Type class
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Type<'ctx> {
   Void(VoidType<'ctx>),
