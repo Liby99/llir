@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Integer conparison predicate
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum ICmpPredicate {
   EQ,
@@ -37,26 +38,30 @@ impl ICmpPredicate {
   }
 }
 
+/// Integer comparison (ICmp) instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for ICmpInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for ICmpInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for ICmpInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for ICmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for ICmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for ICmpInstruction<'ctx> {}
 
 impl<'ctx> ICmpInstruction<'ctx> {
+  /// Get the integer comparison predicate
   pub fn predicate(&self) -> ICmpPredicate {
     self.0
   }
 
+  /// Get the lhs operand
   pub fn op0(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }
 
+  /// Get the rhs operand
   pub fn op1(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
   }

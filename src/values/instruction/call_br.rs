@@ -4,20 +4,19 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// CallBr instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallBrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for CallBrInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for CallBrInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for CallBrInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for CallBrInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for CallBrInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for CallBrInstruction<'ctx> {}
 
-impl<'ctx> CallBrInstruction<'ctx> {
-
-}
+impl<'ctx> CallBrInstruction<'ctx> {}
 
 impl<'ctx> AsInstruction<'ctx> for CallBrInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {

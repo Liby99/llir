@@ -3,6 +3,7 @@ use llvm_sys::debuginfo::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::values::*;
 use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
@@ -27,5 +28,11 @@ impl<'ctx> FromLLVMValue for LocationMDNode<'ctx> {
 impl<'ctx> ValueRef for LocationMDNode<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
+  }
+}
+
+impl<'ctx> AsMetadata<'ctx> for LocationMDNode<'ctx> {
+  fn as_metadata(&self) -> Metadata<'ctx> {
+    Metadata::Location(self.clone())
   }
 }

@@ -5,30 +5,34 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-pub struct Incoming<'ctx> {
+/// Incoming block & value for PHI instruction
+pub struct PhiIncoming<'ctx> {
   pub block: Block<'ctx>,
   pub value: Operand<'ctx>,
 }
 
+/// PHI instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for PhiInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for PhiInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for PhiInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for PhiInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for PhiInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for PhiInstruction<'ctx> {}
 
 impl<'ctx> PhiInstruction<'ctx> {
+  /// Get the number of incoming nodes
   pub fn num_incomings(&self) -> usize {
     unsafe { LLVMCountIncoming(self.0) as usize }
   }
 
-  pub fn incomings(&self) -> Vec<Incoming<'ctx>> {
+  /// Get the incomings
+  pub fn incomings(&self) -> Vec<PhiIncoming<'ctx>> {
     (0..self.num_incomings())
-      .map(|i| Incoming {
+      .map(|i| PhiIncoming {
         block: Block::from_llvm(unsafe { LLVMGetIncomingBlock(self.0, i as u32) }),
         value: Operand::from_llvm(unsafe { LLVMGetIncomingValue(self.0, i as u32) }),
       })

@@ -4,6 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Unreachable instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
@@ -11,7 +12,7 @@ impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for UnreachableInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for UnreachableInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for UnreachableInstruction<'ctx> {}
 
 impl<'ctx> AsInstruction<'ctx> for UnreachableInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {

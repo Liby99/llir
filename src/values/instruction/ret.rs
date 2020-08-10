@@ -5,20 +5,23 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Return (Ret) instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugMetadata for ReturnInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for ReturnInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for ReturnInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for ReturnInstruction<'ctx> {}
 
 impl<'ctx> ReturnInstruction<'ctx> {
+  /// Check if this return instruction has returned value
   pub fn has_op(&self) -> bool {
     unsafe { LLVMGetNumOperands(self.0) != 0 }
   }
 
+  /// Get the returned value. The instruction might not contain one
   pub fn op(&self) -> Option<Operand<'ctx>> {
     if self.has_op() {
       Some(Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) }))

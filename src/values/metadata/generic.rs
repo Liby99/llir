@@ -1,6 +1,7 @@
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::values::*;
 use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
@@ -19,5 +20,11 @@ impl<'ctx> FromLLVMValue for GenericMDNode<'ctx> {
 impl<'ctx> ValueRef for GenericMDNode<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
+  }
+}
+
+impl<'ctx> AsMetadata<'ctx> for GenericMDNode<'ctx> {
+  fn as_metadata(&self) -> Metadata<'ctx> {
+    Metadata::Generic(self.clone())
   }
 }

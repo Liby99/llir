@@ -38,3 +38,9 @@ impl<'ctx> ValueRef for Metadata<'ctx> {
     }
   }
 }
+
+impl<'ctx> AsMetadata<'ctx> for Metadata<'ctx> {
+  fn as_metadata(&self) -> Self {
+    self.clone()
+  }
+}

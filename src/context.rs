@@ -10,6 +10,11 @@ use super::utils::mem_buffer::MemoryBuffer;
 use super::utils::support::LLVMString;
 use super::Module;
 
+/// LLVM Context
+///
+/// ```
+/// let ctx = Context::create();
+/// ```
 #[derive(Debug, PartialEq, Eq)]
 pub struct Context(LLVMContextRef);
 
@@ -18,11 +23,17 @@ impl Context {
     Self(context)
   }
 
+  /// Create a new context
   pub fn create() -> Self {
     let context = unsafe { LLVMContextCreate() };
     Self::new(context)
   }
 
+  /// Load a module
+  ///
+  /// ```
+  /// let module = ctx.load_module(Path::new("PATH/TO/YOUR/BYTECODE.bc"));
+  /// ```
   pub fn load_module<'ctx, P>(&'ctx self, path: P) -> Result<Module<'ctx>, String>
   where
     P: AsRef<Path>,

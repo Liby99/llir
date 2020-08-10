@@ -6,3 +6,5 @@ mod generic;
 pub use generic::*;
 mod location;
 pub use location::*;
+mod traits;
+pub use traits::*;

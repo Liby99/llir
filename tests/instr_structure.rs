@@ -37,8 +37,8 @@ fn test_no_crash<'ctx>(module: &llir::Module<'ctx>) {
           Switch(switch) => {
             let _ = switch.condition();
             let _ = switch.default_block();
-            let _ = switch.num_branches();
-            let _ = switch.branches();
+            let _ = switch.num_cases();
+            let _ = switch.cases();
           }
           _ => (),
         }

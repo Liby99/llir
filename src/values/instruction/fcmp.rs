@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Floating point comparison predicate
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum FCmpPredicate {
   OEQ,
@@ -49,26 +50,30 @@ impl FCmpPredicate {
   }
 }
 
+/// Floating point comparison (FCmp) instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for FCmpInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for FCmpInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for FCmpInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for FCmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for FCmpInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for FCmpInstruction<'ctx> {}
 
 impl<'ctx> FCmpInstruction<'ctx> {
+  /// Get the predicate
   pub fn predicate(&self) -> FCmpPredicate {
     self.0
   }
 
+  /// Get the lhs operand
   pub fn op0(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }
 
+  /// Get the rhs operand
   pub fn op1(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
   }

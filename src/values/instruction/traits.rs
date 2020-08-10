@@ -9,12 +9,25 @@ pub trait AsInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx>;
 }
 
+impl<'ctx, V> AsOperand<'ctx> for V where V: AsInstruction<'ctx> {
+  fn as_operand(&self) -> Operand<'ctx> {
+    Operand::Instruction(self.as_instruction())
+  }
+}
+
 pub trait InstructionTrait<'ctx>: ValueRef {
+  /// Get the parent block
   fn parent_block(&self) -> Block<'ctx> {
     let value = unsafe { LLVMGetInstructionParent(self.value_ref()) };
     Block::from_llvm(value)
   }
 
+  /// Get the parent function
+  fn parent_function(&self) -> Function<'ctx> {
+    self.parent_block().parent_function()
+  }
+
+  /// Get the previous instruction of this one
   fn prev_instruction(&self) -> Option<Instruction<'ctx>> {
     let this_ptr = self.value_ref();
     let prev_ptr = unsafe { LLVMGetPreviousInstruction(this_ptr) };
@@ -25,6 +38,7 @@ pub trait InstructionTrait<'ctx>: ValueRef {
     }
   }
 
+  /// Get the next instruction of this one
   fn next_instruction(&self) -> Option<Instruction<'ctx>> {
     let this_ptr = self.value_ref();
     let next_ptr = unsafe { LLVMGetNextInstruction(this_ptr) };
@@ -35,10 +49,12 @@ pub trait InstructionTrait<'ctx>: ValueRef {
     }
   }
 
+  /// Get the number of operands used in this instruction
   fn num_operands(&self) -> usize {
     unsafe { LLVMGetNumOperands(self.value_ref()) as usize }
   }
 
+  /// Get the operand at a given index
   fn operand(&self, index: usize) -> Option<Operand<'ctx>> {
     if index < self.num_operands() {
       Some(Operand::from_llvm(unsafe {

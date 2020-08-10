@@ -6,12 +6,14 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
+/// Float constant
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FloatConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for FloatConstant<'ctx> {}
+impl<'ctx> GetType<'ctx> for FloatConstant<'ctx> {}
 
 impl<'ctx> FloatConstant<'ctx> {
+  /// Get the floating point value in double form (f64)
   pub fn double_value(&self) -> f64 {
     unsafe {
       let mut b = 0;
@@ -20,6 +22,7 @@ impl<'ctx> FloatConstant<'ctx> {
     }
   }
 
+  /// Get directly the float type
   pub fn get_float_type(&self) -> FloatType<'ctx> {
     FloatType::from_llvm(self.get_type().type_ref())
   }
@@ -34,5 +37,11 @@ impl<'ctx> ValueRef for FloatConstant<'ctx> {
 impl<'ctx> FromLLVMValue for FloatConstant<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
+  }
+}
+
+impl<'ctx> AsConstant<'ctx> for FloatConstant<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx> {
+    Constant::Float(self.clone())
   }
 }

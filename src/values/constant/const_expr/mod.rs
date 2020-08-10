@@ -10,3 +10,5 @@ mod icmp;
 pub use icmp::*;
 mod fcmp;
 pub use fcmp::*;
+mod traits;
+pub use traits::*;

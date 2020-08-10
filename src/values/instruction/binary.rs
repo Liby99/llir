@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Binary Opcode
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum BinaryOpcode {
   // Arithmatics
@@ -56,12 +57,13 @@ impl BinaryOpcode {
   }
 }
 
+/// Binary instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for BinaryInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for BinaryInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for BinaryInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for BinaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for BinaryInstruction<'ctx> {}
 
@@ -74,14 +76,17 @@ impl<'ctx> AsInstruction<'ctx> for BinaryInstruction<'ctx> {
 }
 
 impl<'ctx> BinaryInstruction<'ctx> {
+  /// Get the opcode of this binary instruction
   pub fn opcode(&self) -> BinaryOpcode {
     self.0
   }
 
+  /// Get the lhs operand
   pub fn op0(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }
 
+  /// Get the rhs operand
   pub fn op1(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
   }

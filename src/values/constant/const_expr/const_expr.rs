@@ -6,6 +6,7 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
+/// Constant expression container class
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum ConstExpr<'ctx> {
   Binary(BinaryConstExpr<'ctx>),
@@ -15,6 +16,8 @@ pub enum ConstExpr<'ctx> {
   GetElementPtr(GetElementPtrConstExpr<'ctx>),
   Other(GenericValue<'ctx>),
 }
+
+impl<'ctx> GetType<'ctx> for ConstExpr<'ctx> {}
 
 impl<'ctx> FromLLVMValue for ConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
@@ -40,5 +43,11 @@ impl<'ctx> ValueRef for ConstExpr<'ctx> {
       Self::FCmp(f) => f.value_ref(),
       Self::Other(g) => g.value_ref(),
     }
+  }
+}
+
+impl<'ctx> AsConstExpr<'ctx> for ConstExpr<'ctx> {
+  fn as_const_expr(&self) -> ConstExpr<'ctx> {
+    self.clone()
   }
 }

@@ -4,6 +4,8 @@ use std::marker::PhantomData;
 use crate::utils::*;
 use crate::*;
 
+/// Generic value is used in every place where a value is presented but
+/// not supported by llir, in order to avoid errors
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericValue<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
@@ -12,6 +14,7 @@ impl<'ctx> GenericValue<'ctx> {
     Self(ptr, PhantomData)
   }
 
+  /// Get the name of the generic value. It might or might not have one
   pub fn name(&self) -> Option<String> {
     let s = string_of_value(self.0);
     if s.len() == 0 {

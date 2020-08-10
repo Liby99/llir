@@ -5,39 +5,33 @@ use crate::types::*;
 use crate::utils::*;
 use crate::*;
 
-pub trait HasType {}
-
-pub trait GetType<'ctx> {
-  fn get_type(&self) -> Type<'ctx>;
-}
-
-impl<'ctx, V> GetType<'ctx> for V
-where
-  V: ValueRef + HasType,
-{
+/// GetType trait provides `get_type` functions
+pub trait GetType<'ctx>: ValueRef {
   fn get_type(&self) -> Type<'ctx> {
     Type::from_llvm(unsafe { LLVMTypeOf(self.value_ref()) })
   }
 }
 
-pub trait HasDebugMetadata {}
-
-pub trait GetDebugMetadata<'ctx> {
-  fn dbg_metadata(&self) -> Option<Metadata<'ctx>>;
-}
-
-impl<'ctx, V> GetDebugMetadata<'ctx> for V
-where
-  V: ValueRef + HasDebugMetadata
-{
+pub trait GetDebugMetadata<'ctx>: ValueRef {
   fn dbg_metadata(&self) -> Option<Metadata<'ctx>> {
     mdkind_ids::dbg_metadata(self.value_ref()).map(Metadata::from_llvm)
   }
 }
 
+pub trait AsConstant<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx>;
+}
+
+pub trait AsOperand<'ctx> {
+  fn as_operand(&self) -> Operand<'ctx>;
+}
+
+/// InstructionDebugLoc is implemented whenever it is an instruction
 pub trait InstructionDebugLoc {}
 
-pub trait DebugLoc {
+/// GetDebugLoc trait is implemented when there's debug location with respect
+/// to a value
+pub trait GetDebugLoc {
   fn filename(&self) -> Option<String>;
 
   fn line(&self) -> Option<u32>;
@@ -56,7 +50,7 @@ pub trait DebugLoc {
   }
 }
 
-impl<'ctx, V> DebugLoc for V
+impl<'ctx, V> GetDebugLoc for V
 where
   V: InstructionDebugLoc + ValueRef,
 {
@@ -79,15 +73,11 @@ where
   }
 }
 
-pub trait ValueTrait<'ctx> {
-  fn value(&self) -> GenericValue<'ctx>;
-}
-
-impl<'ctx, V> ValueTrait<'ctx> for V
-where
-  V: ValueRef,
-{
-  fn value(&self) -> GenericValue<'ctx> {
+pub trait ValueTrait<'ctx> : ValueRef {
+  /// Turn the value into a GenericValue
+  fn as_generic_value(&self) -> GenericValue<'ctx> {
     GenericValue::new(self.value_ref())
   }
 }
+
+impl<'ctx, V> ValueTrait<'ctx> for V where V : ValueRef {}

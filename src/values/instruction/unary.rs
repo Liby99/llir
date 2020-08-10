@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Unary opcode
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum UnaryOpcode {
   FNeg,
@@ -44,22 +45,25 @@ impl UnaryOpcode {
   }
 }
 
+/// Unary instruction
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasType for UnaryInstruction<'ctx> {}
+impl<'ctx> GetType<'ctx> for UnaryInstruction<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for UnaryInstruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for UnaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for UnaryInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for UnaryInstruction<'ctx> {}
 
 impl<'ctx> UnaryInstruction<'ctx> {
+  /// Get the opcode of this unary instruction
   pub fn opcode(&self) -> UnaryOpcode {
     self.0
   }
 
+  /// Get the operand
   pub fn op0(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
   }

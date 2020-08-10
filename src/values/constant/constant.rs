@@ -6,6 +6,7 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
+/// The container type for all constants
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Constant<'ctx> {
   Int(IntConstant<'ctx>),
@@ -21,12 +22,13 @@ pub enum Constant<'ctx> {
 }
 
 impl<'ctx> Constant<'ctx> {
+  /// Turn constant into an operand
   pub fn as_operand(&self) -> Operand<'ctx> {
     Operand::Constant(*self)
   }
 }
 
-impl<'ctx> HasType for Constant<'ctx> {}
+impl<'ctx> GetType<'ctx> for Constant<'ctx> {}
 
 impl<'ctx> ValueRef for Constant<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
@@ -62,5 +64,11 @@ impl<'ctx> FromLLVMValue for Constant<'ctx> {
       LLVMConstantExprValueKind => Self::ConstExpr(ConstExpr::from_llvm(ptr)),
       _ => Self::Other(GenericValue::from_llvm(ptr)),
     }
+  }
+}
+
+impl<'ctx> AsConstant<'ctx> for Constant<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx> {
+    self.clone()
   }
 }

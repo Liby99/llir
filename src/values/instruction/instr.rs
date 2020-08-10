@@ -5,6 +5,7 @@ use llvm_sys::LLVMOpcode;
 use crate::values::*;
 use crate::*;
 
+/// Container class for all instructions
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Instruction<'ctx> {
   Alloca(AllocaInstruction<'ctx>),
@@ -25,11 +26,17 @@ pub enum Instruction<'ctx> {
   Other(GenericValue<'ctx>),
 }
 
-impl<'ctx> HasDebugMetadata for Instruction<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for Instruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for Instruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for Instruction<'ctx> {}
+
+impl<'ctx> AsInstruction<'ctx> for Instruction<'ctx> {
+  fn as_instruction(&self) -> Self {
+    self.clone()
+  }
+}
 
 impl<'ctx> FromLLVMValue for Instruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

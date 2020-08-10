@@ -5,16 +5,22 @@ use llvm_sys::LLVMValueKind;
 use crate::values::*;
 use crate::*;
 
+/// Container class for operand
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Operand<'ctx> {
+  /// Result from a previous local instruction as operand
   Instruction(Instruction<'ctx>),
+  /// Function argument as operand
   Argument(Argument<'ctx>),
+  /// Constant as operand
   Constant(Constant<'ctx>),
+  /// Inline Assembly as operand
   InlineAsm(InlineAsm<'ctx>),
+  /// Metadata as operand
   Metadata(Metadata<'ctx>),
 }
 
-impl<'ctx> HasType for Operand<'ctx> {}
+impl<'ctx> GetType<'ctx> for Operand<'ctx> {}
 
 impl<'ctx> FromLLVMValue for Operand<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

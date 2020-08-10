@@ -10,26 +10,36 @@ use crate::utils::string_of_value;
 use crate::values::*;
 use crate::*;
 
+/// Function value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Function<'ctx> {
   func: LLVMValueRef,
   marker: PhantomData<&'ctx ()>,
 }
 
-impl<'ctx> HasType for Function<'ctx> {}
+impl<'ctx> GetType<'ctx> for Function<'ctx> {}
 
-impl<'ctx> HasDebugMetadata for Function<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for Function<'ctx> {}
 
 impl<'ctx> Function<'ctx> {
+  /// Get the name of the function
   pub fn name(&self) -> String {
     string_of_value(self.func)
   }
 
+  /// Check if this function is declaration only
   pub fn is_declaration_only(&self) -> bool {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     first_block.is_null()
   }
 
+  /// Iterate blocks inside of this function
+  ///
+  /// ```
+  /// for blk in func.iter_blocks() {
+  ///   // Do things to blk...
+  /// }
+  /// ```
   pub fn iter_blocks(&self) -> FunctionBlockIterator<'ctx> {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     if first_block.is_null() {
@@ -41,6 +51,7 @@ impl<'ctx> Function<'ctx> {
     }
   }
 
+  /// Get the first block of this function
   pub fn first_block(&self) -> Option<Block<'ctx>> {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
     if first_block.is_null() {
@@ -50,6 +61,7 @@ impl<'ctx> Function<'ctx> {
     }
   }
 
+  /// Get the last block of this function
   pub fn last_block(&self) -> Option<Block<'ctx>> {
     let last_block = unsafe { LLVMGetLastBasicBlock(self.func) };
     if last_block.is_null() {
@@ -59,20 +71,24 @@ impl<'ctx> Function<'ctx> {
     }
   }
 
+  /// Check if the function is variable arguments
   pub fn is_var_arg(&self) -> bool {
     self.get_function_type().is_var_arg()
   }
 
+  /// Get the arguments to this function in vector form
   pub fn arguments(&self) -> Vec<Argument<'ctx>> {
     (0..self.num_arguments())
       .map(|i| Argument::from_llvm(unsafe { LLVMGetParam(self.func, i as u32) }))
       .collect()
   }
 
+  /// Get the number of arguments in this function
   pub fn num_arguments(&self) -> usize {
     unsafe { LLVMCountParams(self.func) as usize }
   }
 
+  /// Get the function type
   pub fn get_function_type(&self) -> FunctionType<'ctx> {
     let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.func)) };
     FunctionType::from_llvm(type_ref)
@@ -94,7 +110,7 @@ impl<'ctx> FromLLVMValue for Function<'ctx> {
   }
 }
 
-impl<'ctx> DebugLoc for Function<'ctx> {
+impl<'ctx> GetDebugLoc for Function<'ctx> {
   fn filename(&self) -> Option<String> {
     match self.first_block() {
       Some(block) => {

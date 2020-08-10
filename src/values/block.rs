@@ -5,21 +5,26 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// A block inside of function
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> HasDebugMetadata for Block<'ctx> {}
+impl<'ctx> GetDebugMetadata<'ctx> for Block<'ctx> {}
 
 impl<'ctx> Block<'ctx> {
-  pub fn block_ref(&self) -> LLVMBasicBlockRef {
-    self.0
-  }
-
+  /// Get the function containing this block
   pub fn parent_function(&self) -> Function<'ctx> {
     let func_ptr = unsafe { LLVMGetBasicBlockParent(self.0) };
     Function::from_llvm(func_ptr)
   }
 
+  /// Iterate the instructions inside this block
+  ///
+  /// ```
+  /// for instr in blk.iter_instructions() {
+  ///   // Do things to instr...
+  /// }
+  /// ```
   pub fn iter_instructions(&self) -> BlockInstructionIterator<'ctx> {
     let first_instr = unsafe { LLVMGetFirstInstruction(self.0) };
     if first_instr.is_null() {
@@ -35,6 +40,7 @@ impl<'ctx> Block<'ctx> {
     }
   }
 
+  /// Get the first instruction inside this block
   pub fn first_instruction(&self) -> Option<Instruction<'ctx>> {
     let first_instr = unsafe { LLVMGetFirstInstruction(self.0) };
     if first_instr.is_null() {
@@ -44,6 +50,7 @@ impl<'ctx> Block<'ctx> {
     }
   }
 
+  /// Get the last instruction inside this block
   pub fn last_instruction(&self) -> Option<Instruction<'ctx>> {
     let last_instr = unsafe { LLVMGetLastInstruction(self.0) };
     if last_instr.is_null() {
@@ -51,6 +58,12 @@ impl<'ctx> Block<'ctx> {
     } else {
       Some(Instruction::from_llvm(last_instr))
     }
+  }
+}
+
+impl<'ctx> BlockRef for Block<'ctx> {
+  fn block_ref(&self) -> LLVMBasicBlockRef {
+    self.0
   }
 }
 
@@ -66,6 +79,7 @@ impl<'ctx> FromLLVMBlock for Block<'ctx> {
   }
 }
 
+#[doc(hidden)]
 pub struct BlockInstructionIterator<'ctx> {
   curr_instr: Option<LLVMValueRef>,
   marker: PhantomData<&'ctx ()>,
