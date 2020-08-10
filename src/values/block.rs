@@ -1,14 +1,14 @@
-use llvm_sys::core::{
-  LLVMGetBasicBlockParent, LLVMGetFirstInstruction, LLVMGetLastInstruction, LLVMGetNextInstruction,
-};
+use llvm_sys::core::*;
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use super::{Function, Instruction};
-use crate::{FromLLVMBlock, FromLLVMValue};
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> HasDebugMetadata for Block<'ctx> {}
 
 impl<'ctx> Block<'ctx> {
   pub fn block_ref(&self) -> LLVMBasicBlockRef {
@@ -51,6 +51,12 @@ impl<'ctx> Block<'ctx> {
     } else {
       Some(Instruction::from_llvm(last_instr))
     }
+  }
+}
+
+impl<'ctx> ValueRef for Block<'ctx> {
+  fn value_ref(&self) -> LLVMValueRef {
+    unsafe { LLVMBasicBlockAsValue(self.0) }
   }
 }
 

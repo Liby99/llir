@@ -18,6 +18,8 @@ pub struct Function<'ctx> {
 
 impl<'ctx> HasType for Function<'ctx> {}
 
+impl<'ctx> HasDebugMetadata for Function<'ctx> {}
+
 impl<'ctx> Function<'ctx> {
   pub fn name(&self) -> String {
     string_of_value(self.func)

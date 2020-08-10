@@ -9,6 +9,7 @@ use crate::{FromLLVMValue, ValueRef};
 pub enum Metadata<'ctx> {
   Distinct(DistinctMDNode<'ctx>),
   Location(LocationMDNode<'ctx>),
+  Generic(GenericMDNode<'ctx>),
   Other(GenericValue<'ctx>),
 }
 
@@ -18,6 +19,7 @@ impl<'ctx> FromLLVMValue for Metadata<'ctx> {
     match unsafe { LLVMGetMetadataKind(LLVMValueAsMetadata(ptr)) } {
       LLVMDistinctMDOperandPlaceholderMetadataKind => Self::Distinct(DistinctMDNode::from_llvm(ptr)),
       LLVMDILocationMetadataKind => Self::Location(LocationMDNode::from_llvm(ptr)),
+      LLVMGenericDINodeMetadataKind => Self::Generic(GenericMDNode::from_llvm(ptr)),
       x => {
         println!("{:?}", x);
         Self::Other(GenericValue::from_llvm(ptr))
@@ -31,6 +33,7 @@ impl<'ctx> ValueRef for Metadata<'ctx> {
     match self {
       Self::Distinct(d) => d.value_ref(),
       Self::Location(l) => l.value_ref(),
+      Self::Generic(g) => g.value_ref(),
       Self::Other(g) => g.value_ref(),
     }
   }

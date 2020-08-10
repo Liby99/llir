@@ -8,7 +8,9 @@ fn dbgmd_1() -> Result<(), String> {
   let context = llir::Context::create();
   let module = context.load_module(path)?;
   for func in module.iter_functions() {
+    println!("Func {:?} - dbg mdnode: {:?}", func.name(), func.dbg_metadata());
     for block in func.iter_blocks() {
+      println!("Block - dbg mdnode: {:?}", block.dbg_metadata());
       for instr in block.iter_instructions() {
         println!("{:?} - dbg mdnode: {:?}", instr, instr.dbg_metadata());
       }
