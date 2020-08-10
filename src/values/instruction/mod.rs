@@ -6,6 +6,8 @@ mod br;
 pub use br::*;
 mod call;
 pub use call::*;
+mod call_br;
+pub use call_br::*;
 mod icmp;
 pub use icmp::*;
 mod fcmp;
