@@ -3,6 +3,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use crate::values::*;
+use crate::utils::*;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
@@ -101,6 +102,12 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 0) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
     Block::from_llvm(block)
+  }
+
+  pub fn is_loop_jump(&self) -> Option<bool> {
+    mdkind_ids::dbg_metadata(self.value_ref()).map(|_| {
+      mdkind_ids::loop_metadata(self.value_ref()).is_some()
+    })
   }
 }
 

@@ -19,4 +19,4 @@ tests/%.bc: tests/%.c
 clean: clean-tests
 
 clean-tests:
-	$(RM) tests/**/*.bc
+	$(RM) tests/c_files/**/*.bc tests/c_files/**/*.ll
