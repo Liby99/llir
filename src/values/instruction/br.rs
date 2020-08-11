@@ -135,6 +135,8 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   }
 
   /// Check if this unconditional branch is jumping as a end-of-loop-body jump
+  ///
+  /// Will return Some(is_loop_jump) when debug metadata is presented, None otherwise
   pub fn is_loop_jump(&self) -> Option<bool> {
     mdkind_ids::dbg_metadata(self.value_ref()).map(|_| mdkind_ids::loop_metadata(self.value_ref()).is_some())
   }
