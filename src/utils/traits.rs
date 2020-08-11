@@ -1,13 +1,16 @@
 use llvm_sys::prelude::{LLVMBasicBlockRef, LLVMTypeRef, LLVMValueRef};
 
+#[doc(hidden)]
 pub trait ValueRef {
   fn value_ref(&self) -> LLVMValueRef;
 }
 
+#[doc(hidden)]
 pub trait BlockRef {
   fn block_ref(&self) -> LLVMBasicBlockRef;
 }
 
+#[doc(hidden)]
 pub trait TypeRef {
   fn type_ref(&self) -> LLVMTypeRef;
 }
