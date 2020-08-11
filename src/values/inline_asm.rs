@@ -19,6 +19,19 @@ impl<'ctx> InlineAsm<'ctx> {
   pub fn function_type(&self) -> FunctionType<'ctx> {
     FunctionType::from_llvm(unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) })
   }
+
+  /// Get the whole string for inline asm
+  ///
+  /// General Format:
+  /// {type} asm [[flags]] "{assembly_body}" "{constraints}"
+  ///
+  /// E.g.
+  /// ```
+  /// void (i64*, i8, i64*)* asm sideeffect ".pushsection .smp_locks,\22a\22\0A.balign 4\0A.long 671f - .\0A.popsection\0A671:\0A\09lock; orb $1,$0", "=*m,iq,*m,~{memory},~{dirflag},~{fpsr},~{flags}"
+  /// ```
+  pub fn to_string(&self) -> String {
+    unsafe { utils::raw_to_string(LLVMPrintValueToString(self.value_ref())) }
+  }
 }
 
 impl<'ctx> AsOperand<'ctx> for InlineAsm<'ctx> {

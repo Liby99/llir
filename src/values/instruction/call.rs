@@ -77,6 +77,14 @@ impl<'ctx> CallInstruction<'ctx> {
     unsafe { LLVMIsTailCall(self.0) == 1 }
   }
 
+  /// Check if this call is to an inline assembly
+  pub fn is_inline_asm_call(&self) -> bool {
+    match self.callee() {
+      Operand::InlineAsm(_) => true,
+      _ => false
+    }
+  }
+
   /// Check if this call is to llvm intrinsic function
   pub fn is_intrinsic(&self) -> bool {
     unsafe { !LLVMIsAIntrinsicInst(self.0).is_null() }

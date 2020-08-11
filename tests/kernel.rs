@@ -82,7 +82,9 @@ fn test_operand<'ctx>(op: &Operand<'ctx>) -> Result<(), String> {
     Constant(c) => {
       test_constant(c)?;
     }
-    InlineAsm(_) => {}
+    InlineAsm(_) => {
+      // println!("{}", i.to_string());
+    }
     Metadata(_) => {}
   }
   Ok(())
@@ -116,6 +118,7 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
     Call(c) => {
       let _ = c.callee_function();
       let _ = c.callee_inline_asm();
+      test_operand(&c.callee())?;
       test_function_type(&c.callee_function_type())?;
       let _ = c.num_arguments();
       let _ = c.arguments();
@@ -232,7 +235,7 @@ fn test_module<'ctx>(module: &Module<'ctx>) -> Result<(), String> {
 }
 
 #[test]
-fn test_kernel_globals() -> Result<(), String> {
+fn test_kernel() -> Result<(), String> {
   let kernel_path = Path::new("/home/aspire/programs/linux_kernel/linux-4.5-rc4/vmlinux.bc");
   let ctx = Context::create();
   let module = ctx.load_module(kernel_path)?;
