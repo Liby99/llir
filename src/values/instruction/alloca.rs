@@ -5,7 +5,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Alloca instruction
+/// [Alloca instruction](https://llvm.org/docs/LangRef.html#alloca-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

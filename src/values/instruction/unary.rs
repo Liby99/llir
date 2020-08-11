@@ -45,22 +45,24 @@ impl UnaryOpcode {
   }
 }
 
-/// Unary instruction
+/// [Unary instruction](https://llvm.org/docs/LangRef.html#unary-operations)
 ///
 /// Covers the following instruction opcodes:
-/// - FNeg
-/// - Trunc
-/// - ZExt
-/// - SExt
-/// - FPToUI
-/// - FPToSI
-/// - UIToFP
-/// - SIToFP
-/// - FPTrunc
-/// - FPExt
-/// - PtrToInt
-/// - IntToPtr
-/// - BitCast
+/// - [Unary](https://llvm.org/docs/LangRef.html#unary-operations)
+///   - [FNeg](https://llvm.org/docs/LangRef.html#fneg-instruction)
+/// - [Conversion](https://llvm.org/docs/LangRef.html#conversion-operations)
+///   - [Trunc](https://llvm.org/docs/LangRef.html#trunc-to-instruction)
+///   - [ZExt](https://llvm.org/docs/LangRef.html#zext-to-instruction)
+///   - [SExt](https://llvm.org/docs/LangRef.html#sext-to-instruction)
+///   - [FPToUI](https://llvm.org/docs/LangRef.html#fptoui-to-instruction)
+///   - [FPToSI](https://llvm.org/docs/LangRef.html#fptosi-to-instruction)
+///   - [UIToFP](https://llvm.org/docs/LangRef.html#uitofp-to-instruction)
+///   - [SIToFP](https://llvm.org/docs/LangRef.html#sitofp-to-instruction)
+///   - [FPTrunc](https://llvm.org/docs/LangRef.html#fptrunc-to-instruction)
+///   - [FPExt](https://llvm.org/docs/LangRef.html#fpext-to-instruction)
+///   - [PtrToInt](https://llvm.org/docs/LangRef.html#ptrtoint-to-instruction)
+///   - [IntToPtr](https://llvm.org/docs/LangRef.html#inttoptr-to-instruction)
+///   - [BitCast](https://llvm.org/docs/LangRef.html#bitcast-to-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 

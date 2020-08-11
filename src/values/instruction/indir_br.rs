@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// CallBr instruction
+/// [Indirect Branch instruction](https://llvm.org/docs/LangRef.html#indirectbr-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IndirectBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

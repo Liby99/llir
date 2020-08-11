@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
-/// Pointer type
+/// [Pointer type](https://llvm.org/docs/LangRef.html#pointer-type)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PointerType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 

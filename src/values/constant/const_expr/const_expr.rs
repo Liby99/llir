@@ -6,7 +6,9 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
-/// Constant expression container class
+/// [Constant expression](https://llvm.org/docs/LangRef.html#constant-expressions)
+///
+/// Super class for all constant expressions
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum ConstExpr<'ctx> {
   Binary(BinaryConstExpr<'ctx>),

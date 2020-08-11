@@ -5,7 +5,7 @@ use llvm_sys::LLVMOpcode;
 use crate::values::*;
 use crate::*;
 
-/// Container class for all instructions
+/// [Instruction](https://llvm.org/docs/LangRef.html#instruction-reference)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Instruction<'ctx> {
   Alloca(AllocaInstruction<'ctx>),

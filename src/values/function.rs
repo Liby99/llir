@@ -10,7 +10,7 @@ use crate::utils::string_of_value;
 use crate::values::*;
 use crate::*;
 
-/// Function value
+/// [Function value](https://llvm.org/docs/LangRef.html#functions)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Function<'ctx> {
   func: LLVMValueRef,

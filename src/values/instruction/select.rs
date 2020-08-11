@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Alloca instruction
+/// [Select instruction](https://llvm.org/docs/LangRef.html#select-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SelectInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

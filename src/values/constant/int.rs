@@ -6,7 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Integer constant
+/// [Integer constant](https://llvm.org/docs/LangRef.html#simple-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

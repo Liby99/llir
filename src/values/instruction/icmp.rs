@@ -49,7 +49,7 @@ impl ICmpPredicate {
   }
 }
 
-/// Integer comparison (ICmp) instruction
+/// [Integer comparison (ICmp) instruction](https://llvm.org/docs/LangRef.html#icmp-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 

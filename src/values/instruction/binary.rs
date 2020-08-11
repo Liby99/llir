@@ -57,7 +57,7 @@ impl BinaryOpcode {
   }
 }
 
-/// Binary instruction
+/// [Binary instruction](https://llvm.org/docs/LangRef.html#binary-operations)
 ///
 /// Covers the following instruction opcodes:
 /// - Integer Arithmetics

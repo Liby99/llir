@@ -6,7 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Vector Constant
+/// [Vector Constant](https://llvm.org/docs/LangRef.html#complex-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct VectorConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

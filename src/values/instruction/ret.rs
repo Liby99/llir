@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Return (Ret) instruction
+/// [Return (Ret) instruction](https://llvm.org/docs/LangRef.html#ret-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

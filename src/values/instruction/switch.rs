@@ -15,7 +15,7 @@ pub struct SwitchCase<'ctx> {
   pub block: Block<'ctx>,
 }
 
-/// Switch instruction
+/// [Switch instruction](https://llvm.org/docs/LangRef.html#switch-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

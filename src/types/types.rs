@@ -5,7 +5,9 @@ use llvm_sys::LLVMTypeKind;
 use super::*;
 use crate::{FromLLVMType, TypeRef};
 
-/// Type class
+/// [Type](https://llvm.org/docs/LangRef.html#type-system)
+///
+/// Super class for all LLVM types
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Type<'ctx> {
   Void(VoidType<'ctx>),

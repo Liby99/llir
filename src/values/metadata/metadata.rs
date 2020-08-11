@@ -5,7 +5,7 @@ use llvm_sys::prelude::LLVMValueRef;
 use crate::values::*;
 use crate::{FromLLVMValue, ValueRef};
 
-/// Metadata container type
+/// [Metadata](https://llvm.org/docs/LangRef.html#metadata)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Metadata<'ctx> {
   Distinct(DistinctMDNode<'ctx>),

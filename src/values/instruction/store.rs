@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Store instruction
+/// [Store instruction](https://llvm.org/docs/LangRef.html#store-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

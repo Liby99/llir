@@ -1,11 +1,11 @@
-use llvm_sys::core::LLVMGetOperand;
+use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
 use crate::values::*;
 use crate::*;
 
-/// Load instruction
+/// [Load instruction](https://llvm.org/docs/LangRef.html#load-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LoadInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

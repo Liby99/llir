@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Integer constant
+/// [Block Address](https://llvm.org/docs/LangRef.html#addresses-of-basic-blocks)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BlockAddress<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

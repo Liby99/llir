@@ -5,7 +5,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Null constant
+/// [Null constant](https://llvm.org/docs/LangRef.html#simple-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct NullConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

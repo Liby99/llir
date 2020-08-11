@@ -6,7 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Float constant
+/// [Float constant](https://llvm.org/docs/LangRef.html#simple-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FloatConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

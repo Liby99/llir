@@ -52,7 +52,7 @@ impl FloatTypeKind {
   }
 }
 
-/// Float Type
+/// [Float Type](https://llvm.org/docs/LangRef.html#floating-point-types)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FloatType<'ctx>(FloatTypeKind, LLVMTypeRef, PhantomData<&'ctx ()>);
 

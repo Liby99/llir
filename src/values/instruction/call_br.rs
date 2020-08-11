@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// CallBr instruction
+/// [CallBr instruction](https://llvm.org/docs/LangRef.html#callbr-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallBrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

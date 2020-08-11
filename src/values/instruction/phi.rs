@@ -11,7 +11,7 @@ pub struct PhiIncoming<'ctx> {
   pub value: Operand<'ctx>,
 }
 
-/// PHI instruction
+/// [PHI instruction](https://llvm.org/docs/LangRef.html#phi-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

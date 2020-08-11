@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Unreachable instruction
+/// [Unreachable instruction](https://llvm.org/docs/LangRef.html#unreachable-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

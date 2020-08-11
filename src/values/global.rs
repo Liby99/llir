@@ -9,7 +9,8 @@ use crate::*;
 
 /// Global container enum
 ///
-/// A global could be either a normal variable or an alias
+/// A global could be either a [normal variable](https://llvm.org/docs/LangRef.html#global-variables)
+/// or an [alias](https://llvm.org/docs/LangRef.html#aliases)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Global<'ctx> {
   /// Global variable

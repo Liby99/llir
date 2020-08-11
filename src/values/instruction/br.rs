@@ -6,7 +6,7 @@ use crate::utils::*;
 use crate::values::*;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
-/// Container class for branch instruction.
+/// [Branch instruction](https://llvm.org/docs/LangRef.html#br-instruction)
 ///
 /// Branch could either be conditional or unconditional, and will have different behavior
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]

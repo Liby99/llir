@@ -7,7 +7,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Array constant
+/// [Array constant](https://llvm.org/docs/LangRef.html#complex-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ArrayConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

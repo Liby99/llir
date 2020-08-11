@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// Undefined value
+/// [Undefined value](https://llvm.org/docs/LangRef.html#undefined-values)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Undef<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

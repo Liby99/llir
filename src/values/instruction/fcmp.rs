@@ -51,7 +51,7 @@ impl FCmpPredicate {
   }
 }
 
-/// Floating point comparison (FCmp) instruction
+/// [Floating point comparison (FCmp) instruction](https://llvm.org/docs/LangRef.html#fcmp-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 

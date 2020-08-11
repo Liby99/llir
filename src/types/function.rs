@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
-/// Function Type
+/// [Function Type](https://llvm.org/docs/LangRef.html#function-type)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FunctionType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 

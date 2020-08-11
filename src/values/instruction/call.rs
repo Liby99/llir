@@ -6,7 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// Call instruction
+/// [Call instruction](https://llvm.org/docs/LangRef.html#call-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

@@ -6,7 +6,11 @@ use super::*;
 use crate::values::*;
 use crate::*;
 
-/// The container type for all constants
+/// [Constants](https://llvm.org/docs/LangRef.html#constants)
+///
+/// Int, Float, and Null are [Simple Constants](https://llvm.org/docs/LangRef.html#simple-constants)
+///
+/// Struct, Array, and Vector are [Complex Constants](https://llvm.org/docs/LangRef.html#complex-constants)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Constant<'ctx> {
   Int(IntConstant<'ctx>),

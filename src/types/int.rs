@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
-/// Integer type
+/// [Integer type](https://llvm.org/docs/LangRef.html#integer-type)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 

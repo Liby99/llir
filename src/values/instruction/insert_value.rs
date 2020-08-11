@@ -6,7 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
-/// CallBr instruction
+/// [Insert value instruction](https://llvm.org/docs/LangRef.html#insertvalue-instruction)
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct InsertValueInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

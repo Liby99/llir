@@ -6,7 +6,9 @@ use crate::types::*;
 use crate::utils::string_of_type;
 use crate::{FromLLVMType, TypeRef};
 
-/// Struct type, could either be named or a literal
+/// [Struct type](https://llvm.org/docs/LangRef.html#structure-type)
+///
+/// Could either be named or a literal
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum StructType<'ctx> {
   NamedStruct(NamedStructType<'ctx>),
