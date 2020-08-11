@@ -12,29 +12,68 @@ fn test_global<'ctx>(glob: &Global<'ctx>) -> Result<(), String> {
 }
 
 fn test_pointer_type<'ctx>(p: &PointerType<'ctx>) -> Result<(), String> {
+  let _ = p.element_type();
   Ok(())
 }
 
 fn test_function_type<'ctx>(t: &FunctionType<'ctx>) -> Result<(), String> {
+  let _ = t.num_argument_types();
+  let _ = t.argument_types();
+  let _ = t.return_type();
+  let _ = t.has_return_type();
   Ok(())
 }
 
 fn test_type<'ctx>(t: &Type<'ctx>) -> Result<(), String> {
+  match t {
+    Type::Function(f) => {
+      test_function_type(f)?;
+    }
+    Type::Pointer(p) => {
+      test_pointer_type(p)?;
+    }
+    Type::Other(o) => {
+      println!("Unknown type kind {:?}", unsafe { LLVMGetTypeKind(o.type_ref()) })
+    }
+    _ => {}
+  }
   Ok(())
 }
 
 fn test_int_constant<'ctx>(i: &IntConstant<'ctx>) -> Result<(), String> {
+  let _ = i.zext_value();
+  Ok(())
+}
+
+fn test_const_expr<'ctx>(ce: &ConstExpr<'ctx>) -> Result<(), String> {
+  match ce {
+    ConstExpr::Other(o) => {
+      println!("Unknown const expr {:?}", unsafe { LLVMGetConstOpcode(o.value_ref()) });
+    }
+    _ => {}
+  }
   Ok(())
 }
 
 fn test_constant<'ctx>(c: &Constant<'ctx>) -> Result<(), String> {
-  // match c {
-  //   Constant
-  // }
+  test_type(&c.get_type())?;
+  match c {
+    Constant::Int(i) => {
+      test_int_constant(i)?;
+    }
+    Constant::ConstExpr(ce) => {
+      test_const_expr(ce)?;
+    }
+    Constant::Other(o) => {
+      println!("Other constant {:?}", unsafe { LLVMGetValueKind(o.value_ref()) });
+    }
+    _ => {}
+  }
   Ok(())
 }
 
 fn test_operand<'ctx>(op: &Operand<'ctx>) -> Result<(), String> {
+  test_type(&op.get_type())?;
   use Operand::*;
   match op {
     Instruction(_) => {}
