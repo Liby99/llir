@@ -1,6 +1,8 @@
 # LLVM IR Binding for Rust
 
-This LLVM IR Binding is mainly for inspecting existing module in LLVM Bytecode form, and not for producing one.
+This LLVM IR Binding provides intuitive and well-organized safe Rust API for analyzing existing LLVM modules.
+Thus the whole library is thread-safe. This crate does not provide the functionality to produce new LLVM module
+or change existing module.
 
 ## How to use
 
@@ -24,4 +26,20 @@ for func in module.iter_functions() {
     }
   }
 }
+```
+
+## Documentation
+
+The automatically generated documentation is hosted [on docs.rs](https://docs.rs/llir/0.1.3/llir/index.html)
+
+## Include as a library
+
+Make sure you installed LLVM 10.0 on your machine and is visible via path.
+
+Then go to your `Cargo.toml` and add this line under your dependencies:
+
+``` toml
+# Cargo.toml
+[dependencies]
+llir = "0.1"
 ```
