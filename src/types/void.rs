@@ -8,6 +8,10 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct VoidType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for VoidType<'ctx> {}
+
+unsafe impl<'ctx> Sync for VoidType<'ctx> {}
+
 impl<'ctx> AsType<'ctx> for VoidType<'ctx> {
   fn as_type(&self) -> Type<'ctx> {
     Type::Void(self.clone())

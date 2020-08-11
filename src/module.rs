@@ -8,6 +8,10 @@ use crate::*;
 /// LLVM Module
 pub struct Module<'ctx>(LLVMModuleRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for Module<'ctx> {}
+
+unsafe impl<'ctx> Sync for Module<'ctx> {}
+
 impl<'ctx> Module<'ctx> {
   pub(crate) fn new(ptr: LLVMModuleRef) -> Self {
     Self(ptr, PhantomData)

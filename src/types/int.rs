@@ -9,6 +9,10 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for IntType<'ctx> {}
+
+unsafe impl<'ctx> Sync for IntType<'ctx> {}
+
 impl<'ctx> IntType<'ctx> {
   /// Get the number of bits
   pub fn bits(&self) -> u32 {

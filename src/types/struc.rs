@@ -59,6 +59,8 @@ impl<'ctx> StructType<'ctx> {
   }
 }
 
+impl<'ctx> StructTypeTrait<'ctx> for StructType<'ctx> {}
+
 impl<'ctx> AsType<'ctx> for StructType<'ctx> {
   fn as_type(&self) -> Type<'ctx> {
     Type::Struct(self.clone())
@@ -84,8 +86,13 @@ impl<'ctx> FromLLVMType for StructType<'ctx> {
   }
 }
 
+/// A struct literal without name
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LiteralStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
+
+unsafe impl<'ctx> Send for LiteralStructType<'ctx> {}
+
+unsafe impl<'ctx> Sync for LiteralStructType<'ctx> {}
 
 impl<'ctx> StructTypeTrait<'ctx> for LiteralStructType<'ctx> {}
 
@@ -107,8 +114,15 @@ impl<'ctx> FromLLVMType for LiteralStructType<'ctx> {
   }
 }
 
+/// A named struct type that you can get name from
+///
+/// Named struct allows recursive type definition
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct NamedStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
+
+unsafe impl<'ctx> Send for NamedStructType<'ctx> {}
+
+unsafe impl<'ctx> Sync for NamedStructType<'ctx> {}
 
 impl<'ctx> StructTypeTrait<'ctx> for NamedStructType<'ctx> {}
 

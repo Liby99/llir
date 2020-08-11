@@ -9,6 +9,10 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FunctionType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for FunctionType<'ctx> {}
+
+unsafe impl<'ctx> Sync for FunctionType<'ctx> {}
+
 impl<'ctx> FunctionType<'ctx> {
   /// Get the number of argument types
   pub fn num_argument_types(&self) -> usize {

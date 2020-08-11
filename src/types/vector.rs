@@ -9,6 +9,10 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct VectorType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for VectorType<'ctx> {}
+
+unsafe impl<'ctx> Sync for VectorType<'ctx> {}
+
 impl<'ctx> VectorType<'ctx> {
   /// Get the element type inside the vector type
   pub fn element_type(&self) -> Type<'ctx> {

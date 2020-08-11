@@ -9,6 +9,10 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ArrayType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for ArrayType<'ctx> {}
+
+unsafe impl<'ctx> Sync for ArrayType<'ctx> {}
+
 impl<'ctx> ArrayType<'ctx> {
   /// Get the element_type of the Array Type
   pub fn element_type(&self) -> Type<'ctx> {

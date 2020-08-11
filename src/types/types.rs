@@ -53,6 +53,7 @@ impl<'ctx> TypeRef for Type<'ctx> {
   }
 }
 
+/// A placeholder type; used when the type is not supported yet
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 

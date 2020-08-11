@@ -18,6 +18,10 @@ use super::Module;
 #[derive(Debug, PartialEq, Eq)]
 pub struct Context(LLVMContextRef);
 
+unsafe impl Send for Context {}
+
+unsafe impl Sync for Context {}
+
 impl Context {
   pub(crate) fn new(context: LLVMContextRef) -> Self {
     Self(context)
