@@ -80,6 +80,11 @@ impl<'ctx> Function<'ctx> {
     self.get_function_type().is_var_arg()
   }
 
+  /// Get the number of arguments in this function
+  pub fn num_arguments(&self) -> usize {
+    unsafe { LLVMCountParams(self.func) as usize }
+  }
+
   /// Get the arguments to this function in vector form
   pub fn arguments(&self) -> Vec<Argument<'ctx>> {
     (0..self.num_arguments())
@@ -87,9 +92,9 @@ impl<'ctx> Function<'ctx> {
       .collect()
   }
 
-  /// Get the number of arguments in this function
-  pub fn num_arguments(&self) -> usize {
-    unsafe { LLVMCountParams(self.func) as usize }
+  /// Get the argument at a given index
+  pub fn argument(&self, index: usize) -> Argument<'ctx> {
+    Argument::from_llvm(unsafe { LLVMGetParam(self.func, index as u32) })
   }
 
   /// Get the function type

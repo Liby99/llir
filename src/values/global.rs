@@ -12,7 +12,9 @@ use crate::*;
 /// A global could be either a normal variable or an alias
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Global<'ctx> {
+  /// Global variable
   Variable(GlobalVariable<'ctx>),
+  /// Global alias
   Alias(GlobalAlias<'ctx>),
 }
 
@@ -35,6 +37,14 @@ impl<'ctx> Global<'ctx> {
       _ => true,
     }
   }
+
+  /// Get the aliasee
+  pub fn aliasee(&self) -> Option<Constant<'ctx>> {
+    match self {
+      Self::Alias(a) => Some(a.aliasee()),
+      _ => None
+    }
+  }
 }
 
 impl<'ctx> FromLLVMValue for Global<'ctx> {
@@ -54,6 +64,12 @@ impl<'ctx> ValueRef for Global<'ctx> {
       Self::Variable(v) => v.value_ref(),
       Self::Alias(a) => a.value_ref(),
     }
+  }
+}
+
+impl<'ctx> AsConstant<'ctx> for Global<'ctx> {
+  fn as_constant(&self) -> Constant<'ctx> {
+    Constant::Global(self.clone())
   }
 }
 
@@ -112,8 +128,8 @@ impl<'ctx> GlobalValueTrait<'ctx> for GlobalAlias<'ctx> {}
 
 impl<'ctx> GlobalAlias<'ctx> {
   /// Get the aliasee of the global alias
-  pub fn aliasee(&self) -> Global<'ctx> {
-    Global::from_llvm(unsafe { LLVMAliasGetAliasee(self.0) })
+  pub fn aliasee(&self) -> Constant<'ctx> {
+    Constant::from_llvm(unsafe { LLVMAliasGetAliasee(self.0) })
   }
 }
 
