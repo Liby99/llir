@@ -1,6 +1,8 @@
 use std::path::Path;
 use llir::*;
 use llir::values::*;
+use llvm_sys::core::*;
+use llvm_sys::*;
 
 fn test_global<'ctx>(glob: &Global<'ctx>) -> Result<(), String> {
   let _ = glob.name();
@@ -45,6 +47,9 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
     Return(r) => {
 
     }
+    Select(_) => {
+
+    }
     Store(s) => {
 
     }
@@ -58,7 +63,7 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
 
     }
     Other(o) => {
-      println!("Other instruction: {:?}", o);
+      println!("Other instruction: {:?}", unsafe { LLVMGetInstructionOpcode(o.value_ref()) } );
     }
   }
   Ok(())
@@ -68,19 +73,18 @@ fn test_block<'ctx>(blk: &Block<'ctx>) -> Result<(), String> {
   let _ = blk.first_instruction();
   let _ = blk.last_instruction();
   for instr in blk.iter_instructions() {
-    // test_instruction(&instr)?;
+    test_instruction(&instr)?;
   }
   Ok(())
 }
 
 fn test_func<'ctx>(func: &Function<'ctx>) -> Result<(), String> {
-  // let _ = func.name();
-  // let _ = func.is_declaration_only();
-  // let _ = func.first_block();
+  let _ = func.name();
+  let _ = func.is_declaration_only();
+  let _ = func.first_block();
   let _ = func.last_block();
-  let is_var_arg = func.is_var_arg();
-  let nargs = func.num_arguments();
-  println!("Num arguments {}, is var arg: {}", nargs, is_var_arg);
+  let _ = func.is_var_arg();
+  let _ = func.num_arguments();
   let _ = func.arguments();
   for blk in func.iter_blocks() {
     assert_eq!(blk.parent_function(), *func);
