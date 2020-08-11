@@ -11,6 +11,27 @@ fn test_global<'ctx>(glob: &Global<'ctx>) -> Result<(), String> {
   Ok(())
 }
 
+fn test_constant<'ctx>(c: &Constant<'ctx>) -> Result<(), String> {
+  // match c {
+  //   Constant
+  // }
+  Ok(())
+}
+
+fn test_operand<'ctx>(op: &Operand<'ctx>) -> Result<(), String> {
+  use Operand::*;
+  match op {
+    Instruction(_) => {}
+    Argument(_) => {}
+    Constant(c) => {
+      test_constant(c)?;
+    }
+    InlineAsm(_) => {}
+    Metadata(_) => {}
+  }
+  Ok(())
+}
+
 fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
   use Instruction::*;
   match instr {
@@ -19,6 +40,10 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
     Branch(b) => {}
     Call(c) => {}
     CallBr(c) => {}
+    ExtractValue(ev) => {
+      // println!("{:?}", ev.aggregate());
+      // test_operand(&)?;
+    }
     FCmp(f) => {}
     GetElementPtr(g) => {}
     IndirectBranch(ib) => {

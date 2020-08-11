@@ -8,6 +8,8 @@ mod call;
 pub use call::*;
 mod call_br;
 pub use call_br::*;
+mod extract_value;
+pub use extract_value::*;
 mod icmp;
 pub use icmp::*;
 mod indir_br;
