@@ -86,7 +86,7 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 
   /// Check if this call is to llvm intrinsic function
-  pub fn is_intrinsic(&self) -> bool {
+  pub fn is_intrinsic_call(&self) -> bool {
     unsafe { !LLVMIsAIntrinsicInst(self.0).is_null() }
   }
 }
