@@ -1,8 +1,8 @@
-use std::path::Path;
-use llir::*;
 use llir::values::*;
+use llir::*;
 use llvm_sys::core::*;
 use llvm_sys::*;
+use std::path::Path;
 
 fn test_global<'ctx>(glob: &Global<'ctx>) -> Result<(), String> {
   let _ = glob.name();
@@ -14,56 +14,30 @@ fn test_global<'ctx>(glob: &Global<'ctx>) -> Result<(), String> {
 fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
   use Instruction::*;
   match instr {
-    Alloca(a) => {
-
+    Alloca(a) => {}
+    Binary(b) => {}
+    Branch(b) => {}
+    Call(c) => {}
+    CallBr(c) => {}
+    FCmp(f) => {}
+    GetElementPtr(g) => {}
+    IndirectBranch(ib) => {
+      let _ = ib.address();
+      let _ = ib.destinations();
     }
-    Binary(b) => {
-
-    }
-    Branch(b) => {
-
-    }
-    Call(c) => {
-
-    }
-    CallBr(c) => {
-
-    }
-    FCmp(f) => {
-
-    }
-    GetElementPtr(g) => {
-
-    }
-    ICmp(i) => {
-
-    }
-    Load(l) => {
-
-    }
-    Phi(p) => {
-
-    }
-    Return(r) => {
-
-    }
-    Select(_) => {
-
-    }
-    Store(s) => {
-
-    }
-    Switch(s) => {
-
-    }
-    Unary(u) => {
-
-    }
-    Unreachable(u) => {
-
-    }
+    ICmp(i) => {}
+    Load(l) => {}
+    Phi(p) => {}
+    Return(r) => {}
+    Select(_) => {}
+    Store(s) => {}
+    Switch(s) => {}
+    Unary(u) => {}
+    Unreachable(u) => {}
     Other(o) => {
-      println!("Other instruction: {:?}", unsafe { LLVMGetInstructionOpcode(o.value_ref()) } );
+      println!("Other instruction: {:?}", unsafe {
+        LLVMGetInstructionOpcode(o.value_ref())
+      });
     }
   }
   Ok(())

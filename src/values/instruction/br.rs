@@ -28,11 +28,11 @@ impl<'ctx> AsInstruction<'ctx> for BranchInstruction<'ctx> {
 }
 
 impl<'ctx> BranchInstruction<'ctx> {
-  /// Get the target blocks from this branch instruction
+  /// Get the destination blocks from this branch instruction
   ///
   /// If this instruction is conditional, then there will be two target blocks;
   /// if unconditional, then there will be only one target block
-  pub fn target_blocks(&self) -> Vec<Block<'ctx>> {
+  pub fn destinations(&self) -> Vec<Block<'ctx>> {
     match self {
       Self::Conditional(c) => vec![c.then_block(), c.else_block()],
       Self::Unconditional(u) => vec![u.target_block()],

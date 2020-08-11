@@ -42,7 +42,7 @@ impl<'ctx> Global<'ctx> {
   pub fn aliasee(&self) -> Option<Constant<'ctx>> {
     match self {
       Self::Alias(a) => Some(a.aliasee()),
-      _ => None
+      _ => None,
     }
   }
 }

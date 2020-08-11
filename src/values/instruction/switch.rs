@@ -58,6 +58,15 @@ impl<'ctx> SwitchInstruction<'ctx> {
       })
       .collect()
   }
+
+  /// Get destination blocks
+  pub fn destinations(&self) -> Vec<Block<'ctx>> {
+    vec![
+      vec![self.default_block()],
+      self.cases().into_iter().map(|case| case.block).collect(),
+    ]
+    .concat()
+  }
 }
 
 impl<'ctx> AsInstruction<'ctx> for SwitchInstruction<'ctx> {

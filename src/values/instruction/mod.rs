@@ -10,6 +10,8 @@ mod call_br;
 pub use call_br::*;
 mod icmp;
 pub use icmp::*;
+mod indir_br;
+pub use indir_br::*;
 mod fcmp;
 pub use fcmp::*;
 mod gep;
