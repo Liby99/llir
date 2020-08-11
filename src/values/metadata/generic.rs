@@ -4,6 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Generic DI Metadata
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

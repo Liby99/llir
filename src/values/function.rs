@@ -141,6 +141,7 @@ impl<'ctx> GetDebugLoc for Function<'ctx> {
   }
 }
 
+#[doc(hidden)]
 pub struct FunctionBlockIterator<'ctx> {
   curr_block: Option<Block<'ctx>>,
 }

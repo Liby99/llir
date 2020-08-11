@@ -6,6 +6,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// DILocation Metadata
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LocationMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

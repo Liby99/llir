@@ -4,6 +4,7 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
+/// Distinct Metadata Operand Placeholder
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DistinctMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

@@ -6,6 +6,7 @@ use crate::types::*;
 use crate::values::*;
 use crate::*;
 
+/// Inline Assembly value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct InlineAsm<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
