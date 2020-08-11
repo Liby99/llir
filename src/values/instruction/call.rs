@@ -1,4 +1,4 @@
-use llvm_sys::core::{LLVMGetElementType, LLVMGetNumOperands, LLVMGetOperand, LLVMIsTailCall};
+use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -75,6 +75,11 @@ impl<'ctx> CallInstruction<'ctx> {
   /// Check if this function call is a tail call
   pub fn is_tail_call(&self) -> bool {
     unsafe { LLVMIsTailCall(self.0) == 1 }
+  }
+
+  /// Check if this call is to llvm intrinsic function
+  pub fn is_intrinsic(&self) -> bool {
+    unsafe { !LLVMIsAIntrinsicInst(self.0).is_null() }
   }
 }
 
