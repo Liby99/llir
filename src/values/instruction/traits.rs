@@ -5,6 +5,7 @@ use llvm_sys::core::{
 use crate::values::*;
 use crate::*;
 
+/// Turn instructions into Instruction Container Enum
 pub trait AsInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx>;
 }

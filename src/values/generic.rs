@@ -4,8 +4,7 @@ use std::marker::PhantomData;
 use crate::utils::*;
 use crate::*;
 
-/// Generic value is used in every place where a value is presented but
-/// not supported by llir, in order to avoid errors
+/// A placeholder value; used when the value kind is not supported yet
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericValue<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 

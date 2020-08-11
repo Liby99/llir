@@ -13,6 +13,7 @@ pub enum StructType<'ctx> {
   LiteralStruct(LiteralStructType<'ctx>),
 }
 
+/// The struct type API applicable to every struct type
 pub trait StructTypeTrait<'ctx>: TypeRef {
   /// Get the number of element types in the Struct
   fn num_element_types(&self) -> usize {

@@ -1,5 +1,6 @@
 use crate::values::*;
 
+/// Turn constant expression subclass into a ConstExpr enum
 pub trait AsConstExpr<'ctx> {
   fn as_const_expr(&self) -> ConstExpr<'ctx>;
 }

@@ -71,8 +71,8 @@ where
   }
 }
 
+/// Turn the value into a GenericValue, implemented for every value class
 pub trait AsGenericValue<'ctx>: ValueRef {
-  /// Turn the value into a GenericValue
   fn as_generic_value(&self) -> GenericValue<'ctx> {
     GenericValue::new(self.value_ref())
   }

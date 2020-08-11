@@ -5,7 +5,7 @@ use std::marker::PhantomData;
 use crate::types::*;
 use crate::{FromLLVMType, TypeRef};
 
-/// The Array Type https://llvm.org/doxygen/classllvm_1_1ArrayType.html
+/// The Array Type
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ArrayType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
