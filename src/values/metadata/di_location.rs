@@ -6,15 +6,15 @@ use std::marker::PhantomData;
 use crate::values::*;
 use crate::*;
 
-/// DILocation Metadata
+/// DI Location Metadata
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct LocationMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+pub struct DILocation<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for LocationMDNode<'ctx> {}
+unsafe impl<'ctx> Send for DILocation<'ctx> {}
 
-unsafe impl<'ctx> Sync for LocationMDNode<'ctx> {}
+unsafe impl<'ctx> Sync for DILocation<'ctx> {}
 
-impl<'ctx> LocationMDNode<'ctx> {
+impl<'ctx> DILocation<'ctx> {
   /// Get the column number
   pub fn col(&self) -> usize {
     unsafe { LLVMDILocationGetColumn(LLVMValueAsMetadata(self.0)) as usize }
@@ -26,20 +26,20 @@ impl<'ctx> LocationMDNode<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for LocationMDNode<'ctx> {
+impl<'ctx> FromLLVMValue for DILocation<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
   }
 }
 
-impl<'ctx> ValueRef for LocationMDNode<'ctx> {
+impl<'ctx> ValueRef for DILocation<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }
 }
 
-impl<'ctx> AsMetadata<'ctx> for LocationMDNode<'ctx> {
+impl<'ctx> AsMetadata<'ctx> for DILocation<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {
-    Metadata::Location(self.clone())
+    Metadata::DILocation(self.clone())
   }
 }
