@@ -1,6 +1,4 @@
-use llvm_sys::core::{
-  LLVMGetInstructionParent, LLVMGetNextInstruction, LLVMGetNumOperands, LLVMGetOperand, LLVMGetPreviousInstruction,
-};
+use llvm_sys::core::*;
 
 use crate::values::*;
 use crate::*;
@@ -67,5 +65,10 @@ pub trait InstructionTrait<'ctx>: ValueRef {
     } else {
       None
     }
+  }
+
+  /// Get the string representation of the instruction
+  fn to_string(&self) -> String {
+    unsafe { utils::raw_to_string(LLVMPrintValueToString(self.value_ref())) }
   }
 }

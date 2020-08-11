@@ -41,8 +41,12 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
     Call(c) => {}
     CallBr(c) => {}
     ExtractValue(ev) => {
-      // println!("{:?}", ev.aggregate());
-      // test_operand(&)?;
+      println!("NumIndices: {}, {:?}, {}", ev.num_indices(), ev.indices(), ev.to_string());
+      // let _ = ev.aggregate();
+      // let indices = ev.indices();
+      // for index in indices {
+      //   println!("{}", index.zext_value());
+      // }
     }
     FCmp(f) => {}
     GetElementPtr(g) => {}

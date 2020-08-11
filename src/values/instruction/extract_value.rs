@@ -2,6 +2,7 @@ use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
+use crate::types::*;
 use crate::values::*;
 use crate::*;
 
@@ -22,16 +23,32 @@ impl<'ctx> InstructionDebugLoc for ExtractValueInstruction<'ctx> {}
 impl<'ctx> InstructionTrait<'ctx> for ExtractValueInstruction<'ctx> {}
 
 impl<'ctx> ExtractValueInstruction<'ctx> {
+  /// Get the aggregate operand
   pub fn aggregate(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 
-  pub fn indices(&self) -> Vec<IntConstant<'ctx>> {
-    let num_operands = unsafe { LLVMGetNumOperands(self.0) as u32 };
-    let num_dests = num_operands - 1;
-    (1..=num_dests)
-      .map(|i| IntConstant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
-      .collect()
+  /// Get the aggregate type
+  pub fn aggregate_type(&self) -> Type<'ctx> {
+    self.aggregate().get_type()
+  }
+
+  /// Get the number of indices
+  pub fn num_indices(&self) -> usize {
+    unsafe { LLVMGetNumIndices(self.0) as usize }
+  }
+
+  /// Get the indices
+  pub fn indices(&self) -> Vec<u32> {
+    let num_indices = self.num_indices();
+    let mut indices = vec![0; num_indices];
+    unsafe {
+      let raw_indices = LLVMGetIndices(self.0);
+      for i in 0..num_indices {
+        indices[i] = *raw_indices.offset(i as isize) as u32;
+      }
+    }
+    return indices;
   }
 }
 
