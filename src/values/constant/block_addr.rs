@@ -7,15 +7,15 @@ use crate::*;
 
 /// Integer constant
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
-pub struct BlockAddressConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+pub struct BlockAddress<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for BlockAddressConstant<'ctx> {}
+unsafe impl<'ctx> Send for BlockAddress<'ctx> {}
 
-unsafe impl<'ctx> Sync for BlockAddressConstant<'ctx> {}
+unsafe impl<'ctx> Sync for BlockAddress<'ctx> {}
 
-impl<'ctx> GetType<'ctx> for BlockAddressConstant<'ctx> {}
+impl<'ctx> GetType<'ctx> for BlockAddress<'ctx> {}
 
-impl<'ctx> BlockAddressConstant<'ctx> {
+impl<'ctx> BlockAddress<'ctx> {
   pub fn function(&self) -> Function<'ctx> {
     Function::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
@@ -25,20 +25,20 @@ impl<'ctx> BlockAddressConstant<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef for BlockAddressConstant<'ctx> {
+impl<'ctx> ValueRef for BlockAddress<'ctx> {
   fn value_ref(&self) -> LLVMValueRef {
     self.0
   }
 }
 
-impl<'ctx> FromLLVMValue for BlockAddressConstant<'ctx> {
+impl<'ctx> FromLLVMValue for BlockAddress<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     // println!("BlockAddr: {} operands", unsafe { LLVMGetNumO})
     Self(ptr, PhantomData)
   }
 }
 
-impl<'ctx> AsConstant<'ctx> for BlockAddressConstant<'ctx> {
+impl<'ctx> AsConstant<'ctx> for BlockAddress<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {
     Constant::BlockAddress(self.clone())
   }

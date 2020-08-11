@@ -23,8 +23,8 @@ impl<'ctx> InstructionTrait<'ctx> for IndirectBranchInstruction<'ctx> {}
 
 impl<'ctx> IndirectBranchInstruction<'ctx> {
   /// Get the block address
-  pub fn address(&self) -> BlockAddressConstant<'ctx> {
-    BlockAddressConstant::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
+  pub fn address(&self) -> BlockAddress<'ctx> {
+    BlockAddress::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 
   /// Get the possible block destinations
