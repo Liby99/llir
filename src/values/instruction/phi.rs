@@ -15,6 +15,10 @@ pub struct PhiIncoming<'ctx> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for PhiInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for PhiInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for PhiInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for PhiInstruction<'ctx> {}

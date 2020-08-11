@@ -17,6 +17,10 @@ pub struct Function<'ctx> {
   marker: PhantomData<&'ctx ()>,
 }
 
+unsafe impl<'ctx> Send for Function<'ctx> {}
+
+unsafe impl<'ctx> Sync for Function<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for Function<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for Function<'ctx> {}

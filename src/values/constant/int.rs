@@ -10,6 +10,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntConstant<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for IntConstant<'ctx> {}
+
+unsafe impl<'ctx> Sync for IntConstant<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for IntConstant<'ctx> {}
 
 impl<'ctx> IntConstant<'ctx> {

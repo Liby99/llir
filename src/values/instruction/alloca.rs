@@ -9,6 +9,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct AllocaInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for AllocaInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for AllocaInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for AllocaInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for AllocaInstruction<'ctx> {}

@@ -57,6 +57,10 @@ impl<'ctx> TypeRef for Type<'ctx> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for GenericType<'ctx> {}
+
+unsafe impl<'ctx> Sync for GenericType<'ctx> {}
+
 impl<'ctx> FromLLVMType for GenericType<'ctx> {
   fn from_llvm(ptr: LLVMTypeRef) -> Self {
     Self(ptr, PhantomData)

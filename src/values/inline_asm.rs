@@ -10,6 +10,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct InlineAsm<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for InlineAsm<'ctx> {}
+
+unsafe impl<'ctx> Sync for InlineAsm<'ctx> {}
+
 impl<'ctx> InlineAsm<'ctx> {
   /// Get the type of this InlineAsm in function type form
   pub fn function_type(&self) -> FunctionType<'ctx> {

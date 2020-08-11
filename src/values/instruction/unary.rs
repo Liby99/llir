@@ -64,6 +64,10 @@ impl UnaryOpcode {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for UnaryInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for UnaryInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for UnaryInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for UnaryInstruction<'ctx> {}

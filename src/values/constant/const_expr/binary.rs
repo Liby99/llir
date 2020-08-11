@@ -9,6 +9,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryConstExpr<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for BinaryConstExpr<'ctx> {}
+
+unsafe impl<'ctx> Sync for BinaryConstExpr<'ctx> {}
+
 impl<'ctx> BinaryConstExpr<'ctx> {
   /// Get the opcode
   pub fn opcode(&self) -> BinaryOpcode {

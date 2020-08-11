@@ -8,6 +8,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for GenericMDNode<'ctx> {}
+
+unsafe impl<'ctx> Sync for GenericMDNode<'ctx> {}
+
 impl<'ctx> GenericMDNode<'ctx> {}
 
 impl<'ctx> FromLLVMValue for GenericMDNode<'ctx> {

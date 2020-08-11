@@ -53,6 +53,10 @@ impl ICmpPredicate {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for ICmpInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for ICmpInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for ICmpInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for ICmpInstruction<'ctx> {}

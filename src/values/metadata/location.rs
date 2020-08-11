@@ -10,6 +10,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LocationMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for LocationMDNode<'ctx> {}
+
+unsafe impl<'ctx> Sync for LocationMDNode<'ctx> {}
+
 impl<'ctx> LocationMDNode<'ctx> {
   /// Get the column number
   pub fn col(&self) -> usize {

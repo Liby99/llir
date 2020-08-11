@@ -10,6 +10,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for CallInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for CallInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for CallInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for CallInstruction<'ctx> {}

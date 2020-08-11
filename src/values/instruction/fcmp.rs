@@ -55,6 +55,10 @@ impl FCmpPredicate {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for FCmpInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for FCmpInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for FCmpInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for FCmpInstruction<'ctx> {}

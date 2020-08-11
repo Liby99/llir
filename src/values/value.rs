@@ -9,6 +9,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericValue<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for GenericValue<'ctx> {}
+
+unsafe impl<'ctx> Sync for GenericValue<'ctx> {}
+
 impl<'ctx> GenericValue<'ctx> {
   pub(crate) fn new(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)

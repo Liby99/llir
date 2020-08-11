@@ -8,6 +8,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnreachableInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for UnreachableInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for UnreachableInstruction<'ctx> {}
+
 impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for UnreachableInstruction<'ctx> {}

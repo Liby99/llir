@@ -9,6 +9,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Argument<'ctx>(usize, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for Argument<'ctx> {}
+
+unsafe impl<'ctx> Sync for Argument<'ctx> {}
+
 impl<'ctx> Argument<'ctx> {
   /// Get the parent function that this argument belongs to
   pub fn parent(&self) -> Function<'ctx> {

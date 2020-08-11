@@ -13,6 +13,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Global<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for Global<'ctx> {}
+
+unsafe impl<'ctx> Sync for Global<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for Global<'ctx> {}
 
 impl<'ctx> Global<'ctx> {

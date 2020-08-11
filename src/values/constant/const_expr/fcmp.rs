@@ -9,6 +9,10 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpConstExpr<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for FCmpConstExpr<'ctx> {}
+
+unsafe impl<'ctx> Sync for FCmpConstExpr<'ctx> {}
+
 impl<'ctx> FCmpConstExpr<'ctx> {
   /// Get the fcmp predicate
   pub fn predicate(&self) -> FCmpPredicate {

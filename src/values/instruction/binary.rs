@@ -83,6 +83,10 @@ impl BinaryOpcode {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
+unsafe impl<'ctx> Send for BinaryInstruction<'ctx> {}
+
+unsafe impl<'ctx> Sync for BinaryInstruction<'ctx> {}
+
 impl<'ctx> GetType<'ctx> for BinaryInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for BinaryInstruction<'ctx> {}
