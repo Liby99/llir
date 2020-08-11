@@ -12,12 +12,14 @@ pub trait GetType<'ctx>: ValueRef {
   }
 }
 
+/// Get debug metadata for any value
 pub trait GetDebugMetadata<'ctx>: ValueRef {
   fn dbg_metadata(&self) -> Option<Metadata<'ctx>> {
     mdkind_ids::dbg_metadata(self.value_ref()).map(Metadata::from_llvm)
   }
 }
 
+/// Trait that turns a value into an operand
 pub trait AsOperand<'ctx> {
   fn as_operand(&self) -> Operand<'ctx>;
 }
@@ -69,11 +71,11 @@ where
   }
 }
 
-pub trait AsGenericValue<'ctx> : ValueRef {
+pub trait AsGenericValue<'ctx>: ValueRef {
   /// Turn the value into a GenericValue
   fn as_generic_value(&self) -> GenericValue<'ctx> {
     GenericValue::new(self.value_ref())
   }
 }
 
-impl<'ctx, V> AsGenericValue<'ctx> for V where V : ValueRef {}
+impl<'ctx, V> AsGenericValue<'ctx> for V where V: ValueRef {}

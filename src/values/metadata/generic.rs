@@ -7,9 +7,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-impl<'ctx> GenericMDNode<'ctx> {
-
-}
+impl<'ctx> GenericMDNode<'ctx> {}
 
 impl<'ctx> FromLLVMValue for GenericMDNode<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {

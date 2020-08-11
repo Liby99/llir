@@ -31,7 +31,7 @@ impl<'ctx> CallInstruction<'ctx> {
   pub fn callee_inline_asm(&self) -> Option<InlineAsm<'ctx>> {
     match self.callee() {
       Operand::InlineAsm(ia) => Some(ia),
-      _ => None
+      _ => None,
     }
   }
 

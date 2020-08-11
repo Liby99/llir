@@ -1,6 +1,6 @@
 use llvm_sys::core::*;
-use llvm_sys::prelude::LLVMValueRef;
 use llvm_sys::debuginfo::*;
+use llvm_sys::prelude::LLVMValueRef;
 
 use crate::values::*;
 use crate::{FromLLVMValue, ValueRef};

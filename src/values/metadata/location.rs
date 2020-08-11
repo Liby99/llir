@@ -10,10 +10,12 @@ use crate::*;
 pub struct LocationMDNode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> LocationMDNode<'ctx> {
+  /// Get the column number
   pub fn col(&self) -> usize {
     unsafe { LLVMDILocationGetColumn(LLVMValueAsMetadata(self.0)) as usize }
   }
 
+  /// Get the line number
   pub fn line(&self) -> usize {
     unsafe { LLVMDILocationGetLine(LLVMValueAsMetadata(self.0)) as usize }
   }

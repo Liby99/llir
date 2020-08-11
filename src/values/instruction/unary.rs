@@ -46,6 +46,21 @@ impl UnaryOpcode {
 }
 
 /// Unary instruction
+///
+/// Covers the following instruction opcodes:
+/// - FNeg
+/// - Trunc
+/// - ZExt
+/// - SExt
+/// - FPToUI
+/// - FPToSI
+/// - UIToFP
+/// - SIToFP
+/// - FPTrunc
+/// - FPExt
+/// - PtrToInt
+/// - IntToPtr
+/// - BitCast
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 

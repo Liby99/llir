@@ -1,6 +1,6 @@
 use llvm_sys::core::*;
-use llvm_sys::LLVMValueKind;
 use llvm_sys::prelude::LLVMValueRef;
+use llvm_sys::LLVMValueKind;
 use std::marker::PhantomData;
 
 use crate::utils::string_of_value;
@@ -26,7 +26,7 @@ impl<'ctx> Global<'ctx> {
     use LLVMValueKind::*;
     match unsafe { LLVMGetValueKind(self.0) } {
       LLVMGlobalAliasValueKind => true,
-      _ => false
+      _ => false,
     }
   }
 }

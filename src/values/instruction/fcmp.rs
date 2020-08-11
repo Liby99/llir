@@ -29,23 +29,24 @@ pub enum FCmpPredicate {
 
 impl FCmpPredicate {
   pub fn from_llvm(pred: LLVMRealPredicate) -> Self {
+    use LLVMRealPredicate::*;
     match pred {
-      LLVMRealPredicate::LLVMRealOEQ => Self::OEQ,
-      LLVMRealPredicate::LLVMRealOGE => Self::OGE,
-      LLVMRealPredicate::LLVMRealOGT => Self::OGT,
-      LLVMRealPredicate::LLVMRealOLE => Self::OLE,
-      LLVMRealPredicate::LLVMRealOLT => Self::OLT,
-      LLVMRealPredicate::LLVMRealONE => Self::ONE,
-      LLVMRealPredicate::LLVMRealORD => Self::ORD,
-      LLVMRealPredicate::LLVMRealPredicateFalse => Self::PredicateFalse,
-      LLVMRealPredicate::LLVMRealPredicateTrue => Self::PredicateTrue,
-      LLVMRealPredicate::LLVMRealUEQ => Self::UEQ,
-      LLVMRealPredicate::LLVMRealUGE => Self::UGE,
-      LLVMRealPredicate::LLVMRealUGT => Self::UGT,
-      LLVMRealPredicate::LLVMRealULE => Self::ULE,
-      LLVMRealPredicate::LLVMRealULT => Self::ULT,
-      LLVMRealPredicate::LLVMRealUNE => Self::UNE,
-      LLVMRealPredicate::LLVMRealUNO => Self::UNO,
+      LLVMRealOEQ => Self::OEQ,
+      LLVMRealOGE => Self::OGE,
+      LLVMRealOGT => Self::OGT,
+      LLVMRealOLE => Self::OLE,
+      LLVMRealOLT => Self::OLT,
+      LLVMRealONE => Self::ONE,
+      LLVMRealORD => Self::ORD,
+      LLVMRealPredicateFalse => Self::PredicateFalse,
+      LLVMRealPredicateTrue => Self::PredicateTrue,
+      LLVMRealUEQ => Self::UEQ,
+      LLVMRealUGE => Self::UGE,
+      LLVMRealUGT => Self::UGT,
+      LLVMRealULE => Self::ULE,
+      LLVMRealULT => Self::ULT,
+      LLVMRealUNE => Self::UNE,
+      LLVMRealUNO => Self::UNO,
     }
   }
 }

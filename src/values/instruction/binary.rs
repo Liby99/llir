@@ -58,6 +58,28 @@ impl BinaryOpcode {
 }
 
 /// Binary instruction
+///
+/// Covers the following instruction opcodes:
+/// - Integer Arithmetics
+///   - Add
+///   - Sub
+///   - Mul
+///   - UDiv
+///   - SDiv
+///   - URem
+///   - SRem
+/// - Floating Point Arithmetics
+///   - FAdd
+///   - FSub
+///   - FMul
+///   - FDiv
+/// - Bitwise
+///   - Shl
+///   - LShr
+///   - AShr
+///   - And
+///   - Or
+///   - Xor
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 

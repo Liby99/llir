@@ -2,8 +2,8 @@ use llvm_sys::core::{LLVMGetNumOperands, LLVMGetOperand, LLVMValueAsBasicBlock};
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::values::*;
 use crate::utils::*;
+use crate::values::*;
 use crate::{FromLLVMBlock, FromLLVMValue, ValueRef};
 
 /// Container class for branch instruction.
@@ -128,9 +128,7 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
 
   /// Check if this unconditional branch is jumping as a end-of-loop-body jump
   pub fn is_loop_jump(&self) -> Option<bool> {
-    mdkind_ids::dbg_metadata(self.value_ref()).map(|_| {
-      mdkind_ids::loop_metadata(self.value_ref()).is_some()
-    })
+    mdkind_ids::dbg_metadata(self.value_ref()).map(|_| mdkind_ids::loop_metadata(self.value_ref()).is_some())
   }
 }
 

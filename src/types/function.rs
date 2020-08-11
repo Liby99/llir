@@ -29,7 +29,11 @@ impl<'ctx> FunctionType<'ctx> {
   /// Get the argument type at a given index
   pub fn argument_type(&self, index: usize) -> Option<Type<'ctx>> {
     let types = self.argument_types();
-    if index < types.len() { Some(types[index]) } else { None }
+    if index < types.len() {
+      Some(types[index])
+    } else {
+      None
+    }
   }
 
   /// Get the return type
@@ -41,7 +45,7 @@ impl<'ctx> FunctionType<'ctx> {
   pub fn has_return_type(&self) -> bool {
     match self.return_type() {
       Type::Void(_) => false,
-      _ => true
+      _ => true,
     }
   }
 

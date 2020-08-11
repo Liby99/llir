@@ -9,7 +9,10 @@ pub trait AsInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx>;
 }
 
-impl<'ctx, V> AsOperand<'ctx> for V where V: AsInstruction<'ctx> {
+impl<'ctx, V> AsOperand<'ctx> for V
+where
+  V: AsInstruction<'ctx>,
+{
   fn as_operand(&self) -> Operand<'ctx> {
     Operand::Instruction(self.as_instruction())
   }

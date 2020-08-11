@@ -2,9 +2,9 @@ use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::*;
-use crate::values::*;
 use crate::types::*;
+use crate::values::*;
+use crate::*;
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct InlineAsm<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);

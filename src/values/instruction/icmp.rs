@@ -9,31 +9,42 @@ use crate::*;
 /// Integer conparison predicate
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum ICmpPredicate {
+  /// Equals
   EQ,
+  /// Not-equals
   NE,
+  /// Signed greater-than or equal-to
   SGE,
+  /// Unsigned greater-than or equal-to
   UGE,
+  /// Signed greater-than
   SGT,
+  /// Unsigned greater-than
   UGT,
+  /// Signed less-than or equal-to
   SLE,
+  /// Unsigned less-than or equal-to
   ULE,
+  /// Signed less-than
   SLT,
+  /// Unsigned less-than
   ULT,
 }
 
 impl ICmpPredicate {
-  pub fn from_llvm(pred: LLVMIntPredicate) -> Self {
+  pub(crate) fn from_llvm(pred: LLVMIntPredicate) -> Self {
+    use LLVMIntPredicate::*;
     match pred {
-      LLVMIntPredicate::LLVMIntEQ => Self::EQ,
-      LLVMIntPredicate::LLVMIntNE => Self::NE,
-      LLVMIntPredicate::LLVMIntSGE => Self::SGE,
-      LLVMIntPredicate::LLVMIntUGE => Self::UGE,
-      LLVMIntPredicate::LLVMIntSGT => Self::SGT,
-      LLVMIntPredicate::LLVMIntUGT => Self::UGT,
-      LLVMIntPredicate::LLVMIntSLE => Self::SLE,
-      LLVMIntPredicate::LLVMIntULE => Self::ULE,
-      LLVMIntPredicate::LLVMIntSLT => Self::SLT,
-      LLVMIntPredicate::LLVMIntULT => Self::ULT,
+      LLVMIntEQ => Self::EQ,
+      LLVMIntNE => Self::NE,
+      LLVMIntSGE => Self::SGE,
+      LLVMIntUGE => Self::UGE,
+      LLVMIntSGT => Self::SGT,
+      LLVMIntUGT => Self::UGT,
+      LLVMIntSLE => Self::SLE,
+      LLVMIntULE => Self::ULE,
+      LLVMIntSLT => Self::SLT,
+      LLVMIntULT => Self::ULT,
     }
   }
 }

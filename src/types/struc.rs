@@ -33,7 +33,11 @@ pub trait StructTypeTrait<'ctx>: TypeRef {
   /// Get the element type at a given index
   fn element_type(&self, index: usize) -> Option<Type<'ctx>> {
     let types = self.element_types();
-    if index < types.len() { Some(types[index]) } else { None }
+    if index < types.len() {
+      Some(types[index])
+    } else {
+      None
+    }
   }
 }
 
@@ -50,7 +54,7 @@ impl<'ctx> StructType<'ctx> {
   pub fn name(&self) -> Option<String> {
     match self {
       Self::NamedStruct(ns) => Some(ns.name()),
-      _ => None
+      _ => None,
     }
   }
 }

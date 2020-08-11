@@ -2,8 +2,8 @@ use llvm_sys::core::LLVMGetParamParent;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
-use crate::*;
 use crate::values::*;
+use crate::*;
 
 /// Function argument value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]

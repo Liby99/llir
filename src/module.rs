@@ -2,8 +2,8 @@ use llvm_sys::core::*;
 use llvm_sys::prelude::{LLVMModuleRef, LLVMValueRef};
 use std::marker::PhantomData;
 
-use crate::*;
 use crate::values::*;
+use crate::*;
 
 /// LLVM Module
 pub struct Module<'ctx>(LLVMModuleRef, PhantomData<&'ctx ()>);

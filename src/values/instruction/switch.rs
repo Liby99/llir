@@ -48,11 +48,9 @@ impl<'ctx> SwitchInstruction<'ctx> {
   /// Get the cases
   pub fn cases(&self) -> Vec<SwitchCase<'ctx>> {
     (0..self.num_cases() as u32)
-      .map(|i| {
-        SwitchCase {
-          case: IntConstant::from_llvm(unsafe { LLVMGetOperand(self.0, i * 2 + 2) }),
-          block: Block::from_llvm(unsafe { LLVMValueAsBasicBlock(LLVMGetOperand(self.0, i * 2 + 3)) }),
-        }
+      .map(|i| SwitchCase {
+        case: IntConstant::from_llvm(unsafe { LLVMGetOperand(self.0, i * 2 + 2) }),
+        block: Block::from_llvm(unsafe { LLVMValueAsBasicBlock(LLVMGetOperand(self.0, i * 2 + 3)) }),
       })
       .collect()
   }
