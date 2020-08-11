@@ -1,5 +1,5 @@
-use llir::values::*;
 use llir::types::*;
+use llir::values::*;
 use llir::*;
 use llvm_sys::core::*;
 use std::path::Path;
@@ -32,9 +32,7 @@ fn test_type<'ctx>(t: &Type<'ctx>) -> Result<(), String> {
     Type::Pointer(p) => {
       test_pointer_type(p)?;
     }
-    Type::Other(o) => {
-      println!("Unknown type kind {:?}", unsafe { LLVMGetTypeKind(o.type_ref()) })
-    }
+    Type::Other(o) => println!("Unknown type kind {:?}", unsafe { LLVMGetTypeKind(o.type_ref()) }),
     _ => {}
   }
   Ok(())
@@ -108,7 +106,7 @@ fn test_instruction<'ctx>(instr: &Instruction<'ctx>) -> Result<(), String> {
           test_operand(&c.condition())?;
           let _ = c.then_block();
           let _ = c.else_block();
-        },
+        }
         BranchInstruction::Unconditional(u) => {
           let _ = u.destination();
           let _ = u.is_loop_jump();

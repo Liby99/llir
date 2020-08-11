@@ -29,7 +29,9 @@ impl<'ctx> FromLLVMValue for Metadata<'ctx> {
       LLVMDILabelMetadataKind => Self::DILabel(DILabel::from_llvm(ptr)),
       LLVMDILocalVariableMetadataKind => Self::DILocalVariable(DILocalVariable::from_llvm(ptr)),
       LLVMDILocationMetadataKind => Self::DILocation(DILocation::from_llvm(ptr)),
-      LLVMDistinctMDOperandPlaceholderMetadataKind => Self::DistinctMDOperandPlaceholder(DistinctMDOperandPlaceholder::from_llvm(ptr)),
+      LLVMDistinctMDOperandPlaceholderMetadataKind => {
+        Self::DistinctMDOperandPlaceholder(DistinctMDOperandPlaceholder::from_llvm(ptr))
+      }
       LLVMGenericDINodeMetadataKind => Self::GenericDINode(GenericDINode::from_llvm(ptr)),
       LLVMLocalAsMetadataMetadataKind => Self::LocalAsMetadata(LocalAsMetadata::from_llvm(ptr)),
       LLVMMDTupleMetadataKind => Self::MDTuple(MDTuple::from_llvm(ptr)),
