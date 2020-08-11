@@ -31,12 +31,12 @@ fn test_no_crash<'ctx>(module: &llir::Module<'ctx>) {
               let _ = cond_br.else_block();
             }
             BranchInstruction::Unconditional(uncond_br) => {
-              let _ = uncond_br.target_block();
+              let _ = uncond_br.destination();
             }
           },
           Switch(switch) => {
             let _ = switch.condition();
-            let _ = switch.default_block();
+            let _ = switch.default_destination();
             let _ = switch.num_cases();
             let _ = switch.cases();
           }

@@ -6,6 +6,13 @@ use crate::values::*;
 use crate::*;
 
 /// [Select instruction](https://llvm.org/docs/LangRef.html#select-instruction)
+///
+/// The code `res = a < b ? a : b` will be turned into
+///
+/// ```
+/// %cmp = icmp slt %a %b
+/// %res = select %cmp %a %b
+/// ```
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SelectInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
@@ -28,14 +35,17 @@ impl<'ctx> AsInstruction<'ctx> for SelectInstruction<'ctx> {
 }
 
 impl<'ctx> SelectInstruction<'ctx> {
+  /// The condition to check
   pub fn condition(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 0) })
   }
 
+  /// The value to select when the condition is true
   pub fn true_value(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 1) })
   }
 
+  /// The value to select when the condition is false
   pub fn false_value(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.0, 2) })
   }

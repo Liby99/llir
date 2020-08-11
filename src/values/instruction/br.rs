@@ -35,7 +35,7 @@ impl<'ctx> BranchInstruction<'ctx> {
   pub fn destinations(&self) -> Vec<Block<'ctx>> {
     match self {
       Self::Conditional(c) => vec![c.then_block(), c.else_block()],
-      Self::Unconditional(u) => vec![u.target_block()],
+      Self::Unconditional(u) => vec![u.destination()],
     }
   }
 }
@@ -128,7 +128,7 @@ impl<'ctx> InstructionTrait<'ctx> for UnconditionalBranchInstruction<'ctx> {}
 
 impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   /// Get the target block that this branch jumps to
-  pub fn target_block(&self) -> Block<'ctx> {
+  pub fn destination(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 0) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
     Block::from_llvm(block)

@@ -12,7 +12,7 @@ pub struct SwitchCase<'ctx> {
   /// This value is always integer constant.
   pub case: IntConstant<'ctx>,
   /// The block it will take when the value matches
-  pub block: Block<'ctx>,
+  pub destination: Block<'ctx>,
 }
 
 /// [Switch instruction](https://llvm.org/docs/LangRef.html#switch-instruction)
@@ -37,7 +37,7 @@ impl<'ctx> SwitchInstruction<'ctx> {
 
   /// Get the default block, which is the block this instruction will jump to when
   /// no branch target is matching the value
-  pub fn default_block(&self) -> Block<'ctx> {
+  pub fn default_destination(&self) -> Block<'ctx> {
     let operand = unsafe { LLVMGetOperand(self.0, 1) };
     let block = unsafe { LLVMValueAsBasicBlock(operand) };
     Block::from_llvm(block)
@@ -54,7 +54,7 @@ impl<'ctx> SwitchInstruction<'ctx> {
     (0..self.num_cases() as u32)
       .map(|i| SwitchCase {
         case: IntConstant::from_llvm(unsafe { LLVMGetOperand(self.0, i * 2 + 2) }),
-        block: Block::from_llvm(unsafe { LLVMValueAsBasicBlock(LLVMGetOperand(self.0, i * 2 + 3)) }),
+        destination: Block::from_llvm(unsafe { LLVMValueAsBasicBlock(LLVMGetOperand(self.0, i * 2 + 3)) }),
       })
       .collect()
   }
@@ -62,8 +62,8 @@ impl<'ctx> SwitchInstruction<'ctx> {
   /// Get destination blocks
   pub fn destinations(&self) -> Vec<Block<'ctx>> {
     vec![
-      vec![self.default_block()],
-      self.cases().into_iter().map(|case| case.block).collect(),
+      vec![self.default_destination()],
+      self.cases().into_iter().map(|case| case.destination).collect(),
     ]
     .concat()
   }
