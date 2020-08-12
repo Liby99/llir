@@ -12,7 +12,7 @@ fn test_intrinsic_call() -> Result<(), String> {
       for instr in block.iter_instructions() {
         match instr {
           Instruction::Call(c) => {
-            println!("Instr {} is intrinsic: {}", c.to_string(), c.is_intrinsic());
+            println!("Instr {} is intrinsic: {}", c.to_string(), c.is_intrinsic_call());
           }
           _ => {}
         }

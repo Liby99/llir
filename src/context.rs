@@ -1,9 +1,8 @@
 #[allow(deprecated)]
 use llvm_sys::bit_reader::LLVMParseBitcodeInContext;
-use llvm_sys::core::LLVMContextCreate;
+use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMContextRef;
 use std::path::Path;
-
 use std::mem::MaybeUninit;
 
 use super::utils::mem_buffer::MemoryBuffer;
@@ -62,5 +61,11 @@ impl Context {
     let module = unsafe { module.assume_init() };
 
     Ok(Module::new(module))
+  }
+}
+
+impl Drop for Context {
+  fn drop(&mut self) {
+    unsafe { LLVMContextDispose(self.0) }
   }
 }
