@@ -26,8 +26,10 @@ pub trait GlobalValueTrait<'ctx>: ValueRef {
   }
 }
 
+/// A global variable has a type
 impl<'ctx> GetType<'ctx> for Global<'ctx> {}
 
+/// Global variable implements the trait for global value
 impl<'ctx> GlobalValueTrait<'ctx> for Global<'ctx> {}
 
 impl<'ctx> Global<'ctx> {
@@ -68,6 +70,7 @@ impl<'ctx> ValueRef for Global<'ctx> {
   }
 }
 
+/// We can turn a Global into a Global Alias Constant
 impl<'ctx> AsConstant<'ctx> for Global<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {
     Constant::Global(self.clone())
@@ -84,16 +87,11 @@ unsafe impl<'ctx> Send for GlobalVariable<'ctx> {}
 
 unsafe impl<'ctx> Sync for GlobalVariable<'ctx> {}
 
+/// A global value has a type
 impl<'ctx> GetType<'ctx> for GlobalVariable<'ctx> {}
 
+/// Global value implements the trait for global value
 impl<'ctx> GlobalValueTrait<'ctx> for GlobalVariable<'ctx> {}
-
-impl<'ctx> GlobalVariable<'ctx> {
-  /// Get the name of this global
-  pub fn name(&self) -> String {
-    string_of_value(self.0)
-  }
-}
 
 impl<'ctx> FromLLVMValue for GlobalVariable<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
@@ -107,6 +105,7 @@ impl<'ctx> ValueRef for GlobalVariable<'ctx> {
   }
 }
 
+/// We can turn Global Variable into a Global Alias Constant
 impl<'ctx> AsConstant<'ctx> for GlobalVariable<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {
     Constant::Global(Global::Variable(self.clone()))
@@ -123,8 +122,10 @@ unsafe impl<'ctx> Send for GlobalAlias<'ctx> {}
 
 unsafe impl<'ctx> Sync for GlobalAlias<'ctx> {}
 
+/// A global alias has a type
 impl<'ctx> GetType<'ctx> for GlobalAlias<'ctx> {}
 
+/// Global alias implements the trait for global value
 impl<'ctx> GlobalValueTrait<'ctx> for GlobalAlias<'ctx> {}
 
 impl<'ctx> GlobalAlias<'ctx> {
@@ -146,6 +147,7 @@ impl<'ctx> ValueRef for GlobalAlias<'ctx> {
   }
 }
 
+/// We can turn Global Alias into a Global Alias Constant
 impl<'ctx> AsConstant<'ctx> for GlobalAlias<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {
     Constant::Global(Global::Alias(self.clone()))
