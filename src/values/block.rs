@@ -63,6 +63,36 @@ impl<'ctx> Block<'ctx> {
       Some(Instruction::from_llvm(last_instr))
     }
   }
+
+  /// Get the destination blocks that can be reached
+  pub fn destination_blocks(&self) -> Vec<Block<'ctx>> {
+    if let Some(term) = self.last_instruction() {
+      match term {
+        Instruction::Branch(br) => br.destinations(),
+        Instruction::Switch(sw) => sw.destinations(),
+        _ => vec![]
+      }
+    } else {
+      vec![]
+    }
+  }
+
+  /// Checking if a block is a loop entry block
+  pub fn is_loop_entry_block(&self) -> bool {
+    for blk in self.parent_function().iter_blocks() {
+      match blk.last_instruction() {
+        Some(Instruction::Branch(BranchInstruction::Unconditional(un))) => {
+          if let Some(is_loop_jump) = un.is_loop_jump() {
+            if is_loop_jump && un.destination() == *self {
+              return true;
+            }
+          }
+        }
+        _ => {}
+      }
+    }
+    return false;
+  }
 }
 
 impl<'ctx> BlockRef for Block<'ctx> {
