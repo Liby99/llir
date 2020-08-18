@@ -35,7 +35,7 @@ impl<'ctx> GetElementPtrInstruction<'ctx> {
 
   /// Get the indices used to get the pointer, in vector form
   pub fn indices(&self) -> Vec<Operand<'ctx>> {
-    (0..self.num_indices())
+    (1..self.num_indices())
       .map(|i| Operand::from_llvm(unsafe { LLVMGetOperand(self.0, i as u32) }))
       .collect()
   }
