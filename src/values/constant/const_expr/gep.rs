@@ -27,17 +27,17 @@ impl<'ctx> GetElementPtrConstExpr<'ctx> {
 
   /// Get the indices in Constant Vector format
   pub fn indices(&self) -> Vec<Constant<'ctx>> {
-    (1..self.num_indices() as u32)
-      .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i) }))
+    (0..self.num_indices() as u32)
+      .map(|i| Constant::from_llvm(unsafe { LLVMGetOperand(self.0, i + 1) }))
       .collect()
   }
 
   /// Get the indices in Integer Constant Vector format, since the constants used
   /// in a GEP Const Expr can only be integer constant
   pub fn int_indices(&self) -> Vec<IntConstant<'ctx>> {
-    (1..self.num_indices() as u32)
+    (0..self.num_indices() as u32)
       .map(|i| {
-        let operand = unsafe { LLVMGetOperand(self.0, i) };
+        let operand = unsafe { LLVMGetOperand(self.0, i + 1) };
         assert_eq!(
           unsafe { LLVMGetValueKind(operand) },
           LLVMValueKind::LLVMConstantIntValueKind
