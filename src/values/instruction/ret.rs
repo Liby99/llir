@@ -6,8 +6,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Return (Ret) instruction](https://llvm.org/docs/LangRef.html#ret-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ReturnInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(ReturnInstruction);
 
 unsafe impl<'ctx> Send for ReturnInstruction<'ctx> {}
 

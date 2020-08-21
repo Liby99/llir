@@ -7,8 +7,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Call instruction](https://llvm.org/docs/LangRef.html#call-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(CallInstruction);
 
 unsafe impl<'ctx> Send for CallInstruction<'ctx> {}
 

@@ -6,8 +6,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Store instruction](https://llvm.org/docs/LangRef.html#store-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(StoreInstruction);
 
 unsafe impl<'ctx> Send for StoreInstruction<'ctx> {}
 

@@ -13,8 +13,10 @@ use crate::*;
 /// %cmp = icmp slt %a %b
 /// %res = select %cmp %a %b
 /// ```
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SelectInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(SelectInstruction);
 
 unsafe impl<'ctx> Send for SelectInstruction<'ctx> {}
 

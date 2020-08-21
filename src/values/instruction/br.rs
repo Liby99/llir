@@ -60,8 +60,10 @@ impl<'ctx> ValueRef for BranchInstruction<'ctx> {
 }
 
 /// Conditional Branch Instruction
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(ConditionalBranchInstruction);
 
 unsafe impl<'ctx> Send for ConditionalBranchInstruction<'ctx> {}
 
@@ -113,8 +115,10 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 }
 
 /// Unconditional branch instruction
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(UnconditionalBranchInstruction);
 
 unsafe impl<'ctx> Send for UnconditionalBranchInstruction<'ctx> {}
 

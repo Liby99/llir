@@ -52,8 +52,10 @@ impl FCmpPredicate {
 }
 
 /// [Floating point comparison (FCmp) instruction](https://llvm.org/docs/LangRef.html#fcmp-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(FCmpInstruction);
 
 unsafe impl<'ctx> Send for FCmpInstruction<'ctx> {}
 

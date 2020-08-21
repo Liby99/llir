@@ -16,8 +16,10 @@ pub struct SwitchCase<'ctx> {
 }
 
 /// [Switch instruction](https://llvm.org/docs/LangRef.html#switch-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(SwitchInstruction);
 
 unsafe impl<'ctx> Send for SwitchInstruction<'ctx> {}
 

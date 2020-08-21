@@ -80,8 +80,10 @@ impl BinaryOpcode {
 ///   - And
 ///   - Or
 ///   - Xor
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(BinaryInstruction);
 
 unsafe impl<'ctx> Send for BinaryInstruction<'ctx> {}
 

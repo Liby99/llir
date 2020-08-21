@@ -5,8 +5,10 @@ use crate::values::*;
 use crate::*;
 
 /// [CallBr instruction](https://llvm.org/docs/LangRef.html#callbr-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct CallBrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(CallBrInstruction);
 
 unsafe impl<'ctx> Send for CallBrInstruction<'ctx> {}
 

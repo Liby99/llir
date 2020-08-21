@@ -1,3 +1,6 @@
+#[macro_use]
+mod traits;
+pub use traits::*;
 mod alloca;
 pub use alloca::*;
 mod binary;
@@ -38,5 +41,3 @@ mod unary;
 pub use unary::*;
 mod unreachable;
 pub use unreachable::*;
-mod traits;
-pub use traits::*;

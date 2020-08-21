@@ -12,8 +12,10 @@ pub struct PhiIncoming<'ctx> {
 }
 
 /// [PHI instruction](https://llvm.org/docs/LangRef.html#phi-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(PhiInstruction);
 
 unsafe impl<'ctx> Send for PhiInstruction<'ctx> {}
 

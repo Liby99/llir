@@ -50,8 +50,10 @@ impl ICmpPredicate {
 }
 
 /// [Integer comparison (ICmp) instruction](https://llvm.org/docs/LangRef.html#icmp-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpInstruction<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(ICmpInstruction);
 
 unsafe impl<'ctx> Send for ICmpInstruction<'ctx> {}
 

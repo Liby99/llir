@@ -7,8 +7,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Extract value instruction](https://llvm.org/docs/LangRef.html#extractvalue-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ExtractValueInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(ExtractValueInstruction);
 
 unsafe impl<'ctx> Send for ExtractValueInstruction<'ctx> {}
 

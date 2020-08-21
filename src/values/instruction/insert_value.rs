@@ -7,8 +7,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Insert value instruction](https://llvm.org/docs/LangRef.html#insertvalue-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct InsertValueInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(InsertValueInstruction);
 
 unsafe impl<'ctx> Send for InsertValueInstruction<'ctx> {}
 

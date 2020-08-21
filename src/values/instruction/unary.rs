@@ -63,8 +63,10 @@ impl UnaryOpcode {
 ///   - [PtrToInt](https://llvm.org/docs/LangRef.html#ptrtoint-to-instruction)
 ///   - [IntToPtr](https://llvm.org/docs/LangRef.html#inttoptr-to-instruction)
 ///   - [BitCast](https://llvm.org/docs/LangRef.html#bitcast-to-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryInstruction<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(UnaryInstruction);
 
 unsafe impl<'ctx> Send for UnaryInstruction<'ctx> {}
 

@@ -7,8 +7,10 @@ use crate::values::*;
 use crate::*;
 
 /// [Get Element Pointer (GEP) instruction](https://llvm.org/docs/LangRef.html#getelementptr-instruction)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl_instr_debug!(GetElementPtrInstruction);
 
 unsafe impl<'ctx> Send for GetElementPtrInstruction<'ctx> {}
 
