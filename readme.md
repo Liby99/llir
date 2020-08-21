@@ -30,7 +30,7 @@ for func in module.iter_functions() {
 
 ## Documentation
 
-The automatically generated documentation is hosted [on docs.rs](https://docs.rs/llir/0.1.3/llir/index.html)
+The automatically generated documentation is hosted [on docs.rs](https://docs.rs/llir/)
 
 ## Include as a library
 
