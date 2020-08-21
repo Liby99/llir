@@ -55,6 +55,31 @@ impl<'ctx> Function<'ctx> {
     }
   }
 
+  /// Iterate all the instructions of this function; will iterate the blocks
+  /// and then the instructions in each block
+  ///
+  /// ```
+  /// for instr in func.iter_instructions() {
+  ///   // Do things with instr...
+  /// }
+  /// ```
+  ///
+  /// is exactly the same as
+  ///
+  /// ```
+  /// for blk in func.iter_blocks() {
+  ///   for instr in blk.iter_instructions() {
+  ///     // Do things with instr...
+  ///   }
+  /// }
+  /// ```
+  pub fn iter_instructions(&self) -> FunctionInstructionIterator<'ctx> {
+    FunctionInstructionIterator {
+      blk_iter: self.iter_blocks(),
+      instr_iter: None
+    }
+  }
+
   /// Get the first block of this function
   pub fn first_block(&self) -> Option<Block<'ctx>> {
     let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
@@ -171,6 +196,35 @@ impl<'ctx> Iterator for FunctionBlockIterator<'ctx> {
         result
       }
       None => None,
+    }
+  }
+}
+
+#[doc(hidden)]
+pub struct FunctionInstructionIterator<'ctx> {
+  blk_iter: FunctionBlockIterator<'ctx>,
+  instr_iter: Option<BlockInstructionIterator<'ctx>>,
+}
+
+impl<'ctx> Iterator for FunctionInstructionIterator<'ctx> {
+  type Item = Instruction<'ctx>;
+
+  fn next(&mut self) -> Option<Self::Item> {
+    match &mut self.instr_iter {
+      Some(instr_iter) => match instr_iter.next() {
+        Some(next_instr) => return Some(next_instr),
+        None => {}
+      }
+      None => {}
+    };
+    match self.blk_iter.next() {
+      Some(blk) => {
+        let mut instr_iter = blk.iter_instructions();
+        let result = instr_iter.next();
+        self.instr_iter = Some(instr_iter);
+        result
+      }
+      None => None
     }
   }
 }
