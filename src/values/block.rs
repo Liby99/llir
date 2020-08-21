@@ -6,8 +6,14 @@ use crate::values::*;
 use crate::*;
 
 /// A block inside of function
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Block<'ctx>(LLVMBasicBlockRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> std::fmt::Debug for Block<'ctx> {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    f.debug_tuple("Block").field(&self.0).finish()
+  }
+}
 
 unsafe impl<'ctx> Send for Block<'ctx> {}
 

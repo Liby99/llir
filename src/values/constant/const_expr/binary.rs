@@ -6,7 +6,7 @@ use crate::values::*;
 use crate::*;
 
 /// Binary constant expression
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BinaryConstExpr<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
 unsafe impl<'ctx> Send for BinaryConstExpr<'ctx> {}
@@ -30,6 +30,8 @@ impl<'ctx> BinaryConstExpr<'ctx> {
 
 impl<'ctx> GetType<'ctx> for BinaryConstExpr<'ctx> {}
 
+impl<'ctx> ConstExprTrait<'ctx> for BinaryConstExpr<'ctx> {}
+
 impl<'ctx> FromLLVMValue for BinaryConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let opcode = BinaryOpcode::from_llvm(unsafe { LLVMGetConstOpcode(ptr) }).unwrap();
@@ -48,5 +50,7 @@ impl<'ctx> AsConstExpr<'ctx> for BinaryConstExpr<'ctx> {
     ConstExpr::Binary(self.clone())
   }
 }
+
+impl_const_expr_debug!(BinaryConstExpr);
 
 impl_as_constant_and_as_operand_for_const_expr!(BinaryConstExpr);

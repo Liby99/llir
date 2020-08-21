@@ -6,7 +6,7 @@ use crate::values::*;
 use crate::*;
 
 /// FCmp constant expression
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FCmpConstExpr<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
 unsafe impl<'ctx> Send for FCmpConstExpr<'ctx> {}
@@ -32,6 +32,8 @@ impl<'ctx> FCmpConstExpr<'ctx> {
 
 impl<'ctx> GetType<'ctx> for FCmpConstExpr<'ctx> {}
 
+impl<'ctx> ConstExprTrait<'ctx> for FCmpConstExpr<'ctx> {}
+
 impl<'ctx> FromLLVMValue for FCmpConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let ll_pred = unsafe { LLVMGetFCmpPredicate(ptr) };
@@ -51,5 +53,7 @@ impl<'ctx> AsConstExpr<'ctx> for FCmpConstExpr<'ctx> {
     ConstExpr::FCmp(self.clone())
   }
 }
+
+impl_const_expr_debug!(FCmpConstExpr);
 
 impl_as_constant_and_as_operand_for_const_expr!(FCmpConstExpr);

@@ -6,7 +6,7 @@ use crate::values::*;
 use crate::*;
 
 /// Unary constant expression
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryConstExpr<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
 unsafe impl<'ctx> Send for UnaryConstExpr<'ctx> {}
@@ -27,6 +27,8 @@ impl<'ctx> UnaryConstExpr<'ctx> {
 
 impl<'ctx> GetType<'ctx> for UnaryConstExpr<'ctx> {}
 
+impl<'ctx> ConstExprTrait<'ctx> for UnaryConstExpr<'ctx> {}
+
 impl<'ctx> FromLLVMValue for UnaryConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     let opcode = UnaryOpcode::from_llvm(unsafe { LLVMGetConstOpcode(ptr) }).unwrap();
@@ -45,5 +47,7 @@ impl<'ctx> AsConstExpr<'ctx> for UnaryConstExpr<'ctx> {
     ConstExpr::Unary(self.clone())
   }
 }
+
+impl_const_expr_debug!(UnaryConstExpr);
 
 impl_as_constant_and_as_operand_for_const_expr!(UnaryConstExpr);

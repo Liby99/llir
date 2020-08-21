@@ -7,7 +7,7 @@ use crate::values::*;
 use crate::*;
 
 /// Get element pointer constant expression
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GetElementPtrConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 unsafe impl<'ctx> Send for GetElementPtrConstExpr<'ctx> {}
@@ -50,6 +50,8 @@ impl<'ctx> GetElementPtrConstExpr<'ctx> {
 
 impl<'ctx> GetType<'ctx> for GetElementPtrConstExpr<'ctx> {}
 
+impl<'ctx> ConstExprTrait<'ctx> for GetElementPtrConstExpr<'ctx> {}
+
 impl<'ctx> FromLLVMValue for GetElementPtrConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     Self(ptr, PhantomData)
@@ -67,5 +69,7 @@ impl<'ctx> AsConstExpr<'ctx> for GetElementPtrConstExpr<'ctx> {
     ConstExpr::GetElementPtr(self.clone())
   }
 }
+
+impl_const_expr_debug!(GetElementPtrConstExpr);
 
 impl_as_constant_and_as_operand_for_const_expr!(GetElementPtrConstExpr);

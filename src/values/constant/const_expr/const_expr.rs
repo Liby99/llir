@@ -21,6 +21,8 @@ pub enum ConstExpr<'ctx> {
 
 impl<'ctx> GetType<'ctx> for ConstExpr<'ctx> {}
 
+impl<'ctx> ConstExprTrait<'ctx> for ConstExpr<'ctx> {}
+
 impl<'ctx> FromLLVMValue for ConstExpr<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     use LLVMOpcode::*;
