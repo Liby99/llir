@@ -34,7 +34,8 @@ impl<'ctx> Module<'ctx> {
 
   /// Get the function by name
   pub fn get_function(&self, name: &str) -> Option<Function<'ctx>> {
-    let fn_ptr = unsafe { LLVMGetNamedFunction(self.0, name.as_ptr() as *const i8) };
+    let zero_appended = format!("{}\0", name);
+    let fn_ptr = unsafe { LLVMGetNamedFunction(self.0, zero_appended.as_ptr() as *const i8) };
     if fn_ptr.is_null() { None } else { Some(Function::from_llvm(fn_ptr)) }
   }
 
@@ -55,7 +56,8 @@ impl<'ctx> Module<'ctx> {
 
   /// Get global variable by name
   pub fn get_global_variable(&self, name: &str) -> Option<GlobalVariable<'ctx>> {
-    let gv_ptr = unsafe { LLVMGetNamedGlobal(self.0, name.as_ptr() as *const i8) };
+    let zero_appended = format!("{}\0", name);
+    let gv_ptr = unsafe { LLVMGetNamedGlobal(self.0, zero_appended.as_ptr() as *const i8) };
     if gv_ptr.is_null() { None } else { Some(GlobalVariable::from_llvm(gv_ptr)) }
   }
 
