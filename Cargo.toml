@@ -1,6 +1,6 @@
 [package]
 name = "llir"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Ziyang Li <liby99@seas.upenn.edu>"]
 license = "MIT"
 description = "LLVM IR Binding"

@@ -20,7 +20,7 @@ impl<'ctx> Module<'ctx> {
   /// Iterate all functions inside the module
   ///
   /// ```
-  /// for func in mod.iter_functions() {
+  /// for func in module.iter_functions() {
   ///   // Do things with func
   /// }
   /// ```
@@ -35,7 +35,7 @@ impl<'ctx> Module<'ctx> {
   /// Iterate all globals and global aliases inside the module
   ///
   /// ```
-  /// for glob in mod.iter_globals() {
+  /// for glob in module.iter_globals() {
   ///   // Do things with glob
   /// }
   /// ```

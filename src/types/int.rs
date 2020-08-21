@@ -14,8 +14,8 @@ unsafe impl<'ctx> Send for IntType<'ctx> {}
 unsafe impl<'ctx> Sync for IntType<'ctx> {}
 
 impl<'ctx> IntType<'ctx> {
-  /// Get the number of bits
-  pub fn bits(&self) -> u32 {
+  /// Get the bit-width
+  pub fn width(&self) -> u32 {
     unsafe { LLVMGetIntTypeWidth(self.0) }
   }
 }

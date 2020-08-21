@@ -25,8 +25,8 @@ pub enum FloatTypeKind {
 }
 
 impl FloatTypeKind {
-  /// Get the number of bits of that type kind
-  pub fn bits(&self) -> u32 {
+  /// Get the bit-width of that type kind
+  pub fn width(&self) -> u32 {
     match self {
       Self::Half => 16,
       Self::Single => 32,
@@ -66,9 +66,9 @@ impl<'ctx> FloatType<'ctx> {
     self.0
   }
 
-  /// Get the number of bits for this float type
-  pub fn bits(&self) -> u32 {
-    self.0.bits()
+  /// Get the bit-width for this float type
+  pub fn width(&self) -> u32 {
+    self.0.width()
   }
 }
 

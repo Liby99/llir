@@ -78,6 +78,10 @@ impl<'ctx> Block<'ctx> {
   }
 
   /// Checking if a block is a loop entry block
+  ///
+  /// Will iterate through all blocks inside the function and see if there is an
+  /// loop based unconditional branch going to this block. This function is relying
+  /// on the debug symbol `llvm.loop`
   pub fn is_loop_entry_block(&self) -> bool {
     for blk in self.parent_function().iter_blocks() {
       match blk.last_instruction() {
