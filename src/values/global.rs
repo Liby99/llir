@@ -85,8 +85,14 @@ impl<'ctx> AsConstant<'ctx> for Global<'ctx> {
 /// Global value
 ///
 /// The value kind could either be global variable or global alias
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GlobalVariable<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> std::fmt::Debug for GlobalVariable<'ctx> {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    f.debug_tuple("GlobalVariable").field(&self.name()).finish()
+  }
+}
 
 unsafe impl<'ctx> Send for GlobalVariable<'ctx> {}
 
@@ -124,8 +130,14 @@ impl<'ctx> AsConstant<'ctx> for GlobalVariable<'ctx> {
 /// Global alias
 ///
 /// The value kind could either be global variable or global alias
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GlobalAlias<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
+
+impl<'ctx> std::fmt::Debug for GlobalAlias<'ctx> {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    f.debug_tuple("GlobalAlias").field(&self.name()).finish()
+  }
+}
 
 unsafe impl<'ctx> Send for GlobalAlias<'ctx> {}
 

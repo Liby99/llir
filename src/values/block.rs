@@ -64,6 +64,11 @@ impl<'ctx> Block<'ctx> {
     }
   }
 
+  /// Get the name of the block
+  pub fn name(&self) -> String {
+    unsafe { utils::raw_to_string(LLVMGetBasicBlockName(self.0)) }
+  }
+
   /// Get the destination blocks that can be reached
   pub fn destination_blocks(&self) -> Vec<Block<'ctx>> {
     if let Some(term) = self.last_instruction() {

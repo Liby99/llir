@@ -1,7 +1,4 @@
-use llvm_sys::core::{
-  LLVMCountParams, LLVMGetElementType, LLVMGetFirstBasicBlock, LLVMGetLastBasicBlock, LLVMGetNextBasicBlock,
-  LLVMGetParam, LLVMTypeOf,
-};
+use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMValueRef;
 use std::marker::PhantomData;
 
@@ -11,10 +8,16 @@ use crate::values::*;
 use crate::*;
 
 /// [Function value](https://llvm.org/docs/LangRef.html#functions)
-#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Function<'ctx> {
   func: LLVMValueRef,
   marker: PhantomData<&'ctx ()>,
+}
+
+impl<'ctx> std::fmt::Debug for Function<'ctx> {
+  fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+    f.debug_tuple("Function").field(&self.name()).finish()
+  }
 }
 
 unsafe impl<'ctx> Send for Function<'ctx> {}
@@ -78,6 +81,11 @@ impl<'ctx> Function<'ctx> {
       blk_iter: self.iter_blocks(),
       instr_iter: None
     }
+  }
+
+  /// Get the number of blocks inside the function
+  pub fn num_blocks(&self) -> usize {
+    unsafe { LLVMCountBasicBlocks(self.func) as usize }
   }
 
   /// Get the first block of this function
