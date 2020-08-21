@@ -12,6 +12,8 @@ pub struct InsertValueInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(InsertValueInstruction);
 
+impl_as_operand_for_instr!(InsertValueInstruction);
+
 unsafe impl<'ctx> Send for InsertValueInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for InsertValueInstruction<'ctx> {}

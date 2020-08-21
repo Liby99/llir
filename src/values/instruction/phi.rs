@@ -17,6 +17,8 @@ pub struct PhiInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(PhiInstruction);
 
+impl_as_operand_for_instr!(PhiInstruction);
+
 unsafe impl<'ctx> Send for PhiInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for PhiInstruction<'ctx> {}

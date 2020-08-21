@@ -57,6 +57,8 @@ pub struct FCmpInstruction<'ctx>(FCmpPredicate, LLVMValueRef, PhantomData<&'ctx 
 
 impl_instr_debug!(FCmpInstruction);
 
+impl_as_operand_for_instr!(FCmpInstruction);
+
 unsafe impl<'ctx> Send for FCmpInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for FCmpInstruction<'ctx> {}

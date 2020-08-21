@@ -12,6 +12,8 @@ pub struct ExtractValueInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(ExtractValueInstruction);
 
+impl_as_operand_for_instr!(ExtractValueInstruction);
+
 unsafe impl<'ctx> Send for ExtractValueInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for ExtractValueInstruction<'ctx> {}

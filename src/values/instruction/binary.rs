@@ -85,6 +85,8 @@ pub struct BinaryInstruction<'ctx>(BinaryOpcode, LLVMValueRef, PhantomData<&'ctx
 
 impl_instr_debug!(BinaryInstruction);
 
+impl_as_operand_for_instr!(BinaryInstruction);
+
 unsafe impl<'ctx> Send for BinaryInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for BinaryInstruction<'ctx> {}

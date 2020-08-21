@@ -11,6 +11,8 @@ pub struct StoreInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(StoreInstruction);
 
+impl_as_operand_for_instr!(StoreInstruction);
+
 unsafe impl<'ctx> Send for StoreInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for StoreInstruction<'ctx> {}

@@ -42,6 +42,8 @@ impl<'ctx> AsInstruction<'ctx> for Instruction<'ctx> {
   }
 }
 
+impl_as_operand_for_instr!(Instruction);
+
 impl<'ctx> FromLLVMValue for Instruction<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
     use LLVMOpcode::*;

@@ -21,6 +21,8 @@ pub struct SwitchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(SwitchInstruction);
 
+impl_as_operand_for_instr!(SwitchInstruction);
+
 unsafe impl<'ctx> Send for SwitchInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for SwitchInstruction<'ctx> {}

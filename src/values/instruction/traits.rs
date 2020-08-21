@@ -8,15 +8,6 @@ pub trait AsInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx>;
 }
 
-impl<'ctx, V> AsOperand<'ctx> for V
-where
-  V: AsInstruction<'ctx>,
-{
-  fn as_operand(&self) -> Operand<'ctx> {
-    Operand::Instruction(self.as_instruction())
-  }
-}
-
 pub trait InstructionTrait<'ctx>: ValueRef {
   /// Get the parent block
   fn parent_block(&self) -> Block<'ctx> {
@@ -81,4 +72,14 @@ macro_rules! impl_instr_debug {
       }
     }
   };
+}
+
+macro_rules! impl_as_operand_for_instr {
+  ($id:ident) => {
+    impl<'ctx> AsOperand<'ctx> for $id<'ctx> {
+      fn as_operand(&self) -> Operand<'ctx> {
+        Operand::Instruction(self.as_instruction())
+      }
+    }
+  }
 }

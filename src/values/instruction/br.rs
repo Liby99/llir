@@ -15,6 +15,8 @@ pub enum BranchInstruction<'ctx> {
   Unconditional(UnconditionalBranchInstruction<'ctx>),
 }
 
+impl_as_operand_for_instr!(BranchInstruction);
+
 impl<'ctx> GetDebugMetadata<'ctx> for BranchInstruction<'ctx> {}
 
 impl<'ctx> InstructionDebugLoc for BranchInstruction<'ctx> {}
@@ -64,6 +66,8 @@ impl<'ctx> ValueRef for BranchInstruction<'ctx> {
 pub struct ConditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(ConditionalBranchInstruction);
+
+impl_as_operand_for_instr!(ConditionalBranchInstruction);
 
 unsafe impl<'ctx> Send for ConditionalBranchInstruction<'ctx> {}
 
@@ -119,6 +123,8 @@ impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
 pub struct UnconditionalBranchInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(UnconditionalBranchInstruction);
+
+impl_as_operand_for_instr!(UnconditionalBranchInstruction);
 
 unsafe impl<'ctx> Send for UnconditionalBranchInstruction<'ctx> {}
 

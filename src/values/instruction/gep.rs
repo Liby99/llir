@@ -12,6 +12,8 @@ pub struct GetElementPtrInstruction<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_instr_debug!(GetElementPtrInstruction);
 
+impl_as_operand_for_instr!(GetElementPtrInstruction);
+
 unsafe impl<'ctx> Send for GetElementPtrInstruction<'ctx> {}
 
 unsafe impl<'ctx> Sync for GetElementPtrInstruction<'ctx> {}
