@@ -43,3 +43,5 @@ impl<'ctx> AsConstant<'ctx> for BlockAddress<'ctx> {
     Constant::BlockAddress(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(BlockAddress);

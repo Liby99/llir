@@ -53,3 +53,5 @@ impl<'ctx> AsConstant<'ctx> for VectorConstant<'ctx> {
     Constant::Vector(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(VectorConstant);

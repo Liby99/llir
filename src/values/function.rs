@@ -158,6 +158,8 @@ impl<'ctx> AsConstant<'ctx> for Function<'ctx> {
   }
 }
 
+impl_as_operand_for_constant!(Function);
+
 impl<'ctx> GetDebugLoc for Function<'ctx> {
   fn filename(&self) -> Option<String> {
     match self.first_block() {

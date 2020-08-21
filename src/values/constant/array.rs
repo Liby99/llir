@@ -53,3 +53,5 @@ impl<'ctx> AsConstant<'ctx> for ArrayConstant<'ctx> {
     Constant::Array(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(ArrayConstant);

@@ -152,16 +152,18 @@
 //!
 //! Other constants involve integer, float, null and so on.
 
+#[macro_use]
+mod constant;
+pub use constant::*;
+#[macro_use]
+mod instruction;
+pub use instruction::*;
 mod function;
 pub use function::*;
 mod block;
 pub use block::*;
-mod instruction;
-pub use instruction::*;
 mod operand;
 pub use operand::*;
-mod constant;
-pub use constant::*;
 mod metadata;
 pub use metadata::*;
 mod global;

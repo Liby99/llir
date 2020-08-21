@@ -39,3 +39,5 @@ impl<'ctx> AsConstant<'ctx> for NullConstant<'ctx> {
     Constant::Null(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(NullConstant);

@@ -32,3 +32,5 @@ impl<'ctx> AsConstant<'ctx> for Undef<'ctx> {
     Constant::Undef(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(Undef);

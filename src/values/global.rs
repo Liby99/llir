@@ -82,9 +82,9 @@ impl<'ctx> AsConstant<'ctx> for Global<'ctx> {
   }
 }
 
-/// Global value
-///
-/// The value kind could either be global variable or global alias
+impl_as_operand_for_constant!(Global);
+
+/// [Global variable](https://llvm.org/docs/LangRef.html#global-variables)
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GlobalVariable<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
@@ -127,9 +127,9 @@ impl<'ctx> AsConstant<'ctx> for GlobalVariable<'ctx> {
   }
 }
 
-/// Global alias
-///
-/// The value kind could either be global variable or global alias
+impl_as_operand_for_constant!(GlobalVariable);
+
+/// [Global alias](https://llvm.org/docs/LangRef.html#aliases)
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GlobalAlias<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
@@ -178,3 +178,5 @@ impl<'ctx> AsConstant<'ctx> for GlobalAlias<'ctx> {
     Constant::Global(Global::Alias(self.clone()))
   }
 }
+
+impl_as_operand_for_constant!(GlobalAlias);

@@ -1,3 +1,9 @@
+#[macro_use]
+mod traits;
+pub use traits::*;
+#[macro_use]
+mod const_expr;
+pub use const_expr::*;
 mod block_addr;
 pub use block_addr::*;
 mod constant;
@@ -14,9 +20,5 @@ mod array;
 pub use array::*;
 mod vector;
 pub use vector::*;
-mod const_expr;
-pub use const_expr::*;
-mod traits;
-pub use traits::*;
 mod undef;
 pub use undef::*;

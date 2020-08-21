@@ -52,3 +52,5 @@ impl<'ctx> AsConstant<'ctx> for StructConstant<'ctx> {
     Constant::Struct(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(StructConstant);

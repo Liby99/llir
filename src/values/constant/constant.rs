@@ -82,3 +82,5 @@ impl<'ctx> AsConstant<'ctx> for Constant<'ctx> {
     self.clone()
   }
 }
+
+impl_as_operand_for_constant!(Constant);

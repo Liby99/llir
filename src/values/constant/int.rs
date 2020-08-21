@@ -52,3 +52,5 @@ impl<'ctx> AsConstant<'ctx> for IntConstant<'ctx> {
     Constant::Int(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(IntConstant);

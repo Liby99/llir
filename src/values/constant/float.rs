@@ -49,3 +49,5 @@ impl<'ctx> AsConstant<'ctx> for FloatConstant<'ctx> {
     Constant::Float(self.clone())
   }
 }
+
+impl_as_operand_for_constant!(FloatConstant);

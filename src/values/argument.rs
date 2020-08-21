@@ -38,3 +38,9 @@ impl<'ctx> ValueRef for Argument<'ctx> {
     self.0
   }
 }
+
+impl<'ctx> AsOperand<'ctx> for Argument<'ctx> {
+  fn as_operand(&self) -> Operand<'ctx> {
+    Operand::Argument(self.clone())
+  }
+}
