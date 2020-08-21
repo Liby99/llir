@@ -45,3 +45,5 @@ impl<'ctx> AsConstExpr<'ctx> for UnaryConstExpr<'ctx> {
     ConstExpr::Unary(self.clone())
   }
 }
+
+impl_as_constant_and_as_operand_for_const_expr!(UnaryConstExpr);

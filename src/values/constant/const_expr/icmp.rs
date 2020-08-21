@@ -51,3 +51,5 @@ impl<'ctx> AsConstExpr<'ctx> for ICmpConstExpr<'ctx> {
     ConstExpr::ICmp(self.clone())
   }
 }
+
+impl_as_constant_and_as_operand_for_const_expr!(ICmpConstExpr);

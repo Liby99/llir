@@ -53,3 +53,5 @@ impl<'ctx> AsConstExpr<'ctx> for ConstExpr<'ctx> {
     self.clone()
   }
 }
+
+impl_as_constant_and_as_operand_for_const_expr!(ConstExpr);

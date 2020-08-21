@@ -48,3 +48,5 @@ impl<'ctx> AsConstExpr<'ctx> for BinaryConstExpr<'ctx> {
     ConstExpr::Binary(self.clone())
   }
 }
+
+impl_as_constant_and_as_operand_for_const_expr!(BinaryConstExpr);
