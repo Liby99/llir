@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct MDTuple<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(MDTuple);
+
 unsafe impl<'ctx> Send for MDTuple<'ctx> {}
 
 unsafe impl<'ctx> Sync for MDTuple<'ctx> {}

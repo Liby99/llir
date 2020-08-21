@@ -1,3 +1,6 @@
+#[macro_use]
+mod traits;
+pub use traits::*;
 mod const_as_md;
 pub use const_as_md::*;
 mod metadata;
@@ -18,5 +21,3 @@ mod di_location;
 pub use di_location::*;
 mod md_tuple;
 pub use md_tuple::*;
-mod traits;
-pub use traits::*;

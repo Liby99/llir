@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DILabel<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(DILabel);
+
 unsafe impl<'ctx> Send for DILabel<'ctx> {}
 
 unsafe impl<'ctx> Sync for DILabel<'ctx> {}

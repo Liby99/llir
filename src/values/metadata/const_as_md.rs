@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ConstantAsMetadata<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(ConstantAsMetadata);
+
 unsafe impl<'ctx> Send for ConstantAsMetadata<'ctx> {}
 
 unsafe impl<'ctx> Sync for ConstantAsMetadata<'ctx> {}

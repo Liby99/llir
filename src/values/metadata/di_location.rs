@@ -10,6 +10,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DILocation<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(DILocation);
+
 unsafe impl<'ctx> Send for DILocation<'ctx> {}
 
 unsafe impl<'ctx> Sync for DILocation<'ctx> {}

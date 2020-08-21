@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DistinctMDOperandPlaceholder<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(DistinctMDOperandPlaceholder);
+
 unsafe impl<'ctx> Send for DistinctMDOperandPlaceholder<'ctx> {}
 
 unsafe impl<'ctx> Sync for DistinctMDOperandPlaceholder<'ctx> {}

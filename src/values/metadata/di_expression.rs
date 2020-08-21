@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DIExpression<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(DIExpression);
+
 unsafe impl<'ctx> Send for DIExpression<'ctx> {}
 
 unsafe impl<'ctx> Sync for DIExpression<'ctx> {}

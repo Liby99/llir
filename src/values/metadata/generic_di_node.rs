@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericDINode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(GenericDINode);
+
 unsafe impl<'ctx> Send for GenericDINode<'ctx> {}
 
 unsafe impl<'ctx> Sync for GenericDINode<'ctx> {}

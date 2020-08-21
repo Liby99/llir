@@ -62,3 +62,5 @@ impl<'ctx> AsMetadata<'ctx> for Metadata<'ctx> {
     self.clone()
   }
 }
+
+impl_as_operand_for_metadata!(Metadata);

@@ -8,6 +8,8 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct DILocalVariable<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
+impl_as_operand_for_metadata!(DILocalVariable);
+
 unsafe impl<'ctx> Send for DILocalVariable<'ctx> {}
 
 unsafe impl<'ctx> Sync for DILocalVariable<'ctx> {}
