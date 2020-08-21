@@ -15,14 +15,17 @@ pub trait TypeRef {
   fn type_ref(&self) -> LLVMTypeRef;
 }
 
-pub(crate) trait FromLLVMValue: Sized {
+#[doc(hidden)]
+pub trait FromLLVMValue: Sized {
   fn from_llvm(ptr: LLVMValueRef) -> Self;
 }
 
-pub(crate) trait FromLLVMBlock: Sized {
+#[doc(hidden)]
+pub trait FromLLVMBlock: Sized {
   fn from_llvm(ptr: LLVMBasicBlockRef) -> Self;
 }
 
-pub(crate) trait FromLLVMType: Sized {
+#[doc(hidden)]
+pub trait FromLLVMType: Sized {
   fn from_llvm(ptr: LLVMTypeRef) -> Self;
 }

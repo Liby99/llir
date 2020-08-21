@@ -24,13 +24,18 @@ pub trait GlobalValueTrait<'ctx>: ValueRef {
   fn name(&self) -> String {
     string_of_value(self.value_ref())
   }
+
+  /// Global value can be turned into a Global enum
+  fn as_global(&self) -> Global<'ctx>;
 }
 
 /// A global variable has a type
 impl<'ctx> GetType<'ctx> for Global<'ctx> {}
 
 /// Global variable implements the trait for global value
-impl<'ctx> GlobalValueTrait<'ctx> for Global<'ctx> {}
+impl<'ctx> GlobalValueTrait<'ctx> for Global<'ctx> {
+  fn as_global(&self) -> Self { self.clone() }
+}
 
 impl<'ctx> Global<'ctx> {
   /// Check if a global variable is alias
@@ -91,7 +96,11 @@ unsafe impl<'ctx> Sync for GlobalVariable<'ctx> {}
 impl<'ctx> GetType<'ctx> for GlobalVariable<'ctx> {}
 
 /// Global value implements the trait for global value
-impl<'ctx> GlobalValueTrait<'ctx> for GlobalVariable<'ctx> {}
+impl<'ctx> GlobalValueTrait<'ctx> for GlobalVariable<'ctx> {
+  fn as_global(&self) -> Global<'ctx> {
+    Global::Variable(self.clone())
+  }
+}
 
 impl<'ctx> FromLLVMValue for GlobalVariable<'ctx> {
   fn from_llvm(ptr: LLVMValueRef) -> Self {
@@ -126,7 +135,11 @@ unsafe impl<'ctx> Sync for GlobalAlias<'ctx> {}
 impl<'ctx> GetType<'ctx> for GlobalAlias<'ctx> {}
 
 /// Global alias implements the trait for global value
-impl<'ctx> GlobalValueTrait<'ctx> for GlobalAlias<'ctx> {}
+impl<'ctx> GlobalValueTrait<'ctx> for GlobalAlias<'ctx> {
+  fn as_global(&self) -> Global<'ctx> {
+    Global::Alias(self.clone())
+  }
+}
 
 impl<'ctx> GlobalAlias<'ctx> {
   /// Get the aliasee of the global alias

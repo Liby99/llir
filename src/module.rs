@@ -24,86 +24,128 @@ impl<'ctx> Module<'ctx> {
   ///   // Do things with func
   /// }
   /// ```
-  pub fn iter_functions(&self) -> ModuleFunctionIterator<'ctx> {
-    let first_fn_ptr = unsafe { LLVMGetFirstFunction(self.0) };
-    ModuleFunctionIterator {
-      curr_function: first_fn_ptr,
-      marker: PhantomData,
+  pub fn iter_functions(&self) -> ValueIterator<'ctx, Function<'ctx>> {
+    ValueIterator {
+      curr_value: unsafe { LLVMGetFirstFunction(self.0) },
+      next_fn: next_function,
+      marker: PhantomData
     }
   }
 
-  /// Iterate all globals and global aliases inside the module
+  /// Get the function by name
+  pub fn get_function(&self, name: &str) -> Option<Function<'ctx>> {
+    let fn_ptr = unsafe { LLVMGetNamedFunction(self.0, name.as_ptr() as *const i8) };
+    if fn_ptr.is_null() { None } else { Some(Function::from_llvm(fn_ptr)) }
+  }
+
+  /// Iterate all globals variables
   ///
   /// ```
-  /// for glob in module.iter_globals() {
+  /// for glob in module.iter_global_variables() {
   ///   // Do things with glob
   /// }
   /// ```
-  pub fn iter_globals(&self) -> ModuleGlobalIterator<'ctx> {
-    let first_gl_ptr = unsafe { LLVMGetFirstGlobal(self.0) };
-    ModuleGlobalIterator {
-      module: self.0,
-      curr: first_gl_ptr,
-      is_global: true,
+  pub fn iter_global_variables(&self) -> ValueIterator<'ctx, GlobalVariable<'ctx>> {
+    ValueIterator {
+      curr_value: unsafe { LLVMGetFirstGlobal(self.0) },
+      next_fn: next_global,
+      marker: PhantomData
+    }
+  }
+
+  /// Get global variable by name
+  pub fn get_global_variable(&self, name: &str) -> Option<GlobalVariable<'ctx>> {
+    let gv_ptr = unsafe { LLVMGetNamedGlobal(self.0, name.as_ptr() as *const i8) };
+    if gv_ptr.is_null() { None } else { Some(GlobalVariable::from_llvm(gv_ptr)) }
+  }
+
+  /// Iterate all global aliases
+  ///
+  /// ```
+  /// for glob_alias in module.iter_global_aliases() {
+  ///   // Do things with global alias
+  /// }
+  /// ```
+  pub fn iter_global_aliases(&self) -> ValueIterator<'ctx, GlobalAlias<'ctx>> {
+    ValueIterator {
+      curr_value: unsafe { LLVMGetFirstGlobalAlias(self.0) },
+      next_fn: next_global_alias,
       marker: PhantomData,
+    }
+  }
+
+  /// Get global alias by name
+  pub fn get_global_alias(&self, name: &str) -> Option<GlobalAlias<'ctx>> {
+    let ga_ptr = unsafe { LLVMGetNamedGlobalAlias(self.0, name.as_ptr() as *const i8, name.len()) };
+    if ga_ptr.is_null() { None } else { Some(GlobalAlias::from_llvm(ga_ptr)) }
+  }
+
+  /// Iterate all globals, including global variables and global aliases
+  ///
+  /// ``` rust
+  /// for glob in module.iter_globals() {
+  ///   match glob {
+  ///     Global::Variable(v) => { /* ... */ },
+  ///     Global::Alias(a) => { /* ... */ },
+  ///   }
+  /// }
+  /// ```
+  pub fn iter_globals(&self) -> GlobalIterator<'ctx> {
+    GlobalIterator {
+      var_iter: self.iter_global_variables(),
+      alias_iter: self.iter_global_aliases(),
     }
   }
 }
 
-#[doc(hidden)]
-pub struct ModuleFunctionIterator<'ctx> {
-  curr_function: LLVMValueRef,
-  marker: PhantomData<&'ctx ()>,
+fn next_function(ptr: LLVMValueRef) -> LLVMValueRef {
+  unsafe { LLVMGetNextFunction(ptr) }
 }
 
-impl<'ctx> Iterator for ModuleFunctionIterator<'ctx> {
-  type Item = Function<'ctx>;
+fn next_global(ptr: LLVMValueRef) -> LLVMValueRef {
+  unsafe { LLVMGetNextGlobal(ptr) }
+}
+
+fn next_global_alias(ptr: LLVMValueRef) -> LLVMValueRef {
+  unsafe { LLVMGetNextGlobalAlias(ptr) }
+}
+
+#[doc(hidden)]
+pub struct ValueIterator<'ctx, T> where T : FromLLVMValue {
+  curr_value: LLVMValueRef,
+  next_fn: fn(LLVMValueRef) -> LLVMValueRef,
+  marker: PhantomData<&'ctx T>,
+}
+
+impl<'ctx, T> Iterator for ValueIterator<'ctx, T> where T : FromLLVMValue {
+  type Item = T;
 
   fn next(&mut self) -> Option<Self::Item> {
-    if self.curr_function.is_null() {
+    if self.curr_value.is_null() {
       None
     } else {
-      let result = Some(Function::from_llvm(self.curr_function));
-      self.curr_function = unsafe { LLVMGetNextFunction(self.curr_function) };
+      let result = Some(T::from_llvm(self.curr_value));
+      self.curr_value = (self.next_fn)(self.curr_value);
       result
     }
   }
 }
 
 #[doc(hidden)]
-pub struct ModuleGlobalIterator<'ctx> {
-  module: LLVMModuleRef,
-  curr: LLVMValueRef,
-  is_global: bool,
-  marker: PhantomData<&'ctx ()>,
+pub struct GlobalIterator<'ctx> {
+  var_iter: ValueIterator<'ctx, GlobalVariable<'ctx>>,
+  alias_iter: ValueIterator<'ctx, GlobalAlias<'ctx>>,
 }
 
-impl<'ctx> Iterator for ModuleGlobalIterator<'ctx> {
+impl<'ctx> Iterator for GlobalIterator<'ctx> {
   type Item = Global<'ctx>;
 
   fn next(&mut self) -> Option<Self::Item> {
-    if self.is_global {
-      if self.curr.is_null() {
-        self.is_global = false;
-        let first_global_alias = unsafe { LLVMGetFirstGlobalAlias(self.module) };
-        if first_global_alias.is_null() {
-          None
-        } else {
-          self.curr = unsafe { LLVMGetNextGlobalAlias(first_global_alias) };
-          Some(Global::from_llvm(first_global_alias))
-        }
-      } else {
-        let result = Some(Global::from_llvm(self.curr));
-        self.curr = unsafe { LLVMGetNextGlobal(self.curr) };
-        result
-      }
-    } else {
-      if self.curr.is_null() {
-        None
-      } else {
-        let result = Some(Global::from_llvm(self.curr));
-        self.curr = unsafe { LLVMGetNextGlobalAlias(self.curr) };
-        result
+    match self.var_iter.next() {
+      Some(gv) => Some(gv.as_global()),
+      None => match self.alias_iter.next() {
+        Some(ga) => Some(ga.as_global()),
+        None => None
       }
     }
   }
