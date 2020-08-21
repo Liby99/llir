@@ -81,7 +81,7 @@ impl<'ctx> CallInstruction<'ctx> {
   pub fn is_inline_asm_call(&self) -> bool {
     match self.callee() {
       Operand::InlineAsm(_) => true,
-      _ => false
+      _ => false,
     }
   }
 

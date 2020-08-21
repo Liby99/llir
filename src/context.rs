@@ -2,8 +2,8 @@
 use llvm_sys::bit_reader::LLVMParseBitcodeInContext;
 use llvm_sys::core::*;
 use llvm_sys::prelude::LLVMContextRef;
-use std::path::Path;
 use std::mem::MaybeUninit;
+use std::path::Path;
 
 use super::utils::mem_buffer::MemoryBuffer;
 use super::utils::support::LLVMString;

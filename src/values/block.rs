@@ -70,7 +70,7 @@ impl<'ctx> Block<'ctx> {
       match term {
         Instruction::Branch(br) => br.destinations(),
         Instruction::Switch(sw) => sw.destinations(),
-        _ => vec![]
+        _ => vec![],
       }
     } else {
       vec![]
