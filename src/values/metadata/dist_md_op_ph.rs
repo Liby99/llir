@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for DistinctMDOperandPlaceholder<'ctx> {}
 
 unsafe impl<'ctx> Sync for DistinctMDOperandPlaceholder<'ctx> {}
 
-impl<'ctx> DistinctMDOperandPlaceholder<'ctx> {}
+impl_positional_value_ref!(DistinctMDOperandPlaceholder, 0);
 
-impl<'ctx> FromLLVMValue for DistinctMDOperandPlaceholder<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for DistinctMDOperandPlaceholder<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(DistinctMDOperandPlaceholder);
 
 impl<'ctx> AsMetadata<'ctx> for DistinctMDOperandPlaceholder<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

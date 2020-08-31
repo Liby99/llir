@@ -41,14 +41,6 @@ impl<'ctx> AsInstruction<'ctx> for StoreInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for StoreInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    StoreInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(StoreInstruction, 0);
 
-impl<'ctx> ValueRef for StoreInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(StoreInstruction);

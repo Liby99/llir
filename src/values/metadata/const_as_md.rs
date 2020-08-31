@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for ConstantAsMetadata<'ctx> {}
 
 unsafe impl<'ctx> Sync for ConstantAsMetadata<'ctx> {}
 
-impl<'ctx> ConstantAsMetadata<'ctx> {}
+impl_positional_value_ref!(ConstantAsMetadata, 0);
 
-impl<'ctx> FromLLVMValue for ConstantAsMetadata<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for ConstantAsMetadata<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(ConstantAsMetadata);
 
 impl<'ctx> AsMetadata<'ctx> for ConstantAsMetadata<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

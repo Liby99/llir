@@ -47,14 +47,6 @@ impl<'ctx> AsInstruction<'ctx> for IndirectBranchInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for IndirectBranchInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(IndirectBranchInstruction, 0);
 
-impl<'ctx> ValueRef for IndirectBranchInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(IndirectBranchInstruction);

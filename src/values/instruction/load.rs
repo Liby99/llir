@@ -38,14 +38,6 @@ impl<'ctx> AsInstruction<'ctx> for LoadInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for LoadInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    LoadInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(LoadInstruction, 0);
 
-impl<'ctx> ValueRef for LoadInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(LoadInstruction);

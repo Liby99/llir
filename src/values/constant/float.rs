@@ -32,17 +32,9 @@ impl<'ctx> FloatConstant<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef for FloatConstant<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_value_ref!(FloatConstant, 0);
 
-impl<'ctx> FromLLVMValue for FloatConstant<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_value!(FloatConstant);
 
 impl<'ctx> AsConstant<'ctx> for FloatConstant<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {

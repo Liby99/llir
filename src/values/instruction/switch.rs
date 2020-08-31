@@ -79,14 +79,6 @@ impl<'ctx> AsInstruction<'ctx> for SwitchInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for SwitchInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(SwitchInstruction, 0);
 
-impl<'ctx> ValueRef for SwitchInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(SwitchInstruction);

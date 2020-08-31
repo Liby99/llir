@@ -108,17 +108,9 @@ impl<'ctx> GlobalValueTrait<'ctx> for GlobalVariable<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for GlobalVariable<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(GlobalVariable, 0);
 
-impl<'ctx> ValueRef for GlobalVariable<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GlobalVariable);
 
 /// We can turn Global Variable into a Global Alias Constant
 impl<'ctx> AsConstant<'ctx> for GlobalVariable<'ctx> {
@@ -160,17 +152,9 @@ impl<'ctx> GlobalAlias<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for GlobalAlias<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(GlobalAlias, 0);
 
-impl<'ctx> ValueRef for GlobalAlias<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GlobalAlias);
 
 /// We can turn Global Alias into a Global Alias Constant
 impl<'ctx> AsConstant<'ctx> for GlobalAlias<'ctx> {

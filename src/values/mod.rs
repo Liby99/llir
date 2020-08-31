@@ -153,26 +153,33 @@
 //! Other constants involve integer, float, null and so on.
 
 #[macro_use]
-mod constant;
-pub use constant::*;
+mod macros;
+pub use macros::*;
+
 #[macro_use]
 mod instruction;
 pub use instruction::*;
+
+#[macro_use]
+mod constant;
+pub use constant::*;
+
 mod function;
-pub use function::*;
 mod block;
-pub use block::*;
 mod operand;
-pub use operand::*;
 mod metadata;
-pub use metadata::*;
 mod global;
-pub use global::*;
 mod traits;
-pub use traits::*;
 mod generic;
-pub use generic::*;
 mod argument;
-pub use argument::*;
 mod inline_asm;
+
+pub use function::*;
+pub use block::*;
+pub use operand::*;
+pub use metadata::*;
+pub use global::*;
+pub use traits::*;
+pub use generic::*;
+pub use argument::*;
 pub use inline_asm::*;

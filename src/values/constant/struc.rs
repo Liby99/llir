@@ -35,17 +35,9 @@ impl<'ctx> StructConstant<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for StructConstant<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(StructConstant, 0);
 
-impl<'ctx> ValueRef for StructConstant<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(StructConstant);
 
 impl<'ctx> AsConstant<'ctx> for StructConstant<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {

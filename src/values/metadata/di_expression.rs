@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for DIExpression<'ctx> {}
 
 unsafe impl<'ctx> Sync for DIExpression<'ctx> {}
 
-impl<'ctx> DIExpression<'ctx> {}
+impl_positional_value_ref!(DIExpression, 0);
 
-impl<'ctx> FromLLVMValue for DIExpression<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for DIExpression<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(DIExpression);
 
 impl<'ctx> AsMetadata<'ctx> for DIExpression<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

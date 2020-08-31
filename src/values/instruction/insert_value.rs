@@ -72,14 +72,6 @@ impl<'ctx> AsInstruction<'ctx> for InsertValueInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for InsertValueInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(InsertValueInstruction, 0);
 
-impl<'ctx> ValueRef for InsertValueInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(InsertValueInstruction);

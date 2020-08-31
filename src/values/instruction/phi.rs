@@ -54,14 +54,6 @@ impl<'ctx> AsInstruction<'ctx> for PhiInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for PhiInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(PhiInstruction, 0);
 
-impl<'ctx> ValueRef for PhiInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(PhiInstruction);

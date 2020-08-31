@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for MDTuple<'ctx> {}
 
 unsafe impl<'ctx> Sync for MDTuple<'ctx> {}
 
-impl<'ctx> MDTuple<'ctx> {}
+impl_positional_value_ref!(MDTuple, 0);
 
-impl<'ctx> FromLLVMValue for MDTuple<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for MDTuple<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(MDTuple);
 
 impl<'ctx> AsMetadata<'ctx> for MDTuple<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

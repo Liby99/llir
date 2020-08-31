@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for DILocalVariable<'ctx> {}
 
 unsafe impl<'ctx> Sync for DILocalVariable<'ctx> {}
 
-impl<'ctx> DILocalVariable<'ctx> {}
+impl_positional_value_ref!(DILocalVariable, 0);
 
-impl<'ctx> FromLLVMValue for DILocalVariable<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for DILocalVariable<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(DILocalVariable);
 
 impl<'ctx> AsMetadata<'ctx> for DILocalVariable<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

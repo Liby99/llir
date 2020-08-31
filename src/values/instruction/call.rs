@@ -101,14 +101,6 @@ impl<'ctx> AsInstruction<'ctx> for CallInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for CallInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    CallInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(CallInstruction, 0);
 
-impl<'ctx> ValueRef for CallInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(CallInstruction);

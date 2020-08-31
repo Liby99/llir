@@ -27,17 +27,9 @@ impl<'ctx> Argument<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for Argument<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(Argument, 0);
 
-impl<'ctx> ValueRef for Argument<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(Argument);
 
 impl<'ctx> AsOperand<'ctx> for Argument<'ctx> {
   fn as_operand(&self) -> Operand<'ctx> {

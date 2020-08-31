@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for DILabel<'ctx> {}
 
 unsafe impl<'ctx> Sync for DILabel<'ctx> {}
 
-impl<'ctx> DILabel<'ctx> {}
+impl_positional_value_ref!(DILabel, 0);
 
-impl<'ctx> FromLLVMValue for DILabel<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for DILabel<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(DILabel);
 
 impl<'ctx> AsMetadata<'ctx> for DILabel<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

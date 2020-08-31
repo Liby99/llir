@@ -100,15 +100,6 @@ impl<'ctx> AsInstruction<'ctx> for UnaryInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for UnaryInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    let bin_op = UnaryOpcode::from_llvm(unsafe { LLVMGetInstructionOpcode(ptr) }).unwrap();
-    UnaryInstruction(bin_op, ptr, PhantomData)
-  }
-}
+impl_op_from_llvm_value!(UnaryInstruction, UnaryOpcode, LLVMGetInstructionOpcode);
 
-impl<'ctx> ValueRef for UnaryInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.1
-  }
-}
+impl_positional_value_ref!(UnaryInstruction, 1);

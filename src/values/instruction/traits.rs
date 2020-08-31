@@ -63,23 +63,3 @@ pub trait InstructionTrait<'ctx>: ValueRef {
     unsafe { utils::raw_to_string(LLVMPrintValueToString(self.value_ref())) }
   }
 }
-
-macro_rules! impl_instr_debug {
-  ($id:ident) => {
-    impl<'ctx> std::fmt::Debug for $id<'ctx> {
-      fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_tuple(stringify!($id)).field(&self.to_string()).finish()
-      }
-    }
-  };
-}
-
-macro_rules! impl_as_operand_for_instr {
-  ($id:ident) => {
-    impl<'ctx> AsOperand<'ctx> for $id<'ctx> {
-      fn as_operand(&self) -> Operand<'ctx> {
-        Operand::Instruction(self.as_instruction())
-      }
-    }
-  }
-}

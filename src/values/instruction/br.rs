@@ -106,17 +106,9 @@ impl<'ctx> AsInstruction<'ctx> for ConditionalBranchInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for ConditionalBranchInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    ConditionalBranchInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(ConditionalBranchInstruction, 0);
 
-impl<'ctx> ValueRef for ConditionalBranchInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(ConditionalBranchInstruction);
 
 /// Unconditional branch instruction
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
@@ -158,14 +150,6 @@ impl<'ctx> AsInstruction<'ctx> for UnconditionalBranchInstruction<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef for UnconditionalBranchInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_value_ref!(UnconditionalBranchInstruction, 0);
 
-impl<'ctx> FromLLVMValue for UnconditionalBranchInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    UnconditionalBranchInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_value!(UnconditionalBranchInstruction);

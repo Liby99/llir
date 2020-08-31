@@ -122,15 +122,6 @@ impl<'ctx> BinaryInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for BinaryInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    let bin_op = BinaryOpcode::from_llvm(unsafe { LLVMGetInstructionOpcode(ptr) }).unwrap();
-    BinaryInstruction(bin_op, ptr, PhantomData)
-  }
-}
+impl_op_from_llvm_value!(BinaryInstruction, BinaryOpcode, LLVMGetInstructionOpcode);
 
-impl<'ctx> ValueRef for BinaryInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.1
-  }
-}
+impl_positional_value_ref!(BinaryInstruction, 1);

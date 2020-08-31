@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for GenericDINode<'ctx> {}
 
 unsafe impl<'ctx> Sync for GenericDINode<'ctx> {}
 
-impl<'ctx> GenericDINode<'ctx> {}
+impl_positional_value_ref!(GenericDINode, 0);
 
-impl<'ctx> FromLLVMValue for GenericDINode<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for GenericDINode<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GenericDINode);
 
 impl<'ctx> AsMetadata<'ctx> for GenericDINode<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

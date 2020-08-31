@@ -56,14 +56,6 @@ impl<'ctx> AsInstruction<'ctx> for GetElementPtrInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for GetElementPtrInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    GetElementPtrInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(GetElementPtrInstruction, 0);
 
-impl<'ctx> ValueRef for GetElementPtrInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GetElementPtrInstruction);

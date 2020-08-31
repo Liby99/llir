@@ -94,16 +94,6 @@ impl<'ctx> AsInstruction<'ctx> for FCmpInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for FCmpInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    let ll_pred = unsafe { LLVMGetFCmpPredicate(ptr) };
-    let pred = FCmpPredicate::from_llvm(ll_pred);
-    FCmpInstruction(pred, ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(FCmpInstruction, 1);
 
-impl<'ctx> ValueRef for FCmpInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.1
-  }
-}
+impl_cmp_from_llvm_value!(FCmpInstruction, FCmpPredicate, LLVMGetFCmpPredicate);

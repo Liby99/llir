@@ -14,19 +14,9 @@ unsafe impl<'ctx> Send for LocalAsMetadata<'ctx> {}
 
 unsafe impl<'ctx> Sync for LocalAsMetadata<'ctx> {}
 
-impl<'ctx> LocalAsMetadata<'ctx> {}
+impl_positional_value_ref!(LocalAsMetadata, 0);
 
-impl<'ctx> FromLLVMValue for LocalAsMetadata<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
-
-impl<'ctx> ValueRef for LocalAsMetadata<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(LocalAsMetadata);
 
 impl<'ctx> AsMetadata<'ctx> for LocalAsMetadata<'ctx> {
   fn as_metadata(&self) -> Metadata<'ctx> {

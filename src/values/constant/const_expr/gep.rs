@@ -52,17 +52,9 @@ impl<'ctx> GetType<'ctx> for GetElementPtrConstExpr<'ctx> {}
 
 impl<'ctx> ConstExprTrait<'ctx> for GetElementPtrConstExpr<'ctx> {}
 
-impl<'ctx> FromLLVMValue for GetElementPtrConstExpr<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(GetElementPtrConstExpr, 0);
 
-impl<'ctx> ValueRef for GetElementPtrConstExpr<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GetElementPtrConstExpr);
 
 impl<'ctx> AsConstExpr<'ctx> for GetElementPtrConstExpr<'ctx> {
   fn as_const_expr(&self) -> ConstExpr<'ctx> {

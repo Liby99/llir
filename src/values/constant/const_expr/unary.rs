@@ -29,18 +29,9 @@ impl<'ctx> GetType<'ctx> for UnaryConstExpr<'ctx> {}
 
 impl<'ctx> ConstExprTrait<'ctx> for UnaryConstExpr<'ctx> {}
 
-impl<'ctx> FromLLVMValue for UnaryConstExpr<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    let opcode = UnaryOpcode::from_llvm(unsafe { LLVMGetConstOpcode(ptr) }).unwrap();
-    Self(opcode, ptr, PhantomData)
-  }
-}
+impl_op_from_llvm_value!(UnaryConstExpr, UnaryOpcode, LLVMGetConstOpcode);
 
-impl<'ctx> ValueRef for UnaryConstExpr<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.1
-  }
-}
+impl_positional_value_ref!(UnaryConstExpr, 1);
 
 impl<'ctx> AsConstExpr<'ctx> for UnaryConstExpr<'ctx> {
   fn as_const_expr(&self) -> ConstExpr<'ctx> {

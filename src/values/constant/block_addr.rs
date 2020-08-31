@@ -25,18 +25,9 @@ impl<'ctx> BlockAddress<'ctx> {
   }
 }
 
-impl<'ctx> ValueRef for BlockAddress<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_value_ref!(BlockAddress, 0);
 
-impl<'ctx> FromLLVMValue for BlockAddress<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    // println!("BlockAddr: {} operands", unsafe { LLVMGetNumO})
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_value!(BlockAddress);
 
 impl<'ctx> AsConstant<'ctx> for BlockAddress<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {

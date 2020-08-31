@@ -34,19 +34,9 @@ impl<'ctx> GetType<'ctx> for ICmpConstExpr<'ctx> {}
 
 impl<'ctx> ConstExprTrait<'ctx> for ICmpConstExpr<'ctx> {}
 
-impl<'ctx> FromLLVMValue for ICmpConstExpr<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    let ll_pred = unsafe { LLVMGetICmpPredicate(ptr) };
-    let pred = ICmpPredicate::from_llvm(ll_pred);
-    ICmpConstExpr(pred, ptr, PhantomData)
-  }
-}
+impl_cmp_from_llvm_value!(ICmpConstExpr, ICmpPredicate, LLVMGetICmpPredicate);
 
-impl<'ctx> ValueRef for ICmpConstExpr<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.1
-  }
-}
+impl_positional_value_ref!(ICmpConstExpr, 1);
 
 impl<'ctx> AsConstExpr<'ctx> for ICmpConstExpr<'ctx> {
   fn as_const_expr(&self) -> ConstExpr<'ctx> {

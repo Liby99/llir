@@ -1,15 +1,19 @@
 #[macro_use]
+mod macros;
+pub use macros::*;
+
 mod traits;
-pub use traits::*;
 mod const_expr;
-pub use const_expr::*;
 mod binary;
-pub use binary::*;
 mod unary;
-pub use unary::*;
 mod gep;
-pub use gep::*;
 mod icmp;
-pub use icmp::*;
 mod fcmp;
+
+pub use traits::*;
+pub use const_expr::*;
+pub use binary::*;
+pub use unary::*;
+pub use gep::*;
+pub use icmp::*;
 pub use fcmp::*;

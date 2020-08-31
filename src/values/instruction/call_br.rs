@@ -32,14 +32,6 @@ impl<'ctx> AsInstruction<'ctx> for CallBrInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for CallBrInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(CallBrInstruction, 0);
 
-impl<'ctx> ValueRef for CallBrInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(CallBrInstruction);

@@ -9,10 +9,7 @@ use crate::*;
 
 /// [Function value](https://llvm.org/docs/LangRef.html#functions)
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
-pub struct Function<'ctx> {
-  func: LLVMValueRef,
-  marker: PhantomData<&'ctx ()>,
-}
+pub struct Function<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl<'ctx> std::fmt::Debug for Function<'ctx> {
   fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
@@ -31,12 +28,12 @@ impl<'ctx> GetDebugMetadata<'ctx> for Function<'ctx> {}
 impl<'ctx> Function<'ctx> {
   /// Get the name of the function
   pub fn name(&self) -> String {
-    string_of_value(self.func)
+    string_of_value(self.0)
   }
 
   /// Check if this function is declaration only
   pub fn is_declaration_only(&self) -> bool {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     first_block.is_null()
   }
 
@@ -48,7 +45,7 @@ impl<'ctx> Function<'ctx> {
   /// }
   /// ```
   pub fn iter_blocks(&self) -> FunctionBlockIterator<'ctx> {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     if first_block.is_null() {
       FunctionBlockIterator { curr_block: None }
     } else {
@@ -85,12 +82,12 @@ impl<'ctx> Function<'ctx> {
 
   /// Get the number of blocks inside the function
   pub fn num_blocks(&self) -> usize {
-    unsafe { LLVMCountBasicBlocks(self.func) as usize }
+    unsafe { LLVMCountBasicBlocks(self.0) as usize }
   }
 
   /// Get the first block of this function
   pub fn first_block(&self) -> Option<Block<'ctx>> {
-    let first_block = unsafe { LLVMGetFirstBasicBlock(self.func) };
+    let first_block = unsafe { LLVMGetFirstBasicBlock(self.0) };
     if first_block.is_null() {
       None
     } else {
@@ -100,7 +97,7 @@ impl<'ctx> Function<'ctx> {
 
   /// Get the last block of this function
   pub fn last_block(&self) -> Option<Block<'ctx>> {
-    let last_block = unsafe { LLVMGetLastBasicBlock(self.func) };
+    let last_block = unsafe { LLVMGetLastBasicBlock(self.0) };
     if last_block.is_null() {
       None
     } else {
@@ -115,42 +112,31 @@ impl<'ctx> Function<'ctx> {
 
   /// Get the number of arguments in this function
   pub fn num_arguments(&self) -> usize {
-    unsafe { LLVMCountParams(self.func) as usize }
+    unsafe { LLVMCountParams(self.0) as usize }
   }
 
   /// Get the arguments to this function in vector form
   pub fn arguments(&self) -> Vec<Argument<'ctx>> {
     (0..self.num_arguments())
-      .map(|i| Argument::from_llvm(unsafe { LLVMGetParam(self.func, i as u32) }))
+      .map(|i| Argument::from_llvm(unsafe { LLVMGetParam(self.0, i as u32) }))
       .collect()
   }
 
   /// Get the argument at a given index
   pub fn argument(&self, index: usize) -> Argument<'ctx> {
-    Argument::from_llvm(unsafe { LLVMGetParam(self.func, index as u32) })
+    Argument::from_llvm(unsafe { LLVMGetParam(self.0, index as u32) })
   }
 
   /// Get the function type
   pub fn get_function_type(&self) -> FunctionType<'ctx> {
-    let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.func)) };
+    let type_ref = unsafe { LLVMGetElementType(LLVMTypeOf(self.0)) };
     FunctionType::from_llvm(type_ref)
   }
 }
 
-impl<'ctx> ValueRef for Function<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.func
-  }
-}
+impl_positional_value_ref!(Function, 0);
 
-impl<'ctx> FromLLVMValue for Function<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self {
-      func: ptr,
-      marker: PhantomData,
-    }
-  }
-}
+impl_positional_from_llvm_value!(Function);
 
 impl<'ctx> AsConstant<'ctx> for Function<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {

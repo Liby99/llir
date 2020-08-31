@@ -14,18 +14,9 @@ unsafe impl<'ctx> Sync for Undef<'ctx> {}
 
 impl<'ctx> GetType<'ctx> for Undef<'ctx> {}
 
-impl<'ctx> ValueRef for Undef<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_value_ref!(Undef, 0);
 
-impl<'ctx> FromLLVMValue for Undef<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    // println!("BlockAddr: {} operands", unsafe { LLVMGetNumO})
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_value!(Undef);
 
 impl<'ctx> AsConstant<'ctx> for Undef<'ctx> {
   fn as_constant(&self) -> Constant<'ctx> {

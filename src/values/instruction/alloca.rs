@@ -43,14 +43,6 @@ impl<'ctx> AllocaInstruction<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for AllocaInstruction<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    AllocaInstruction(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(AllocaInstruction, 0);
 
-impl<'ctx> ValueRef for AllocaInstruction<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(AllocaInstruction);

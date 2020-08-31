@@ -1,24 +1,29 @@
 #[macro_use]
-mod traits;
-pub use traits::*;
+mod macros;
+pub use macros::*;
+
 #[macro_use]
 mod const_expr;
 pub use const_expr::*;
+
+mod traits;
 mod block_addr;
-pub use block_addr::*;
 mod constant;
-pub use constant::*;
 mod int;
-pub use int::*;
 mod float;
-pub use float::*;
 mod null;
-pub use null::*;
 mod struc;
-pub use struc::*;
 mod array;
-pub use array::*;
 mod vector;
-pub use vector::*;
 mod undef;
+
+pub use traits::*;
+pub use block_addr::*;
+pub use constant::*;
+pub use int::*;
+pub use float::*;
+pub use null::*;
+pub use struc::*;
+pub use array::*;
+pub use vector::*;
 pub use undef::*;

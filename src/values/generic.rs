@@ -28,14 +28,6 @@ impl<'ctx> GenericValue<'ctx> {
   }
 }
 
-impl<'ctx> FromLLVMValue for GenericValue<'ctx> {
-  fn from_llvm(ptr: LLVMValueRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_value_ref!(GenericValue, 0);
 
-impl<'ctx> ValueRef for GenericValue<'ctx> {
-  fn value_ref(&self) -> LLVMValueRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_value!(GenericValue);
