@@ -42,25 +42,30 @@
 //! Note that instructions like `branch` doesn't contain a type. So we don't provide
 //! `get_type()` method for every instruction.
 
+#[macro_use]
+mod macros;
+pub use macros::*;
+
 mod types;
-pub use types::*;
 mod void;
-pub use void::*;
 mod int;
-pub use int::*;
 mod float;
-pub use float::*;
 mod pointer;
-pub use pointer::*;
 mod array;
-pub use array::*;
 mod vector;
-pub use vector::*;
 mod struc;
-pub use struc::*;
 mod function;
-pub use function::*;
 mod traits;
-pub use traits::*;
 mod generic;
+
+pub use types::*;
+pub use void::*;
+pub use int::*;
+pub use float::*;
+pub use pointer::*;
+pub use array::*;
+pub use vector::*;
+pub use struc::*;
+pub use function::*;
+pub use traits::*;
 pub use generic::*;

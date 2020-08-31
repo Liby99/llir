@@ -11,14 +11,6 @@ unsafe impl<'ctx> Send for GenericType<'ctx> {}
 
 unsafe impl<'ctx> Sync for GenericType<'ctx> {}
 
-impl<'ctx> FromLLVMType for GenericType<'ctx> {
-  fn from_llvm(ptr: LLVMTypeRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_type_ref!(GenericType, 0);
 
-impl<'ctx> TypeRef for GenericType<'ctx> {
-  fn type_ref(&self) -> LLVMTypeRef {
-    self.0
-  }
-}
+impl_positional_from_llvm_type!(GenericType);

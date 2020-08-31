@@ -105,17 +105,9 @@ impl<'ctx> AsType<'ctx> for LiteralStructType<'ctx> {
   }
 }
 
-impl<'ctx> TypeRef for LiteralStructType<'ctx> {
-  fn type_ref(&self) -> LLVMTypeRef {
-    self.0
-  }
-}
+impl_positional_type_ref!(LiteralStructType, 0);
 
-impl<'ctx> FromLLVMType for LiteralStructType<'ctx> {
-  fn from_llvm(ptr: LLVMTypeRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_type!(LiteralStructType);
 
 /// A named struct type that you can get name from
 ///
@@ -142,14 +134,6 @@ impl<'ctx> AsType<'ctx> for NamedStructType<'ctx> {
   }
 }
 
-impl<'ctx> TypeRef for NamedStructType<'ctx> {
-  fn type_ref(&self) -> LLVMTypeRef {
-    self.0
-  }
-}
+impl_positional_type_ref!(NamedStructType, 0);
 
-impl<'ctx> FromLLVMType for NamedStructType<'ctx> {
-  fn from_llvm(ptr: LLVMTypeRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_type!(NamedStructType);

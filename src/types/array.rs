@@ -31,14 +31,6 @@ impl<'ctx> AsType<'ctx> for ArrayType<'ctx> {
   }
 }
 
-impl<'ctx> TypeRef for ArrayType<'ctx> {
-  fn type_ref(&self) -> LLVMTypeRef {
-    self.0
-  }
-}
+impl_positional_type_ref!(ArrayType, 0);
 
-impl<'ctx> FromLLVMType for ArrayType<'ctx> {
-  fn from_llvm(ptr: LLVMTypeRef) -> Self {
-    Self(ptr, PhantomData)
-  }
-}
+impl_positional_from_llvm_type!(ArrayType);

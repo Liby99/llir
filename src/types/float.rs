@@ -78,11 +78,7 @@ impl<'ctx> AsType<'ctx> for FloatType<'ctx> {
   }
 }
 
-impl<'ctx> TypeRef for FloatType<'ctx> {
-  fn type_ref(&self) -> LLVMTypeRef {
-    self.1
-  }
-}
+impl_positional_type_ref!(FloatType, 1);
 
 impl<'ctx> FromLLVMType for FloatType<'ctx> {
   fn from_llvm(ptr: LLVMTypeRef) -> Self {
