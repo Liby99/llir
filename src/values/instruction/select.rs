@@ -20,9 +20,7 @@ impl_instr_debug!(SelectInstruction);
 
 impl_as_operand_for_instr!(SelectInstruction);
 
-unsafe impl<'ctx> Send for SelectInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for SelectInstruction<'ctx> {}
+impl_send_sync!(SelectInstruction);
 
 impl<'ctx> GetType<'ctx> for SelectInstruction<'ctx> {}
 

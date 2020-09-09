@@ -7,9 +7,7 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GenericType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for GenericType<'ctx> {}
-
-unsafe impl<'ctx> Sync for GenericType<'ctx> {}
+impl_send_sync!(GenericType);
 
 impl_positional_type_ref!(GenericType, 0);
 

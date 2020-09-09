@@ -13,9 +13,7 @@ impl_instr_debug!(ReturnInstruction);
 
 impl_as_operand_for_instr!(ReturnInstruction);
 
-unsafe impl<'ctx> Send for ReturnInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for ReturnInstruction<'ctx> {}
+impl_send_sync!(ReturnInstruction);
 
 impl<'ctx> GetDebugMetadata<'ctx> for ReturnInstruction<'ctx> {}
 

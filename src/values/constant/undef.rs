@@ -8,9 +8,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Undef<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for Undef<'ctx> {}
-
-unsafe impl<'ctx> Sync for Undef<'ctx> {}
+impl_send_sync!(Undef);
 
 impl<'ctx> GetType<'ctx> for Undef<'ctx> {}
 

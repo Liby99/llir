@@ -14,9 +14,7 @@ impl_instr_debug!(CallInstruction);
 
 impl_as_operand_for_instr!(CallInstruction);
 
-unsafe impl<'ctx> Send for CallInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for CallInstruction<'ctx> {}
+impl_send_sync!(CallInstruction);
 
 impl<'ctx> GetType<'ctx> for CallInstruction<'ctx> {}
 

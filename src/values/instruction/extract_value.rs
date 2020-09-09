@@ -14,9 +14,7 @@ impl_instr_debug!(ExtractValueInstruction);
 
 impl_as_operand_for_instr!(ExtractValueInstruction);
 
-unsafe impl<'ctx> Send for ExtractValueInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for ExtractValueInstruction<'ctx> {}
+impl_send_sync!(ExtractValueInstruction);
 
 impl<'ctx> GetType<'ctx> for ExtractValueInstruction<'ctx> {}
 

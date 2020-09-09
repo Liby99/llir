@@ -69,9 +69,7 @@ impl_instr_debug!(ConditionalBranchInstruction);
 
 impl_as_operand_for_instr!(ConditionalBranchInstruction);
 
-unsafe impl<'ctx> Send for ConditionalBranchInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for ConditionalBranchInstruction<'ctx> {}
+impl_send_sync!(ConditionalBranchInstruction);
 
 impl<'ctx> GetDebugMetadata<'ctx> for ConditionalBranchInstruction<'ctx> {}
 
@@ -118,9 +116,7 @@ impl_instr_debug!(UnconditionalBranchInstruction);
 
 impl_as_operand_for_instr!(UnconditionalBranchInstruction);
 
-unsafe impl<'ctx> Send for UnconditionalBranchInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for UnconditionalBranchInstruction<'ctx> {}
+impl_send_sync!(UnconditionalBranchInstruction);
 
 impl<'ctx> GetDebugMetadata<'ctx> for UnconditionalBranchInstruction<'ctx> {}
 

@@ -9,9 +9,7 @@ use crate::*;
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct ICmpConstExpr<'ctx>(ICmpPredicate, LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for ICmpConstExpr<'ctx> {}
-
-unsafe impl<'ctx> Sync for ICmpConstExpr<'ctx> {}
+impl_send_sync!(ICmpConstExpr);
 
 impl<'ctx> ICmpConstExpr<'ctx> {
   /// Get the icmp predicate

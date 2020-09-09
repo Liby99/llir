@@ -14,9 +14,7 @@ impl_instr_debug!(InsertValueInstruction);
 
 impl_as_operand_for_instr!(InsertValueInstruction);
 
-unsafe impl<'ctx> Send for InsertValueInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for InsertValueInstruction<'ctx> {}
+impl_send_sync!(InsertValueInstruction);
 
 impl<'ctx> GetType<'ctx> for InsertValueInstruction<'ctx> {}
 

@@ -12,9 +12,7 @@ impl_instr_debug!(UnreachableInstruction);
 
 impl_as_operand_for_instr!(UnreachableInstruction);
 
-unsafe impl<'ctx> Send for UnreachableInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for UnreachableInstruction<'ctx> {}
+impl_send_sync!(UnreachableInstruction);
 
 impl<'ctx> InstructionDebugLoc for UnreachableInstruction<'ctx> {}
 

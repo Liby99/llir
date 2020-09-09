@@ -94,9 +94,7 @@ impl<'ctx> std::fmt::Debug for GlobalVariable<'ctx> {
   }
 }
 
-unsafe impl<'ctx> Send for GlobalVariable<'ctx> {}
-
-unsafe impl<'ctx> Sync for GlobalVariable<'ctx> {}
+impl_send_sync!(GlobalVariable);
 
 /// A global value has a type
 impl<'ctx> GetType<'ctx> for GlobalVariable<'ctx> {}
@@ -131,9 +129,7 @@ impl<'ctx> std::fmt::Debug for GlobalAlias<'ctx> {
   }
 }
 
-unsafe impl<'ctx> Send for GlobalAlias<'ctx> {}
-
-unsafe impl<'ctx> Sync for GlobalAlias<'ctx> {}
+impl_send_sync!(GlobalAlias);
 
 /// A global alias has a type
 impl<'ctx> GetType<'ctx> for GlobalAlias<'ctx> {}

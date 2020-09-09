@@ -1,6 +1,10 @@
+#[macro_use]
+mod macros;
+
 pub mod mem_buffer;
-mod string;
 pub mod support;
-pub use string::*;
+mod string;
 pub mod mdkind_ids;
 pub mod traits;
+
+pub use string::*;

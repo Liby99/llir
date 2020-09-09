@@ -15,9 +15,7 @@ impl<'ctx> std::fmt::Debug for Block<'ctx> {
   }
 }
 
-unsafe impl<'ctx> Send for Block<'ctx> {}
-
-unsafe impl<'ctx> Sync for Block<'ctx> {}
+impl_send_sync!(Block);
 
 impl<'ctx> GetDebugMetadata<'ctx> for Block<'ctx> {}
 

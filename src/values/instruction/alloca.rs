@@ -13,9 +13,7 @@ impl_instr_debug!(AllocaInstruction);
 
 impl_as_operand_for_instr!(AllocaInstruction);
 
-unsafe impl<'ctx> Send for AllocaInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for AllocaInstruction<'ctx> {}
+impl_send_sync!(AllocaInstruction);
 
 impl<'ctx> GetType<'ctx> for AllocaInstruction<'ctx> {}
 

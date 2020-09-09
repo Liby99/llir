@@ -10,9 +10,7 @@ pub struct DistinctMDOperandPlaceholder<'ctx>(LLVMValueRef, PhantomData<&'ctx ()
 
 impl_as_operand_for_metadata!(DistinctMDOperandPlaceholder);
 
-unsafe impl<'ctx> Send for DistinctMDOperandPlaceholder<'ctx> {}
-
-unsafe impl<'ctx> Sync for DistinctMDOperandPlaceholder<'ctx> {}
+impl_send_sync!(DistinctMDOperandPlaceholder);
 
 impl_positional_value_ref!(DistinctMDOperandPlaceholder, 0);
 

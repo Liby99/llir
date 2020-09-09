@@ -10,9 +10,7 @@ pub struct ConstantAsMetadata<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(ConstantAsMetadata);
 
-unsafe impl<'ctx> Send for ConstantAsMetadata<'ctx> {}
-
-unsafe impl<'ctx> Sync for ConstantAsMetadata<'ctx> {}
+impl_send_sync!(ConstantAsMetadata);
 
 impl_positional_value_ref!(ConstantAsMetadata, 0);
 

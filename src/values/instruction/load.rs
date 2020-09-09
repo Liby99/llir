@@ -13,9 +13,7 @@ impl_instr_debug!(LoadInstruction);
 
 impl_as_operand_for_instr!(LoadInstruction);
 
-unsafe impl<'ctx> Send for LoadInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for LoadInstruction<'ctx> {}
+impl_send_sync!(LoadInstruction);
 
 impl<'ctx> GetType<'ctx> for LoadInstruction<'ctx> {}
 

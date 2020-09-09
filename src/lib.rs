@@ -31,11 +31,14 @@
 //! Other than context and module, the crate mainly consists of LLVM values and types. Checkout each
 //! submodule for more information.
 
-mod context;
-pub use context::*;
-mod module;
-pub use module::*;
-pub mod types;
+#[macro_use]
 mod utils;
+
+mod context;
+mod module;
+pub mod types;
 pub mod values;
+
+pub use context::*;
+pub use module::*;
 pub use utils::traits::*;

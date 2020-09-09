@@ -10,9 +10,7 @@ use crate::*;
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct GetElementPtrConstExpr<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for GetElementPtrConstExpr<'ctx> {}
-
-unsafe impl<'ctx> Sync for GetElementPtrConstExpr<'ctx> {}
+impl_send_sync!(GetElementPtrConstExpr);
 
 impl<'ctx> GetElementPtrConstExpr<'ctx> {
   /// Get the base location constant

@@ -10,9 +10,7 @@ pub struct GenericDINode<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(GenericDINode);
 
-unsafe impl<'ctx> Send for GenericDINode<'ctx> {}
-
-unsafe impl<'ctx> Sync for GenericDINode<'ctx> {}
+impl_send_sync!(GenericDINode);
 
 impl_positional_value_ref!(GenericDINode, 0);
 

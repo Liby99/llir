@@ -10,9 +10,7 @@ pub struct DILabel<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(DILabel);
 
-unsafe impl<'ctx> Send for DILabel<'ctx> {}
-
-unsafe impl<'ctx> Sync for DILabel<'ctx> {}
+impl_send_sync!(DILabel);
 
 impl_positional_value_ref!(DILabel, 0);
 

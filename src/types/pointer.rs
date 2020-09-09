@@ -9,9 +9,7 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct PointerType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for PointerType<'ctx> {}
-
-unsafe impl<'ctx> Sync for PointerType<'ctx> {}
+impl_send_sync!(PointerType);
 
 impl<'ctx> PointerType<'ctx> {
   /// Get the element type of the pointer type

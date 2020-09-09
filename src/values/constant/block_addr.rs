@@ -9,9 +9,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct BlockAddress<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for BlockAddress<'ctx> {}
-
-unsafe impl<'ctx> Sync for BlockAddress<'ctx> {}
+impl_send_sync!(BlockAddress);
 
 impl<'ctx> GetType<'ctx> for BlockAddress<'ctx> {}
 

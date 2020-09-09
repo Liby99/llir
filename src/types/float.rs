@@ -56,9 +56,7 @@ impl FloatTypeKind {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct FloatType<'ctx>(FloatTypeKind, LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for FloatType<'ctx> {}
-
-unsafe impl<'ctx> Sync for FloatType<'ctx> {}
+impl_send_sync!(FloatType);
 
 impl<'ctx> FloatType<'ctx> {
   /// Get the kind

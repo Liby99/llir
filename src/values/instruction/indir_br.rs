@@ -13,9 +13,7 @@ impl_instr_debug!(IndirectBranchInstruction);
 
 impl_as_operand_for_instr!(IndirectBranchInstruction);
 
-unsafe impl<'ctx> Send for IndirectBranchInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for IndirectBranchInstruction<'ctx> {}
+impl_send_sync!(IndirectBranchInstruction);
 
 impl<'ctx> GetType<'ctx> for IndirectBranchInstruction<'ctx> {}
 

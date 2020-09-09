@@ -93,9 +93,7 @@ impl<'ctx> FromLLVMType for StructType<'ctx> {
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct LiteralStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for LiteralStructType<'ctx> {}
-
-unsafe impl<'ctx> Sync for LiteralStructType<'ctx> {}
+impl_send_sync!(LiteralStructType);
 
 impl<'ctx> StructTypeTrait<'ctx> for LiteralStructType<'ctx> {}
 
@@ -115,9 +113,7 @@ impl_positional_from_llvm_type!(LiteralStructType);
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct NamedStructType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for NamedStructType<'ctx> {}
-
-unsafe impl<'ctx> Sync for NamedStructType<'ctx> {}
+impl_send_sync!(NamedStructType);
 
 impl<'ctx> StructTypeTrait<'ctx> for NamedStructType<'ctx> {}
 

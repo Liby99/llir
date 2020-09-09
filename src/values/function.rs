@@ -17,9 +17,7 @@ impl<'ctx> std::fmt::Debug for Function<'ctx> {
   }
 }
 
-unsafe impl<'ctx> Send for Function<'ctx> {}
-
-unsafe impl<'ctx> Sync for Function<'ctx> {}
+impl_send_sync!(Function);
 
 impl<'ctx> GetType<'ctx> for Function<'ctx> {}
 

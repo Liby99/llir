@@ -9,9 +9,7 @@ use crate::*;
 #[derive(Copy, Clone, PartialEq, Eq, Hash)]
 pub struct UnaryConstExpr<'ctx>(UnaryOpcode, LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for UnaryConstExpr<'ctx> {}
-
-unsafe impl<'ctx> Sync for UnaryConstExpr<'ctx> {}
+impl_send_sync!(UnaryConstExpr);
 
 impl<'ctx> UnaryConstExpr<'ctx> {
   /// Get the unary opcode

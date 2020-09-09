@@ -10,9 +10,7 @@ pub struct LocalAsMetadata<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(LocalAsMetadata);
 
-unsafe impl<'ctx> Send for LocalAsMetadata<'ctx> {}
-
-unsafe impl<'ctx> Sync for LocalAsMetadata<'ctx> {}
+impl_send_sync!(LocalAsMetadata);
 
 impl_positional_value_ref!(LocalAsMetadata, 0);
 

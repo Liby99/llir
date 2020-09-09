@@ -59,9 +59,7 @@ impl_instr_debug!(FCmpInstruction);
 
 impl_as_operand_for_instr!(FCmpInstruction);
 
-unsafe impl<'ctx> Send for FCmpInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for FCmpInstruction<'ctx> {}
+impl_send_sync!(FCmpInstruction);
 
 impl<'ctx> GetType<'ctx> for FCmpInstruction<'ctx> {}
 

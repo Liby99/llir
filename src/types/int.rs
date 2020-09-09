@@ -9,9 +9,7 @@ use crate::{FromLLVMType, TypeRef};
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct IntType<'ctx>(LLVMTypeRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for IntType<'ctx> {}
-
-unsafe impl<'ctx> Sync for IntType<'ctx> {}
+impl_send_sync!(IntType);
 
 impl<'ctx> IntType<'ctx> {
   /// Get the bit-width

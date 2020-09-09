@@ -12,9 +12,7 @@ pub struct DILocation<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(DILocation);
 
-unsafe impl<'ctx> Send for DILocation<'ctx> {}
-
-unsafe impl<'ctx> Sync for DILocation<'ctx> {}
+impl_send_sync!(DILocation);
 
 impl<'ctx> DILocation<'ctx> {
   /// Get the column number

@@ -10,9 +10,7 @@ pub struct MDTuple<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
 impl_as_operand_for_metadata!(MDTuple);
 
-unsafe impl<'ctx> Send for MDTuple<'ctx> {}
-
-unsafe impl<'ctx> Sync for MDTuple<'ctx> {}
+impl_send_sync!(MDTuple);
 
 impl_positional_value_ref!(MDTuple, 0);
 

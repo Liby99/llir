@@ -70,9 +70,7 @@ impl_instr_debug!(UnaryInstruction);
 
 impl_as_operand_for_instr!(UnaryInstruction);
 
-unsafe impl<'ctx> Send for UnaryInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for UnaryInstruction<'ctx> {}
+impl_send_sync!(UnaryInstruction);
 
 impl<'ctx> GetType<'ctx> for UnaryInstruction<'ctx> {}
 

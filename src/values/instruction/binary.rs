@@ -87,9 +87,7 @@ impl_instr_debug!(BinaryInstruction);
 
 impl_as_operand_for_instr!(BinaryInstruction);
 
-unsafe impl<'ctx> Send for BinaryInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for BinaryInstruction<'ctx> {}
+impl_send_sync!(BinaryInstruction);
 
 impl<'ctx> GetType<'ctx> for BinaryInstruction<'ctx> {}
 

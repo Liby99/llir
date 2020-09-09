@@ -19,9 +19,7 @@ impl_instr_debug!(PhiInstruction);
 
 impl_as_operand_for_instr!(PhiInstruction);
 
-unsafe impl<'ctx> Send for PhiInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for PhiInstruction<'ctx> {}
+impl_send_sync!(PhiInstruction);
 
 impl<'ctx> GetType<'ctx> for PhiInstruction<'ctx> {}
 

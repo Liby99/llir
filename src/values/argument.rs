@@ -9,9 +9,7 @@ use crate::*;
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub struct Argument<'ctx>(LLVMValueRef, PhantomData<&'ctx ()>);
 
-unsafe impl<'ctx> Send for Argument<'ctx> {}
-
-unsafe impl<'ctx> Sync for Argument<'ctx> {}
+impl_send_sync!(Argument);
 
 impl<'ctx> Argument<'ctx> {
   /// Get the parent function that this argument belongs to

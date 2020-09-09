@@ -13,9 +13,7 @@ impl_instr_debug!(StoreInstruction);
 
 impl_as_operand_for_instr!(StoreInstruction);
 
-unsafe impl<'ctx> Send for StoreInstruction<'ctx> {}
-
-unsafe impl<'ctx> Sync for StoreInstruction<'ctx> {}
+impl_send_sync!(StoreInstruction);
 
 impl<'ctx> GetDebugMetadata<'ctx> for StoreInstruction<'ctx> {}
 
