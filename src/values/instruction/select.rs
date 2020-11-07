@@ -9,7 +9,7 @@ use crate::*;
 ///
 /// The code `res = a < b ? a : b` will be turned into
 ///
-/// ```
+/// ``` llvm
 /// %cmp = icmp slt %a %b
 /// %res = select %cmp %a %b
 /// ```

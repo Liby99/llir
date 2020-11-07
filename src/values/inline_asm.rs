@@ -24,7 +24,7 @@ impl<'ctx> InlineAsm<'ctx> {
   /// {type} asm [[flags]] "{assembly_body}" "{constraints}"
   ///
   /// E.g.
-  /// ```
+  /// ``` llvm
   /// void (i64*, i8, i64*)* asm sideeffect ".pushsection .smp_locks,\22a\22\0A.balign 4\0A.long 671f - .\0A.popsection\0A671:\0A\09lock; orb $1,$0", "=*m,iq,*m,~{memory},~{dirflag},~{fpsr},~{flags}"
   /// ```
   pub fn to_string(&self) -> String {

@@ -12,6 +12,7 @@ use super::Module;
 /// LLVM Context
 ///
 /// ```
+/// # use llir::Context;
 /// let ctx = Context::create();
 /// ```
 #[derive(Debug, PartialEq, Eq)]
@@ -35,7 +36,9 @@ impl Context {
   /// Load a module
   ///
   /// ```
-  /// let module = ctx.load_module(Path::new("PATH/TO/YOUR/BYTECODE.bc"));
+  /// # use llir::Context;
+  /// # let ctx = Context::create();
+  /// let module = ctx.load_module(Path::new("tests/c_files/basic/example_1.bc"))?;
   /// ```
   pub fn load_module<'ctx, P>(&'ctx self, path: P) -> Result<Module<'ctx>, String>
   where

@@ -18,6 +18,10 @@ impl<'ctx> Module<'ctx> {
   /// Iterate all functions inside the module
   ///
   /// ```
+  /// # use llir::*;
+  /// # use std::path::*;
+  /// # let ctx = Context::create();
+  /// # let module = ctx.load_module(PathBuf::from("tests/c_files/basic/example_1.bc"));
   /// for func in module.iter_functions() {
   ///   // Do things with func
   /// }
