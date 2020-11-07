@@ -43,6 +43,24 @@ impl UnaryOpcode {
       _ => None,
     }
   }
+
+  pub fn to_string(&self) -> &str {
+    match self {
+      Self::FNeg => "fneg",
+      Self::Trunc => "trunc",
+      Self::ZExt => "zext",
+      Self::SExt => "sext",
+      Self::FPToUI => "fptoui",
+      Self::FPToSI => "fptosi",
+      Self::UIToFP => "uitofp",
+      Self::SIToFP => "sitofp",
+      Self::FPTrunc => "fptrunc",
+      Self::FPExt => "fpext",
+      Self::PtrToInt => "ptrtoint",
+      Self::IntToPtr => "inttoptr",
+      Self::BitCast => "bitcast",
+    }
+  }
 }
 
 /// [Unary instruction](https://llvm.org/docs/LangRef.html#unary-operations)
@@ -82,13 +100,19 @@ impl<'ctx> InstructionTrait<'ctx> for UnaryInstruction<'ctx> {}
 
 impl<'ctx> UnaryInstruction<'ctx> {
   /// Get the opcode of this unary instruction
-  pub fn opcode(&self) -> UnaryOpcode {
+  pub fn unary_opcode(&self) -> UnaryOpcode {
     self.0
   }
 
   /// Get the operand
   pub fn op0(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 0) })
+  }
+}
+
+impl<'ctx> ValueOpcode for UnaryInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Unary(self.unary_opcode())
   }
 }
 

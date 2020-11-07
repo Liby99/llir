@@ -36,6 +36,12 @@ impl<'ctx> AsInstruction<'ctx> for SelectInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for SelectInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Select
+  }
+}
+
 impl<'ctx> SelectInstruction<'ctx> {
   /// The condition to check
   pub fn condition(&self) -> Operand<'ctx> {

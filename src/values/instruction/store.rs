@@ -33,6 +33,12 @@ impl<'ctx> StoreInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for StoreInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Store
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for StoreInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Store(*self)

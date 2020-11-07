@@ -49,6 +49,27 @@ impl FCmpPredicate {
       LLVMRealUNO => Self::UNO,
     }
   }
+
+  pub fn to_string(&self) -> &str {
+    match self {
+      Self::OEQ => "oeq",
+      Self::OGE => "oge",
+      Self::OGT => "ogt",
+      Self::OLE => "ole",
+      Self::OLT => "olt",
+      Self::ONE => "one",
+      Self::ORD => "ord",
+      Self::PredicateFalse => "false",
+      Self::PredicateTrue => "true",
+      Self::UEQ => "ueq",
+      Self::UGE => "uge",
+      Self::UGT => "ugt",
+      Self::ULE => "ule",
+      Self::ULT => "ult",
+      Self::UNE => "une",
+      Self::UNO => "uno",
+    }
+  }
 }
 
 /// [Floating point comparison (FCmp) instruction](https://llvm.org/docs/LangRef.html#fcmp-instruction)
@@ -83,6 +104,12 @@ impl<'ctx> FCmpInstruction<'ctx> {
   /// Get the rhs operand
   pub fn op1(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
+  }
+}
+
+impl<'ctx> ValueOpcode for FCmpInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::FCmp
   }
 }
 

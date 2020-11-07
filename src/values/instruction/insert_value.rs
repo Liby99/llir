@@ -64,6 +64,12 @@ impl<'ctx> InsertValueInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for InsertValueInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::InsertValue
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for InsertValueInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::InsertValue(*self)

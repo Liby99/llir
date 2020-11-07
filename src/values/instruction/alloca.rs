@@ -29,6 +29,12 @@ impl<'ctx> AsInstruction<'ctx> for AllocaInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for AllocaInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Alloca
+  }
+}
+
 impl<'ctx> AllocaInstruction<'ctx> {
   /// Get the pointer type of alloca
   pub fn get_pointer_type(&self) -> PointerType<'ctx> {

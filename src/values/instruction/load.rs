@@ -30,6 +30,12 @@ impl<'ctx> LoadInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for LoadInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Load
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for LoadInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Load(*self)

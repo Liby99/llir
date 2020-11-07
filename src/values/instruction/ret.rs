@@ -37,6 +37,12 @@ impl<'ctx> ReturnInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for ReturnInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Ret
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for ReturnInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Return(*self)

@@ -36,6 +36,33 @@ impl<'ctx> InstructionDebugLoc for Instruction<'ctx> {}
 
 impl<'ctx> InstructionTrait<'ctx> for Instruction<'ctx> {}
 
+impl<'ctx> ValueOpcode for Instruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    match self {
+      Self::Alloca(alc_instr) => alc_instr.opcode(),
+      Self::Binary(bin_instr) => bin_instr.opcode(),
+      Self::Branch(br_instr) => br_instr.opcode(),
+      Self::Call(call_instr) => call_instr.opcode(),
+      Self::CallBr(call_br_instr) => call_br_instr.opcode(),
+      Self::ExtractValue(extval_instr) => extval_instr.opcode(),
+      Self::FCmp(fcmp_instr) => fcmp_instr.opcode(),
+      Self::GetElementPtr(gep_instr) => gep_instr.opcode(),
+      Self::ICmp(icmp_instr) => icmp_instr.opcode(),
+      Self::IndirectBranch(indbr_instr) => indbr_instr.opcode(),
+      Self::InsertValue(insval_instr) => insval_instr.opcode(),
+      Self::Load(ld_instr) => ld_instr.opcode(),
+      Self::Phi(phi_instr) => phi_instr.opcode(),
+      Self::Return(ret_instr) => ret_instr.opcode(),
+      Self::Select(sel_instr) => sel_instr.opcode(),
+      Self::Store(st_instr) => st_instr.opcode(),
+      Self::Switch(switch_instr) => switch_instr.opcode(),
+      Self::Unary(una_instr) => una_instr.opcode(),
+      Self::Unreachable(unr_instr) => unr_instr.opcode(),
+      Self::Other(_) => Opcode::Unknown,
+    }
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for Instruction<'ctx> {
   fn as_instruction(&self) -> Self {
     self.clone()

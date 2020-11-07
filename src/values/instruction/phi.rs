@@ -46,6 +46,12 @@ impl<'ctx> PhiInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for PhiInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Phi
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for PhiInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Phi(*self)

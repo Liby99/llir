@@ -54,6 +54,12 @@ impl<'ctx> ExtractValueInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for ExtractValueInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::ExtractValue
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for ExtractValueInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::ExtractValue(*self)

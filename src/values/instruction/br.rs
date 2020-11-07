@@ -29,6 +29,12 @@ impl<'ctx> AsInstruction<'ctx> for BranchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for BranchInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Br
+  }
+}
+
 impl<'ctx> BranchInstruction<'ctx> {
   /// Get the destination blocks from this branch instruction
   ///
@@ -98,6 +104,12 @@ impl<'ctx> ConditionalBranchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for ConditionalBranchInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Br
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for ConditionalBranchInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Branch(BranchInstruction::Conditional(*self))
@@ -137,6 +149,12 @@ impl<'ctx> UnconditionalBranchInstruction<'ctx> {
   /// Will return Some(is_loop_jump) when debug metadata is presented, None otherwise
   pub fn is_loop_jump(&self) -> Option<bool> {
     mdkind_ids::dbg_metadata(self.value_ref()).map(|_| mdkind_ids::loop_metadata(self.value_ref()).is_some())
+  }
+}
+
+impl<'ctx> ValueOpcode for UnconditionalBranchInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Br
   }
 }
 

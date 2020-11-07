@@ -48,6 +48,12 @@ impl<'ctx> GetElementPtrInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for GetElementPtrInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::GetElementPtr
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for GetElementPtrInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::GetElementPtr(*self)

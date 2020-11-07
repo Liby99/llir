@@ -2,6 +2,8 @@
 mod macros;
 pub use macros::*;
 
+mod opcode;
+
 mod traits;
 mod alloca;
 mod binary;
@@ -24,6 +26,7 @@ mod switch;
 mod unary;
 mod unreachable;
 
+pub use opcode::*;
 pub use traits::*;
 pub use alloca::*;
 pub use binary::*;

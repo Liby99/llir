@@ -46,6 +46,7 @@ impl BinaryOpcode {
       LLVMOpcode::LLVMFSub => Some(Self::FSub),
       LLVMOpcode::LLVMFMul => Some(Self::FMul),
       LLVMOpcode::LLVMFDiv => Some(Self::FDiv),
+      LLVMOpcode::LLVMFRem => Some(Self::FRem),
       LLVMOpcode::LLVMShl => Some(Self::Shl),
       LLVMOpcode::LLVMLShr => Some(Self::LShr),
       LLVMOpcode::LLVMAShr => Some(Self::AShr),
@@ -53,6 +54,29 @@ impl BinaryOpcode {
       LLVMOpcode::LLVMOr => Some(Self::Or),
       LLVMOpcode::LLVMXor => Some(Self::Xor),
       _ => None,
+    }
+  }
+
+  pub fn to_string(&self) -> &str {
+    match self {
+      Self::Add => "add",
+      Self::Sub => "sub",
+      Self::Mul => "mul",
+      Self::UDiv => "udiv",
+      Self::SDiv => "sdiv",
+      Self::URem => "urem",
+      Self::SRem => "srem",
+      Self::FAdd => "fadd",
+      Self::FSub => "fsub",
+      Self::FMul => "fmul",
+      Self::FDiv => "fdiv",
+      Self::FRem => "frem",
+      Self::Shl => "shl",
+      Self::LShr => "lshr",
+      Self::AShr => "ashr",
+      Self::And => "and",
+      Self::Or => "or",
+      Self::Xor => "xor",
     }
   }
 }
@@ -103,9 +127,15 @@ impl<'ctx> AsInstruction<'ctx> for BinaryInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for BinaryInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Binary(self.binary_opcode())
+  }
+}
+
 impl<'ctx> BinaryInstruction<'ctx> {
   /// Get the opcode of this binary instruction
-  pub fn opcode(&self) -> BinaryOpcode {
+  pub fn binary_opcode(&self) -> BinaryOpcode {
     self.0
   }
 

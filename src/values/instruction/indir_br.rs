@@ -39,6 +39,12 @@ impl<'ctx> IndirectBranchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for IndirectBranchInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::IndirectBr
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for IndirectBranchInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::IndirectBranch(*self)

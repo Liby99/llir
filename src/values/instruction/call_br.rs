@@ -24,6 +24,12 @@ impl<'ctx> InstructionTrait<'ctx> for CallBrInstruction<'ctx> {}
 
 impl<'ctx> CallBrInstruction<'ctx> {}
 
+impl<'ctx> ValueOpcode for CallBrInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::CallBr
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for CallBrInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::CallBr(*self)

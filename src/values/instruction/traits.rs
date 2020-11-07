@@ -8,6 +8,10 @@ pub trait AsInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx>;
 }
 
+pub trait ValueOpcode {
+  fn opcode(&self) -> Opcode;
+}
+
 pub trait InstructionTrait<'ctx>: ValueRef {
   /// Get the parent block
   fn parent_block(&self) -> Block<'ctx> {

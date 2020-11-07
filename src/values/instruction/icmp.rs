@@ -47,6 +47,21 @@ impl ICmpPredicate {
       LLVMIntULT => Self::ULT,
     }
   }
+
+  pub fn to_string(&self) -> &str {
+    match self {
+      Self::EQ => "eq",
+      Self::NE => "ne",
+      Self::SGE => "sge",
+      Self::SGT => "sgt",
+      Self::SLE => "sle",
+      Self::SLT => "slt",
+      Self::UGE => "uge",
+      Self::UGT => "ugt",
+      Self::ULE => "ule",
+      Self::ULT => "ult",
+    }
+  }
 }
 
 /// [Integer comparison (ICmp) instruction](https://llvm.org/docs/LangRef.html#icmp-instruction)
@@ -81,6 +96,12 @@ impl<'ctx> ICmpInstruction<'ctx> {
   /// Get the rhs operand
   pub fn op1(&self) -> Operand<'ctx> {
     Operand::from_llvm(unsafe { LLVMGetOperand(self.1, 1) })
+  }
+}
+
+impl<'ctx> ValueOpcode for ICmpInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::ICmp
   }
 }
 

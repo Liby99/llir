@@ -20,6 +20,12 @@ impl<'ctx> InstructionTrait<'ctx> for UnreachableInstruction<'ctx> {}
 
 impl<'ctx> GetDebugMetadata<'ctx> for UnreachableInstruction<'ctx> {}
 
+impl<'ctx> ValueOpcode for UnreachableInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Unreachable
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for UnreachableInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Unreachable(*self)

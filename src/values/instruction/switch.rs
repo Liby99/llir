@@ -71,6 +71,12 @@ impl<'ctx> SwitchInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for SwitchInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Switch
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for SwitchInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Switch(*self)

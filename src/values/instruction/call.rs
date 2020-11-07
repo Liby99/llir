@@ -93,6 +93,12 @@ impl<'ctx> CallInstruction<'ctx> {
   }
 }
 
+impl<'ctx> ValueOpcode for CallInstruction<'ctx> {
+  fn opcode(&self) -> Opcode {
+    Opcode::Call
+  }
+}
+
 impl<'ctx> AsInstruction<'ctx> for CallInstruction<'ctx> {
   fn as_instruction(&self) -> Instruction<'ctx> {
     Instruction::Call(*self)
