@@ -21,6 +21,16 @@ pub enum Type<'ctx> {
   Other(GenericType<'ctx>),
 }
 
+impl<'ctx> Type<'ctx> {
+  /// Check if the type is a void type
+  pub fn is_void_type(&self) -> bool {
+    match self {
+      Self::Void(_) => true,
+      _ => false,
+    }
+  }
+}
+
 impl<'ctx> FromLLVMType for Type<'ctx> {
   fn from_llvm(ptr: LLVMTypeRef) -> Self {
     use LLVMTypeKind::*;
