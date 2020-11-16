@@ -12,7 +12,7 @@ pub trait ValueOpcode {
   fn opcode(&self) -> Opcode;
 }
 
-pub trait InstructionTrait<'ctx>: ValueRef {
+pub trait InstructionTrait<'ctx>: AsInstruction<'ctx> + ValueRef {
   /// Get the parent block
   fn parent_block(&self) -> Block<'ctx> {
     let value = unsafe { LLVMGetInstructionParent(self.value_ref()) };
@@ -62,8 +62,33 @@ pub trait InstructionTrait<'ctx>: ValueRef {
     }
   }
 
+  /// Iterate all the operands of the instruction
+  fn iter_operands(&self) -> InstructionOperandIterator<'ctx> {
+    InstructionOperandIterator { instr: self.as_instruction(), curr_index: 0 }
+  }
+
   /// Get the string representation of the instruction
   fn to_string(&self) -> String {
     unsafe { utils::raw_to_string(LLVMPrintValueToString(self.value_ref())) }
+  }
+}
+
+#[doc(hidden)]
+pub struct InstructionOperandIterator<'ctx> {
+  instr: Instruction<'ctx>,
+  curr_index: usize,
+}
+
+impl<'ctx> Iterator for InstructionOperandIterator<'ctx> {
+  type Item = Operand<'ctx>;
+
+  fn next(&mut self) -> Option<Self::Item> {
+    if self.curr_index < self.instr.num_operands() {
+      let item = self.instr.operand(self.curr_index);
+      self.curr_index += 1;
+      Some(item.unwrap())
+    } else {
+      None
+    }
   }
 }
